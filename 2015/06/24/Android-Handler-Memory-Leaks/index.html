@@ -1,0 +1,727 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Android,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="Android使用Java作为其开发平台。这帮助我们解决许多低层次的问题，包括内存管理，平台类型依赖（platform type dependencies，怎么翻译？）等等。但是，我们有时候仍然会由于内存泄漏而导致程序崩溃。 那么，垃圾收集器哪里去了呢？ 这些大对象长时间不能被清理的案例，我将关注其中一种。这种案例最终不会产生内存泄漏——对象在某些时刻都能够被回收——所以我们有时会忽略它。但是这并">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="［译］Android Handler 中的内存泄漏">
+<meta property="og:url" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/index.html">
+<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:description" content="Android使用Java作为其开发平台。这帮助我们解决许多低层次的问题，包括内存管理，平台类型依赖（platform type dependencies，怎么翻译？）等等。但是，我们有时候仍然会由于内存泄漏而导致程序崩溃。 那么，垃圾收集器哪里去了呢？ 这些大对象长时间不能被清理的案例，我将关注其中一种。这种案例最终不会产生内存泄漏——对象在某些时刻都能够被回收——所以我们有时会忽略它。但是这并">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_code.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_memory_analyze.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_memory_explained.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_code.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_memory_analyze.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_memory_analyze_explained.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/StaticClassWithWeakRef_code.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/StaticClassWithWeakRef_memory_analyze.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/removeCallbacks_code.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/removeCallbacks_memory_analyze.png">
+<meta property="og:updated_time" content="2019-06-14T20:33:03.200Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="［译］Android Handler 中的内存泄漏">
+<meta name="twitter:description" content="Android使用Java作为其开发平台。这帮助我们解决许多低层次的问题，包括内存管理，平台类型依赖（platform type dependencies，怎么翻译？）等等。但是，我们有时候仍然会由于内存泄漏而导致程序崩溃。 那么，垃圾收集器哪里去了呢？ 这些大对象长时间不能被清理的案例，我将关注其中一种。这种案例最终不会产生内存泄漏——对象在某些时刻都能够被回收——所以我们有时会忽略它。但是这并">
+<meta name="twitter:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_code.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/">
+
+  <title> ［译］Android Handler 中的内存泄漏 | Changwei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Changwei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ［译］Android Handler 中的内存泄漏
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T09:59:24+08:00" content="Jun 24 2015">
+              Jun 24 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Handler/" itemprop="url" rel="index">
+                    <span itemprop="name">Handler</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Android使用Java作为其开发平台。这帮助我们解决许多低层次的问题，包括内存管理，平台类型依赖（platform type dependencies，怎么翻译？）等等。但是，我们有时候仍然会由于内存泄漏而导致程序崩溃。 那么，垃圾收集器哪里去了呢？</p>
+<p>这些大对象长时间不能被清理的案例，我将关注其中一种。这种案例最终不会产生内存泄漏——对象在某些时刻都能够被回收——所以我们有时会忽略它。但是这并不是明智的做法，因为有些时候它会导致OOM的错误。</p>
+<p>我正在描叙的这种案例是 Handler leak，这种案例常常被Lint作为一个警告检测到。</p>
+<p>##简单的例子</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_code.png">
+<p>这是一个非常简单的activity。注意这个匿名的 <code>Runnable</code> 被这个 <code>Handler</code> 发出伴随着一个非常长的延迟。我们运行它并且旋转手机多次，然后查看内存并且分析它。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_memory_analyze.png">
+<p>我们现在有7个activities在内存中。这显然不太好。让我们找出为什么GC不能清理掉他们。</p>
+<blockquote>
+<p>我做的这个查询去得到仍然存在于内存中的Activities是用OQL（Object Query Language）创建的，它很简单，也很强大。</p>
+</blockquote>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_memory_explained.png">
+<p>正如你看到的那样，其中一个activity被 <code>this$0</code> 引用。这是一个匿名类对宿主类的间接引用。<code>this$0</code> 被 <code>callback</code> 对象引用，然后 <code>callback</code> 又被一连串的 <code>Message</code> 的对象 <code>next</code> 引用回到主线程。</p>
+<blockquote>
+<p>任何时候你在宿主类里面创建一个非静态类，Java都会为宿主对象创建一个间接引用到这个非静态类对象。</p>
+</blockquote>
+<p>一旦你在 <code>Handler</code> 里发送一个 <code>Runnable</code> 或者 <code>Message</code>， 它都会存储这些来自 <code>LooperThread</code> 的 <code>Message</code> 命令的引用到列表中，直到这个message被执行。发送一些延迟的messages，至少在延迟的这段时间，是一个明显的泄漏。 发送没有延迟的也可能引起短暂的泄漏如果队列里的messages很大的话。</p>
+<p>##静态 Runnable 对象的解决方案<br>让我们试着克服一个内存泄漏通过摆脱 <code>this$0</code>, 通过把匿名类转为静态的。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_code.png">
+<p>跑跑，旋转，看看内存树。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_memory_analyze.png">
+<p>啥情况？让我们看看谁持有了 <code>Activities</code> 的引用。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/StaticClass_memory_analyze_explained.png">
+<p>看看引用树的底部 – activity被 <code>DoneRunnable</code> 类里的<code>mTextView</code> 中的 <code>mContext</code> 引用了。使用内部静态类并不足够解决掉内存泄漏， 我们需要再多做一点。</p>
+<p>##带有WeakReference对象的静态 Runnable</p>
+<p>让我们继续使用迭代的修复方式并且摆脱掉对TextView的引用，这个引用阻止了activity的销毁。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/StaticClassWithWeakRef_code.png">
+<p>注意，我们保持了一个对TextView的弱引用，然后跑一跑，旋转并且看下内存树。</p>
+<blockquote>
+<p>要小心弱引用。它们随时都可能变为null，所以解决它们的第一步是把它赋值给一个强引用并且在使用它时检测它是不是为空（这个和iOS类似啊）。</p>
+</blockquote>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/StaticClassWithWeakRef_memory_analyze.png">
+<p>哈哈哈，仅仅一个activity实例了，这解决了我们内存的问题。</p>
+<p>到目前为止我们用到途径是：</p>
+<ul>
+<li>使用静态内部类（或者外部类）。</li>
+<li>对于被Handler/Runnable操纵的对象用弱引用。</li>
+</ul>
+<p>如果你比较这个代码和前面的代码，你可能会发现有很大的不同在可读性和简洁度方面。前面的代码比较短比较简洁，很直观。</p>
+<p>写这些样板文件是很乏味的事情，特别是把 <code>postedDelayed</code> 设置为50ms。有一些更好更简洁的解决方案。</p>
+<p>##在 OnDestroy 方法中清除所有 Messages</p>
+<p>Handler类有一个很有趣的特性 – <code>remvoeCallBacksAndMessages</code> – 这个方法允许 <code>null</code> 作为参数。它将移除所有的被特定handler发出的 <code>Runnables</code> 和 <code>Messages</code> 对象。让我们使用它在 <code>OnDestroy</code> 回调方法中。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/removeCallbacks_code.png">
+<p>让我们跑一跑，旋转并且看下内存树。</p>
+<img src="/2015/06/24/Android-Handler-Memory-Leaks/removeCallbacks_memory_analyze.png">
+<p>不错，只有一个对象。</p>
+<p>这种方式比前一种方式要好，因为它保持代码干净又可读。唯一要记住的是清除所有Messages在 <code>activity</code>/<code>fragment</code> destroy方法中。</p>
+<p>如果你像我一样懒， 我还有另外一种解决办法可能你会更喜欢。:)</p>
+<p>##使用 WeakHandler<br>……</p>
+<p>更多精彩，请阅读原作者<a href="https://techblog.badoo.com/blog/2014/08/28/android-handler-memory-leaks" target="_blank" rel="noopener">博客</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Android/" rel="tag">#Android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/13/how-to-use-gradle-in-v2ex-android-app/" rel="next" title="[V2ex客户端源码分析]Gradle的使用">
+                <i class="fa fa-chevron-left"></i> [V2ex客户端源码分析]Gradle的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/07/自由职业者如何提高技术/" rel="prev" title="自由职业者如何提高技术">
+                自由职业者如何提高技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

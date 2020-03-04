@@ -1,0 +1,705 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Rx,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
+<meta name="keywords" content="Rx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[译]两分钟介绍Rx">
+<meta property="og:url" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/index.html">
+<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/2-FjTqms95LbK_ztsZXiNpoQ.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-DvH5Iqul7Nxor7r7AencgA.png">
+<meta property="og:updated_time" content="2019-06-14T20:33:03.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[译]两分钟介绍Rx">
+<meta name="twitter:description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
+<meta name="twitter:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/">
+
+  <title> [译]两分钟介绍Rx | Changwei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Changwei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [译]两分钟介绍Rx
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-21T17:28:49+08:00" content="Oct 21 2016">
+              Oct 21 2016
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Rx/" itemprop="url" rel="index">
+                    <span itemprop="name">Rx</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>原文在<a href="https://medium.com/@andrestaltz/2-minute-introduction-to-rx-24c8ca793877#.ww2g1z3oo" target="_blank" rel="noopener">这里</a>, 本文用<a href="http://www.typora.io/" target="_blank" rel="noopener">Typora</a>编辑</strong></p>
+<p>你可能已经看了我写的<a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754" target="_blank" rel="noopener">这篇文章</a>。太长了？好吧。</p>
+<p>Rx并不是那么难，你自己也可以创造它。继续阅读吧。</p>
+<p>你知道数组吗？你当然知道。这里有一个：</p>
+<font style="font-size:30px;"><em>[14, 9, 5, 2, 10, 13, 4]</em></font>
+
+<p></p><p></p>
+<p>如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式：</p>
+<font style="font-size:30px;"><em>[14, 9, 5, 2, 10, 13, 4]</em><br><br><em>filter( (x) -&gt; x % 2 == 0 )</em><br><br><em>[ 14, 2, 10, 4 ]</em></font>
+
+<p>到现在为止，没什么新东西。这很普遍，它来自于函数式编程的范例。</p>
+<p>…</p>
+<p>现在想象一下鼠标位置的点击事件。如果你把它们画在一个时间线上，它们看起来是这样的：</p>
+<img src="/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
+<p>朋友，这是一个事件流，我们亲切的叫它 <code>Observable</code>。</p>
+<p>这个点击事件来自于鼠标，因此整个的事件流是不可变的，在这种场景下，当它被定义之后，你不能增加或移除它。</p>
+<p>但是如果我只对x &lt; 250 的点击事件感兴趣呢？那我们能不能也创建一个新的事件流就像我们过滤数组那样呢？</p>
+<img src="/2016/10/21/译-两分钟介绍Rx/2-FjTqms95LbK_ztsZXiNpoQ.png">
+<p></p><p></p>
+<font style="font-size:30px;"><center><em>filter( (event) -&gt; event.x &lt; 250 )</em></center></font>
+
+<p></p><p></p>
+<img src="/2016/10/21/译-两分钟介绍Rx/1-DvH5Iqul7Nxor7r7AencgA.png">
+<p>那么不变的数组和<code>Observables</code> 有什么不同吗？并不多。你可以对两者使用<code>map</code>, <code>filter</code>, <code>reduct</code>。对于<code>Observables</code> 你还可以使用<code>merge</code>, <code>delay</code>, <code>concat</code>, <code>buffer</code>, <code>distinct</code> , <code>first</code>, <code>last</code>, <code>zip</code>, <code>startWith</code>, <code>widnow</code>, <code>takeUntil</code>, <code>skip</code>, <code>scan</code>, <code>sample</code>, <code>amb</code>, <code>join</code>, <code>flatMap</code>.</p>
+<p><strong>把它想象成一个异步的不可变的数组。</strong></p>
+<p>Rx在underscore.js中是为事件服务的。但是等一等，什么是事件？难道你app中的大部分东西不都是事件吗？</p>
+<p>事件“程序开始”，事件“API响应接收”，事件“键盘按键被点击”，事件“设备休眠”，等等。</p>
+<p>虚拟的任何东西都能看作是事件流。它只是和它的构成与合适的组合有关。</p>
+<p>嗯，这就是两分钟Rx。</p>
+<blockquote>
+<p>What’s the difference between an array and events?</p>
+</blockquote>
+<blockquote>
+<p>— <a href="https://www.youtube.com/watch?v=FAZJsxcykPs&amp;list=PLfXiENmg6yyU5kEHyo1kYkq7HEzBOoiTT#t=365" target="_blank" rel="noopener">Erik Meijer</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rx/" rel="tag">#Rx</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/15/Android-导出app中的数据库/" rel="next" title="[Android]导出app中的数据库">
+                <i class="fa fa-chevron-left"></i> [Android]导出app中的数据库
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/31/MVVM-Philosophy/" rel="prev" title="MVVM Philosophy">
+                MVVM Philosophy <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

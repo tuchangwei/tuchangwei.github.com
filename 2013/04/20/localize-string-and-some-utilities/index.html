@@ -1,0 +1,822 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS Development, iPhone Development, Android Development, API Development">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="When release applications, one thing will not be avoided, it is localizing. According to the different user demands, we can divide them into Set language through Settings and Set language inside App #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Localize Strings Using Some Utilities">
+<meta property="og:url" content="http://tuchangwei.github.com/2013/04/20/localize-string-and-some-utilities/index.html">
+<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:description" content="When release applications, one thing will not be avoided, it is localizing. According to the different user demands, we can divide them into Set language through Settings and Set language inside App #">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://static.flickr.com/8244/8664824887_29f530680e.jpg">
+<meta property="og:image" content="https://a248.e.akamai.net/camo.github.com/e089475332f6d71842cf1769d80aaccb14b5e809/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330312e706e67">
+<meta property="og:image" content="https://a248.e.akamai.net/camo.github.com/6c4fc4630543be9addbb384133d07074866d0a8a/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330322e706e67">
+<meta property="og:image" content="https://a248.e.akamai.net/camo.github.com/cd16d08d3838fbe83fc72922046ca2e1a03fe7a3/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330332e706e67">
+<meta property="og:image" content="https://a248.e.akamai.net/camo.github.com/ee79f2b06520190d207530b805dc4e656c396efa/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330342e706e67">
+<meta property="og:updated_time" content="2019-06-14T20:33:03.168Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Localize Strings Using Some Utilities">
+<meta name="twitter:description" content="When release applications, one thing will not be avoided, it is localizing. According to the different user demands, we can divide them into Set language through Settings and Set language inside App #">
+<meta name="twitter:image" content="http://static.flickr.com/8244/8664824887_29f530680e.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2013/04/20/localize-string-and-some-utilities/">
+
+  <title> Localize Strings Using Some Utilities | Changwei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Changwei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Localize Strings Using Some Utilities
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-20T22:07:00+08:00" content="Apr 20 2013">
+              Apr 20 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Localize/" itemprop="url" rel="index">
+                    <span itemprop="name">Localize</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>When release applications, one thing will not be avoided, it is localizing. According to the different user demands, we can divide them into <code>Set language through Settings</code> and <code>Set language inside App</code></p>
+<p>###Set language through Settings</p>
+<p>The user demand is easier than another one, when we change language by “Settings -&gt; General -&gt; international”, all applications will restart. So, the .strings file will be loaded again and the language is changed.</p>
+<p>Now, let’s see how to do it.</p>
+<ul>
+<li>Use the macro <code>NSLocalizedString(@&quot;user_label_text&quot;, nil);</code> to wrap your strings.</li>
+<li>Add one kind of language to project as follow, Xcode will generate a forder named <code>language-lproj</code>.<br><a href="http://www.flickr.com/photos/tuchangwei/8664824887/" title="Flickr 上 涂 涂 的 412C868B-805A-405A-B5FB-B8F4FB0B96CC" target="_blank" rel="noopener"><img src="http://static.flickr.com/8244/8664824887_29f530680e.jpg" width="500" height="284" alt="412C868B-805A-405A-B5FB-B8F4FB0B96CC"></a></li>
+<li><p>Use the commend tool <code>genstrings</code> to generate Localizable.strings file.</p>
+<pre><code>genstrings *m -a -o  language-lproj
+</code></pre></li>
+<li><p>Change the value of the key for different language.</p>
+<pre><code>&quot;user_label_text&quot; = &quot;用户登陆&quot;
+</code></pre></li>
+</ul>
+<p>The game seems over, but it is not true. The genstrings commend either replaces your earily changes, or just follows the changes, does not merge them. This is boring.</p>
+<p>So what can i do? You know, we do not be defeated by Ants. Some advice as follows:</p>
+<ol>
+<li><a href="http://www.delitestudio.com/app/localizable-strings-merge/" target="_blank" rel="noopener">Localizable Strings Merge </a> needs $4.99.</li>
+<li><a href="AGi18n">AGi18n</a> free and can auto convert strings in xib.</li>
+<li><p>my shells.</p>
+<p> localizedstring.sh</p>
+<pre><code>#!/bin/sh
+echo &quot;input the language you want localize:&quot;
+read language
+echo $language
+desFilePath=$PWD/&quot;$language&quot;.lproj/Localizable.strings
+echo des file path is:&quot;$desFilePath&quot;
+if [ ! -e $desFilePath ] ; then
+    echo &quot;des file doed not exit, touch it.&quot;
+    touch $desFilePath
+fi
+tmpDir=$PWD/&quot;$language&quot;.lproj/tmp
+tmpFile=&quot;$tmpDir&quot;/Localizable.strings
+tmpFile1=&quot;$tmpDir&quot;/Localizable1.strings
+
+rm -rf $tmpDir
+mkdir $tmpDir
+touch $tmpFile1
+find . -name &apos;*.m&apos; | xargs genstrings -macRoman -a -o  $tmpDir
+find . -name &apos;*.mm&apos; | xargs genstrings -macRoman -a -o  $tmpDir
+iconv -f utf-16le  -t utf-8 $tmpFile &gt; $tmpFile1
+chmod 755 loop.sh
+echo  tempfile=$tmpFile1
+echo des=$desFilePath
+./loop.sh $tmpFile1 $desFilePath
+</code></pre></li>
+</ol>
+<pre><code>loop.sh
+
+    #!/bin/sh  
+    echo 1=$1
+    echo 2=$2
+    SRC=$1
+    DES=$2
+    if [ $# -ne 2 ] ; then
+        echo Usage: loop.sh src des
+        exit 1
+    fi
+    echo arg OK
+    while read line; do
+        #line is NULL
+    #echo line=$line
+        if [ &quot;$line&quot; == &quot;&quot; ] ; then
+            echo $line &gt;&gt; $2
+            continue
+        fi    
+        equal=`echo $line|grep &quot;=&quot;`
+        if [ &quot;$equal&quot; == &quot;&quot; ] ; then
+            echo &quot;$line&quot; &gt;&gt; $2
+            continue
+        fi    
+        left=`echo $line| cut -d &quot;=&quot; -f1`
+        num=`cat $2|grep &quot;$left&quot;|wc -l`
+    #echo num=$num
+    #    sleep 1
+        if [ $num -eq 0 ]; then
+    #   echo &quot;$line insert $2 !!!!!!!!!!!!&quot;
+            echo $line &gt;&gt; $2
+        fi
+    done &lt; $SRC
+</code></pre><ol start="4">
+<li><p><a href="https://github.com/questbeat/Lin" target="_blank" rel="noopener">Lin</a> can reduce workload for you.</p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/e089475332f6d71842cf1769d80aaccb14b5e809/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330312e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/6c4fc4630543be9addbb384133d07074866d0a8a/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330322e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/cd16d08d3838fbe83fc72922046ca2e1a03fe7a3/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330332e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/ee79f2b06520190d207530b805dc4e656c396efa/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330342e706e67" alt></p>
+</li>
+</ol>
+<p>###Set language inside App</p>
+<p>For this, we need an Object to load stings information real-time.</p>
+<p>LanguageHelper.h</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#define CustomLocalizedString(str,comment) [LanguageHelper  get:str alter:nil]
+@interface LanguageHelper : NSObject
+
++(void)initialize;
++(void)setLanguage:(NSString *)lan;
++(NSString *)get:(NSString *)key alter:(NSString *)alternate;
+
+/* @brief 返回当前语言
+ * @return 返回当前设置的语言
+ */
++(NSString *)currentLanguage;
+@end
+</code></pre><p>LanguageHelper.m</p>
+<pre><code>#import &quot;LanguageHelper.h&quot;
+
+@implementation LanguageHelper
+
+static NSBundle *bundle = nil;
+
++(void)initialize {
+
+
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSString *current = @&quot;&quot;;
+    if ([defs valueForKey:@&quot;userLanguage&quot;])
+    {
+        current = [defs valueForKey:@&quot;userLanguage&quot;];
+    }
+    else
+    {
+        NSArray* languages = [defs objectForKey:@&quot;AppleLanguages&quot;];
+        current =[languages objectAtIndex:0];
+
+
+        NSArray *supportLanguage = [[NSBundle mainBundle] objectForInfoDictionaryKey:@&quot;SupportedLanguage&quot;];
+        if (![supportLanguage containsObject:current])
+        {
+            current = [[NSBundle mainBundle] objectForInfoDictionaryKey:@&quot;DefaultLanguage&quot;];
+        }
+        [defs setValue:current forKey:@&quot;userLanguage&quot;];
+        [defs synchronize];
+    }
+
+    [self setLanguage:current];
+
+}
++(void)setLanguage:(NSString *)lan {
+    NSLog(@&quot;preferredLang: %@&quot;, lan);
+    NSString *path = [[ NSBundle mainBundle ] pathForResource:lan ofType:@&quot;lproj&quot; ];
+    bundle = [NSBundle bundleWithPath:path];
+}
+
++(NSString *)get:(NSString *)key alter:(NSString *)alternate {
+    return [bundle localizedStringForKey:key value:alternate table:nil];
+}
+
++(NSString *)currentLanguage{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+
+    return [defs objectForKey:@&quot;userLanguage&quot;];
+}
+
+@end
+</code></pre><p>First, we need replace <code>NSLocalizable(string,commit)</code> to <code>CustomLocalizable(string,commit)</code>, then when the app initializes, we call the method <code>+(void)initialize</code>, when we  change another language, we call the method <code>+(void)setLanguage:(NSString *)lan</code>, then we reload the data on views, the function come true.</p>
+<p>###Attention！！！<br>Today, the earthquake attracked YaAn. They need our help, you can donate money through <a href="https://love.alipay.com/donate/itemDetail.htm?name=201304201216494301" target="_blank" rel="noopener">壹基金</a>, God blesses YaAn and us.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/04/10/avoid-retain-cycle-in-block/" rel="next" title="Avoid Retain Cycle in Block">
+                <i class="fa fa-chevron-left"></i> Avoid Retain Cycle in Block
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/05/24/the-replacement-of-the-semaphore/" rel="prev" title="The Replacement of the Semaphore">
+                The Replacement of the Semaphore <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

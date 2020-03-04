@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Extensions,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。 首先这里有几个名词，host app,UIDocumentPickerViewController,Document Provider Extensions,这些名词的关系如下图所示：  也就是说怎么显">
+<meta name="keywords" content="Extensions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="增加Document Provider Extensions时遇到的问题">
+<meta property="og:url" content="http://tuchangwei.github.com/2016/03/06/增加Document-Provider-Extensions时遇到的问题/index.html">
+<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:description" content="最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。 首先这里有几个名词，host app,UIDocumentPickerViewController,Document Provider Extensions,这些名词的关系如下图所示：  也就是说怎么显">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://tuchangwei.github.com/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-2@2x.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-3@2x.png">
+<meta property="og:updated_time" content="2019-06-14T20:33:03.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="增加Document Provider Extensions时遇到的问题">
+<meta name="twitter:description" content="最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。 首先这里有几个名词，host app,UIDocumentPickerViewController,Document Provider Extensions,这些名词的关系如下图所示：  也就是说怎么显">
+<meta name="twitter:image" content="http://tuchangwei.github.com/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-2@2x.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2016/03/06/增加Document-Provider-Extensions时遇到的问题/">
+
+  <title> 增加Document Provider Extensions时遇到的问题 | Changwei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Changwei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                增加Document Provider Extensions时遇到的问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-03-06T09:15:26+08:00" content="Mar 6 2016">
+              Mar 6 2016
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。</p>
+<p>首先这里有几个名词，<code>host app</code>,<code>UIDocumentPickerViewController</code>,<code>Document Provider Extensions</code>,这些名词的关系如下图所示：</p>
+<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-2@2x.png">
+<p>也就是说怎么显示<code>Document Provider Extensions</code>菜单，那是host app的事，我们能做的是在container app中开发这个Extension,它就会显示在这个菜单上。不论中间的过程怎样，最终我们只要<strong>通过这个Extension给host app回传一个文件URL</strong>，我们目标就完成了。</p>
+<h3 id="问题一，要不要创建File-Provider-Extension"><a href="#问题一，要不要创建File-Provider-Extension" class="headerlink" title="问题一，要不要创建File Provider Extension"></a>问题一，要不要创建File Provider Extension</h3><p>突然蹦出的这个Extension是干嘛的？这个Extension是没有界面的,官方说法是它相当于<code>Document Picker extension</code>的后端。当你在xcode中选择创建<code>Document Provider</code>target时，它会弹一个复选框让你选择要不要同时创建<code>File Provider extension</code>。那要不要同时创建呢？这个要看你的需求了，官方和raywenderlich的资料中都说的比较含糊，我自己的理解是，如果你要分享的数据在<code>Document Picker extension</code>里能拿到，而不是通过URL从container app中取的，那你就没有必要创建<code>File Provider extension</code>。在我这个需求中是不需要通过URL从container app中取数据的，所以我没有创建这个extension。那第二个问题来了。</p>
+<h3 id="问题二，Document-Picker-Extension怎样回传给host-app-一个URL"><a href="#问题二，Document-Picker-Extension怎样回传给host-app-一个URL" class="headerlink" title="问题二，Document Picker Extension怎样回传给host app 一个URL"></a>问题二，Document Picker Extension怎样回传给host app 一个URL</h3><p>这里的关键是<code>UIDocumentPickerExtensionViewController</code>中的<code>dismissGrantingAccessToURL</code> 方法。<br>官方的说法是:</p>
+<blockquote>
+<p>Dismisses the document picker.</p>
+<p>Call this method when the user selects a document or destination. This method dismisses the document picker view controller in the host app and triggers the appropriate file transfer. After the transfer is complete, the method passes the provided URL to the host app’s documentPicker:didPickDocumentAtURL: delegate method.</p>
+<p>The URL must meet all of the following conditions:</p>
+<ul>
+<li>Import Document Picker mode. Provide a URL for the selected file. The URL only needs to be accessible by the Document Picker View Controller extension.</li>
+</ul>
+<p>…</p>
+</blockquote>
+<p>也就是说只要把date写到<code>Document Picker View Controller extension</code>能访问的地方就行了，那刚好就用公共区域好了。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *containerURL = [fileManager <span class="string">containerURLForSecurityApplicationGroupIdentifier:</span>@<span class="string">"group.xxx"</span>];</span><br></pre></td></tr></table></figure>
+<h3 id="第三个问题，啥是公共区。"><a href="#第三个问题，啥是公共区。" class="headerlink" title="第三个问题，啥是公共区。"></a>第三个问题，啥是公共区。</h3><p>这个公共区是你的extensions和container app都能访问的区域，在你的extensions和container app的target的配置中，你会配置一个App Groups，拥有相同App Groups的targets会有一个都可访问的公共区。那么第四个问题也来了。</p>
+<h3 id="第四个问题，extensions和container-app共享的数据放在哪？"><a href="#第四个问题，extensions和container-app共享的数据放在哪？" class="headerlink" title="第四个问题，extensions和container app共享的数据放在哪？"></a>第四个问题，extensions和container app共享的数据放在哪？</h3><p>这个问题在第三个问题中已经回答了，但是恰好你用的是MagicalRecord，那么你可以把你的数据库创建在公共区域内，用来共享，相关代码是:</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSFileManager</span> *fileManager = [<span class="symbol">NSFileManager</span> defaultManager];</span><br><span class="line"><span class="symbol">NSURL</span> *containerURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:@<span class="string">"group.xxx"</span>];</span><br><span class="line"><span class="symbol">NSURL</span> *storeURL = [containerURL <span class="symbol">URLByAppendingPathComponent</span>:[<span class="symbol">MagicalRecord</span> defaultStoreName]];</span><br><span class="line">[<span class="symbol">MagicalRecord</span> setupCoreDataStackWithAutoMigratingSqliteStoreAtURL:storeURL];</span><br></pre></td></tr></table></figure>
+<p>如果你恰好也用了CocoaPads去管理你的第三方代码库,那么第五个问题也粗线了。</p>
+<h3 id="第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库"><a href="#第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库" class="headerlink" title="第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?"></a>第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?</h3><p>在你的Podfile中加一行代码，然后pod install就解决了。</p>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link_with <span class="symbol">'Your</span> container app', <span class="symbol">'Your</span> extension'</span><br></pre></td></tr></table></figure>
+<p>上面的代码不是很推荐，你也可以用下面的代码。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">'Haystack_V2'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SVProgressHUD'</span>, <span class="string">'~&gt; 1.1.3'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br><span class="line">target <span class="string">'Photo Search'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br></pre></td></tr></table></figure>
+<p>所以你也可能遇到第六个问题，如果你也想在extension中使用SVProgressHUD这个库的话。</p>
+<h3 id="第六个问题，在Extensions中使用SVProgressHUD库"><a href="#第六个问题，在Extensions中使用SVProgressHUD库" class="headerlink" title="第六个问题，在Extensions中使用SVProgressHUD库"></a>第六个问题，在Extensions中使用SVProgressHUD库</h3><p>请看下图:</p>
+<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-3@2x.png">
+<p>好像就这些了。</p>
+<p>Happy coding。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Extensions/" rel="tag">#Extensions</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/30/国外威客网站对比/" rel="next" title="国外威客网站对比">
+                <i class="fa fa-chevron-left"></i> 国外威客网站对比
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/" rel="prev" title="The Solution That the Menu Item of Navigation View Can't Change Its Background When It Is Selected/checked.">
+                The Solution That the Menu Item of Navigation View Can't Change Its Background When It Is Selected/checked. <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题一，要不要创建File-Provider-Extension"><span class="nav-number">1.</span> <span class="nav-text">问题一，要不要创建File Provider Extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题二，Document-Picker-Extension怎样回传给host-app-一个URL"><span class="nav-number">2.</span> <span class="nav-text">问题二，Document Picker Extension怎样回传给host app 一个URL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三个问题，啥是公共区。"><span class="nav-number">3.</span> <span class="nav-text">第三个问题，啥是公共区。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四个问题，extensions和container-app共享的数据放在哪？"><span class="nav-number">4.</span> <span class="nav-text">第四个问题，extensions和container app共享的数据放在哪？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库"><span class="nav-number">5.</span> <span class="nav-text">第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第六个问题，在Extensions中使用SVProgressHUD库"><span class="nav-number">6.</span> <span class="nav-text">第六个问题，在Extensions中使用SVProgressHUD库</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

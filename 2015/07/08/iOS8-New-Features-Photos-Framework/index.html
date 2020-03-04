@@ -1,0 +1,684 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Photos Framework,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="最近有个项目要请求系统相册，就先把iOS8中的新特性Photos Framework研究一下，参考 iOS_8_by_Tutorials。 ###模型对象Photos Framework 中的模型对象是继承于一个基类PHObject，它们是轻量级的对象，仅仅包含了一些原数据的描叙，但并不包含其内容。这些具体的模型对象是：  PHAsset：表示一个单独的asset，它可能是一张图片或者视频。它包含">
+<meta name="keywords" content="Photos Framework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS8 New Features: Photos Framework">
+<meta property="og:url" content="http://tuchangwei.github.com/2015/07/08/iOS8-New-Features-Photos-Framework/index.html">
+<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:description" content="最近有个项目要请求系统相册，就先把iOS8中的新特性Photos Framework研究一下，参考 iOS_8_by_Tutorials。 ###模型对象Photos Framework 中的模型对象是继承于一个基类PHObject，它们是轻量级的对象，仅仅包含了一些原数据的描叙，但并不包含其内容。这些具体的模型对象是：  PHAsset：表示一个单独的asset，它可能是一张图片或者视频。它包含">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-06-14T20:33:03.214Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS8 New Features: Photos Framework">
+<meta name="twitter:description" content="最近有个项目要请求系统相册，就先把iOS8中的新特性Photos Framework研究一下，参考 iOS_8_by_Tutorials。 ###模型对象Photos Framework 中的模型对象是继承于一个基类PHObject，它们是轻量级的对象，仅仅包含了一些原数据的描叙，但并不包含其内容。这些具体的模型对象是：  PHAsset：表示一个单独的asset，它可能是一张图片或者视频。它包含">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2015/07/08/iOS8-New-Features-Photos-Framework/">
+
+  <title> iOS8 New Features: Photos Framework | Changwei's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Changwei's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS8 New Features: Photos Framework
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-08T21:09:08+08:00" content="Jul 8 2015">
+              Jul 8 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS8/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近有个项目要请求系统相册，就先把iOS8中的新特性<code>Photos Framework</code>研究一下，参考 iOS_8_by_Tutorials。</p>
+<p>###模型对象<br><code>Photos Framework</code> 中的模型对象是继承于一个基类<code>PHObject</code>，它们是轻量级的对象，仅仅包含了一些原数据的描叙，但并不包含其内容。这些具体的模型对象是：</p>
+<ol>
+<li><p><code>PHAsset</code>：表示一个单独的asset，它可能是一张图片或者视频。它包含了元数据比如是否是喜爱的，是否是隐藏的和媒介的类型。</p>
+</li>
+<li><p><code>PHAssetCollection</code>： 表示一组有序的asset的列表。</p>
+</li>
+<li><p><code>PHCollectionList</code>: 表示一组有序的<code>PHAssetCollection</code>的列表，或者<code>PHCollectionList</code>的列表。</p>
+</li>
+</ol>
+<h3 id="获取-Fetching"><a href="#获取-Fetching" class="headerlink" title="获取(Fetching)"></a>获取(Fetching)</h3><p>获取(Fetching)在<code>Photos framework</code>中是一个关键的特性，你可以获取任何的模型对象通过使用它所对应的类方法。另外当你获取的时候，你也可以使用<code>PHFetchOptions</code>选项。<code>PHFetchOptions</code>允许你指定哪些是你想要的，获取的结果应该如何排列，还有当结果发生改变时，Photos应该怎样提醒你。这些可以通过设置<code>PHFetchOptions</code>对象中的<code>predicate</code>，<code>sortDescriptors</code>,<code>includeAllBurstAssets</code>,<code>includeHiddenAssets</code>和<code>wantsIncrementalChangeDetails</code>属性，然后把它传给获取(Fetch)方法得到。</p>
+<p>获取(Fetching)会一直返回一个<code>PHFetchResult</code>对象，一个<code>PHFetchResult</code>对象是一组有序的模型对象集合,它有一个接口和<code>NSArray</code>类似。这里最大的不同应该能让你站起来欢呼——<code>PHFetchResult</code>能替你管理内存并且实现对象的懒加载。这意味着获取和遍历上千的asset,理论上讲，不会比遍历几百个asset消耗更多的内存。十分惊奇。</p>
+<p>记住，模型对象并不hold任何的内容，如果你想retrieve某个asset collection中的所有assets， 你不的不fetch他们。类似的，如果你想去展示和这些asset绑定的图片，你不的不加载它们。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)fetchCollections &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//获取喜爱的asset集合</span></span><br><span class="line">  self.userFavorites = [PHAssetCollection <span class="string">fetchAssetCollectionsWithType:</span>PHAssetCollectionTypeSmartAlbum <span class="string">subtype:</span>PHAssetCollectionSubtypeSmartAlbumFavorites <span class="string">options:</span>nil];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//获取相册的集合（即是asset的集合的集合）</span></span><br><span class="line">  self.userAlbums = [PHCollectionList <span class="string">fetchTopLevelUserCollectionsWithOptions:</span>nil];</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###加载内容<br>当你想展示属于一个asset的图片或视频内容的话，你需要通过一个<code>PHImageManager</code>的实例去加载它。这个默认的图片加载器是异步工作的，处理对asset的加载，缓存和调整。它的一个叫<code>PHCachingImageManager</code>的子类能预缓存asset的内容到内存中，并确保当你需要用到它们的时候，它们是可用的。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span>let reuseCount = ++cell<span class="selector-class">.reuseCount</span>let asset = currentAssetAtIndex(indexPath.item)<span class="comment">// 2</span>let options = PHImageRequestOptions() options<span class="selector-class">.networkAccessAllowed</span> = true<span class="comment">// 3 PHImageManager.defaultManager().requestImageForAsset(asset,</span>targetSize: assetThumbnailSize, contentMode: <span class="selector-class">.AspectFill</span>, options: options) &#123; result, info <span class="keyword">in</span><span class="keyword">if</span> reuseCount == cell<span class="selector-class">.reuseCount</span> &#123; cell<span class="selector-class">.imageView</span><span class="selector-class">.image</span> = result&#125; &#125;</span><br></pre></td></tr></table></figure>
+<p>注意这里的<code>requestImageForAsset</code>方法，这个方法可能会被回调多次。<code>Photos Framework</code>提供了可以立即使用的低分辨率的asset版本，随后也可能提供一个高质量的asset版本。</p>
+<p>###预加载<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)updateCache &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">CGFloat</span> currentFrameCenter = <span class="built_in">CGRectGetMidY</span>(<span class="keyword">self</span>.collectionView.bounds);</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,<span class="built_in">NSStringFromCGRect</span>(<span class="keyword">self</span>.collectionView.bounds) );</span><br><span class="line">  <span class="keyword">if</span> (fabs(currentFrameCenter - <span class="keyword">self</span>.lastCacheFrameCenter) &lt; <span class="built_in">CGRectGetHeight</span>(<span class="keyword">self</span>.collectionView.bounds)/<span class="number">3</span>) &#123;</span><br><span class="line">    <span class="comment">// Haven't scrolled far enough yet</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">self</span>.lastCacheFrameCenter = currentFrameCenter;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">static</span> <span class="built_in">NSInteger</span> numOffscreenAssetsToCache = <span class="number">60</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSArray</span> * visibleIndexes = [<span class="keyword">self</span>.collectionView.indexPathsForVisibleItems sortedArrayUsingSelector:<span class="keyword">@selector</span>(compare:)];</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (!visibleIndexes.count) &#123;</span><br><span class="line">    [<span class="keyword">self</span>.imageManager stopCachingImagesForAllAssets];</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSInteger</span> firstItemToCache = ((<span class="built_in">NSIndexPath</span> *)visibleIndexes[<span class="number">0</span>]).item - numOffscreenAssetsToCache/<span class="number">2</span>;</span><br><span class="line">  firstItemToCache = MAX(firstItemToCache, <span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSInteger</span> lastItemToCache = ((<span class="built_in">NSIndexPath</span> *)[visibleIndexes lastObject]).item + numOffscreenAssetsToCache/<span class="number">2</span>;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span>.assetsFetchResults) &#123;</span><br><span class="line">    lastItemToCache = MIN(lastItemToCache, <span class="keyword">self</span>.assetsFetchResults.count - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    lastItemToCache = MIN(lastItemToCache, <span class="keyword">self</span>.selectedAssets.count - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSMutableArray</span> * indexesToStopCaching = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">  <span class="built_in">NSMutableArray</span> * indexesToStartCaching = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Stop caching items we scrolled past</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">NSIndexPath</span> * index <span class="keyword">in</span> <span class="keyword">self</span>.cachingIndexes) &#123;</span><br><span class="line">    <span class="keyword">if</span> (index.item &lt; firstItemToCache || index.item &gt; lastItemToCache) &#123;</span><br><span class="line">      [indexesToStopCaching addObject:index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span>.cachingIndexes removeObjectsInArray:indexesToStopCaching];</span><br><span class="line">  </span><br><span class="line">  [<span class="keyword">self</span>.imageManager stopCachingImagesForAssets:[<span class="keyword">self</span> assetsAtIndexPaths:indexesToStopCaching]</span><br><span class="line">                                     targetSize:<span class="keyword">self</span>.assetThumbnailSize</span><br><span class="line">                                    contentMode:PHImageContentModeAspectFill</span><br><span class="line">                                        options:<span class="literal">nil</span>];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Start caching new items in range</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = firstItemToCache; i &lt; lastItemToCache; i++) &#123;</span><br><span class="line">    <span class="built_in">NSIndexPath</span> * index = [<span class="built_in">NSIndexPath</span> indexPathForItem:i inSection:<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (![<span class="keyword">self</span>.cachingIndexes containsObject:index]) &#123;</span><br><span class="line">      [indexesToStartCaching addObject:index];</span><br><span class="line">      [<span class="keyword">self</span>.cachingIndexes addObject:index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  [<span class="keyword">self</span>.imageManager startCachingImagesForAssets:[<span class="keyword">self</span> assetsAtIndexPaths:indexesToStartCaching]</span><br><span class="line">                                      targetSize:<span class="keyword">self</span>.assetThumbnailSize</span><br><span class="line">                                     contentMode:PHImageContentModeAspectFill</span><br><span class="line">                                         options:<span class="literal">nil</span>];</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Photos-Framework/" rel="tag">#Photos Framework</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/07/自由职业者如何提高技术/" rel="next" title="自由职业者如何提高技术">
+                <i class="fa fa-chevron-left"></i> 自由职业者如何提高技术
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/18/一张图告诉你怎么选择后台运行技术/" rel="prev" title="一张图告诉你怎么选择后台运行技术">
+                一张图告诉你怎么选择后台运行技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取-Fetching"><span class="nav-number">1.</span> <span class="nav-text">获取(Fetching)</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
