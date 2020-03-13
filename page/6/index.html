@@ -259,6 +259,131 @@
             
               
                 
+                <a class="post-title-link" href="/2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/" itemprop="url">
+                  How to Customize the UI of MPMoviePlayerViewController
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-06T17:18:00+08:00" content="Apr 6 2013">
+              Apr 6 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MPMoviePlayerViewController/" itemprop="url" rel="index">
+                    <span itemprop="name">MPMoviePlayerViewController</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>As we all know, the user interface of MPMoviePlayerViewController is ugly. Sometimes, our customer needs a better UI, so let’s do it.</p>
+<p>Some codes like this:</p>
+<pre><code>MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] init];
+    player.moviePlayer.contentURL = self.url;
+    //here, i set the controlStyle equal to MPMovieControlStyleNone, as a result, we only see the movie view, yet volume button, progress slider, play button as so on.
+    player.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    player.moviePlayer.view.frame = self.playerViewController.view.frame;
+    //next, i create a UIViewController named playerViewController, and insert the moverPlay view to the view of playerViewController.
+    [self.playerViewController.view insertSubview:player.moviePlayer.view atIndex:0];
+    [player.moviePlayer play];
+    [self presentModalViewController:self.playerViewController animated:YES];
+</code></pre><p>after do that, we need add a view to playerViewController, and set the view is transparent    , we can add custom button on the view to control the move playing. The effect as below:</p>
+<p><a href="http://www.flickr.com/photos/tuchangwei/8624399482/" title="Flickr 上 涂 涂 的 Screenshot 2013.04.03 09.32.26" target="_blank" rel="noopener"><img src="http://static.flickr.com/8111/8624399482_3801facaf7.jpg" width="500" height="375" alt="Screenshot 2013.04.03 09.32.26"></a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/04/06/how-to-learn-to-cattle-men/" itemprop="url">
                   How to Learn to Cattle Men
                 </a>
@@ -1481,169 +1606,6 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/" itemprop="url">
-                  Blocks的申明调用与Queue当做锁的用法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-10T11:40:00+08:00" content="Mar 10 2013">
-              Mar 10 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/GCD/" itemprop="url" rel="index">
-                    <span itemprop="name">GCD</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###Blocks的申明与调用<br>话说Blocks在方法内使用还是挺方便的，之前都是把相同的代码封装成外部函数，然后在一个方法里需要的时候调用，这样挺麻烦的。使用Blocks之后，我们可以把相同代码在这个方法里封装起来，然后再在这个方法中需要的地方直接调用，逻辑清晰，操作也不会那么繁琐。</p>
-<p>上代码：</p>
-<pre><code>//在方法体内
-//block申明与初始化
- void(^removePicViewBlock)(int,int) = ^(int start,int stop){
-
-    while (start &lt;= stop)
-    {
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        SWDPictureView *view = (SWDPictureView *)[self.scroller viewWithTag:start + 1];
-        view.imageView.image = nil;
-        view.imageView = nil;
-        view.delegate2 = nil;
-        [view removeFromSuperview];
-        start ++;
-        [pool drain];
-    }
-
-
-};
-if (page &lt; self.currentPage)
-{
-    //block的调用
-    removePicViewBlock(0,page);
-}
-else if(page &gt; self.currentPage)
-{
-    //block的调用
-    removePicViewBlock(page,[self.picList count]-1);
-}
-</code></pre><p>###Queue作为锁的用法</p>
-<p>说到多线程就必须要提到锁了，话说用锁也蛮麻烦，需要在初始化的时候申明一个锁，然后每个方法的开头加一把锁，结尾再把锁去掉。如果用queue就不必那么麻烦了。根据task在queue中FIFO的特性就可以防止多线程中资源被同时访问。</p>
-<p>上代码。</p>
-<pre><code>//初始化时初始化一个queue
-UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil);
-
-//多线程调用时，将任务放在queue中执行。此时queue充当锁的角色。
-//存储图片缓冲到硬盘
--(void)storeImage:(UIImage *)image key:(NSString *)key
-{
-    dispatch_async(UserQueue, ^{
-
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        BOOL succ = [fileManager createFileAtPath:[self cachePathForKey:key] contents:UIImageJPEGRepresentation(image, (CGFloat)0.6) attributes:nil];
-        NSLog(@&quot;store successfully!!! %d&quot;,succ);
-        [fileManager release];
-        fileManager = nil;
-    });
-
-}
-</code></pre><p>好了，就这些。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1687,7 +1649,7 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

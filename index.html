@@ -259,6 +259,135 @@
             
               
                 
+                <a class="post-title-link" href="/2020/03/13/Vapor4-0学习记录1/" itemprop="url">
+                  Vapor4.0学习记录1
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-03-13T10:34:02+08:00" content="Mar 13 2020">
+              Mar 13 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。</p>
+<p>平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。</p>
+<p>现在的想法是先建个博客练练手，后端用Vapor4.0，前端用Vue.js。两个技术一起学。将来可能把这个博客迁移过去。</p>
+<p>Vapor4.0的文档还不够完善，大佬们建议从<a href="https://github.com/vapor/api-template" target="_blank" rel="noopener">vapor / api-template</a>这里搞起，记得分支选<code>4</code>。</p>
+<p>对Vapor4要有大概的了解才能继续下去。看到Nodejs主要是通过<code>EventLoop</code>来接收请求的。就问问大佬们Vapor是怎么个机制。热心的大佬回复说Vapor底层用的SwiftNIO,其底层的逻辑和Nodejs差不多，SwiftNIO的这个机制叫做<code>EventLoopFuture</code>。网上查了些<a href="https://www.raywenderlich.com/1124580-swiftnio-a-simple-guide-to-async-on-the-server" target="_blank" rel="noopener">资料</a>, 摘录如下:</p>
+<blockquote>
+<p><strong>The Event Loop</strong></p>
+</blockquote>
+<blockquote>
+<p>Efficiency is an important goal when writing server-side code. The more efficient your code, the more users it can help concurrently. Where an unoptimized app can only help ten to a hundred users at a time, highly optimized apps are able to help a hundred-thousand concurrent users on the same hardware.</p>
+</blockquote>
+<blockquote>
+<p>The main reason for this difference is architectural. A poorly optimized app will be idle most of the time, whereas a highly optimized app will try to spend its time cleverly and actively. The brains behind this architecture in server-side Swift is provided by SwiftNIO, Apple’s cross-platform event-driven networking framework, by a type called EventLoop.</p>
+</blockquote>
+<blockquote>
+<p>EventLoop is, in its essence, a while loop that keeps looking to do work when an external factor, such as a user uploading a file, has made progress.</p>
+</blockquote>
+<blockquote>
+<p>If one thread writes to a variable, and another thread tries to read it or write to it at the same time, a race condition occurs, which will crash your app. One method you can use to prevent race conditions from occurring is using locks for each of these variables. You’ll lock this lock before accessing a variable and unlock is after accessing it is completed, so any future accesses to the resource are prevented until you’ll unlock the lock. The main downside of this approach is its complexity and impact on performance.</p>
+</blockquote>
+<blockquote>
+<p>Using a single thread to access this information is another way to tackle the issue of race conditions. Doing this means all read and write operations are done by this thread. One example of this is the database you’ll find in the sample project. Using this method requires you to give the read/write thread a way to return the result to the event loop that requested it.</p>
+</blockquote>
+<blockquote>
+<p>If you respond to a request from a different EventLoop, SwiftNIO will crash the app to prevent undefined behaviour from causing trouble.</p>
+</blockquote>
+<blockquote>
+<p><strong>Futures and Promises</strong></p>
+</blockquote>
+<blockquote>
+<p>Future is a type used to describe information that does not exist yet, but will exist in the future. Writing asynchronous code with futures means directing the futures to respond to the successful results or to the failures. You can create a future with a predefined result: either success or failure. However, if the result is not known yet, you need to create a Promise.</p>
+</blockquote>
+<blockquote>
+<p>These promises and futures need to be created from the EventLoop since the future type will always return to the event loop it originated from. A future can only hold one result at a time, at which point it is considered completed. Completion can be either successful or unsuccessful, thus failed futures are also considered completed. Finally, if a promise is creates, it must be completed.</p>
+</blockquote>
+<p>现在就开始建立自己的新项目吧。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="url">
                   Android-三张图搞定Touch事件传递机制
                 </a>
@@ -1389,104 +1518,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/12/03/最近开心的事/" itemprop="url">
-                  最近开心的事
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-12-03T11:10:48+08:00" content="Dec 3 2015">
-              Dec 3 2015
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近开心的事有两件，一件是<a href="https://www.upwork.com/freelancers/~01eeefc89751549361?viewMode=1" target="_blank" rel="noopener">我的upwork的等级</a>，终于做到了<strong>TOP Rated</strong>。另一件事情是给<a href="https://layer.com" target="_blank" rel="noopener">Layer SDK</a>提的<a href="https://github.com/layerhq/quick-start-ios/pull/10" target="_blank" rel="noopener">bug</a>终于得到确认。</p>
-<p>放图：</p>
-<img src="/2015/12/03/最近开心的事/QQ20151203-1@2x-copy.png">
-<img src="/2015/12/03/最近开心的事/QQ20151203-1@2x.png">
-<p>希望自己的自由职业之路越走越好。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1530,7 +1561,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">69</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
