@@ -259,6 +259,159 @@
             
               
                 
+                <a class="post-title-link" href="/2013/04/10/avoid-retain-cycle-in-block/" itemprop="url">
+                  Avoid Retain Cycle in Block
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-10T23:08:00+08:00" content="Apr 10 2013">
+              Apr 10 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/GCD/" itemprop="url" rel="index">
+                    <span itemprop="name">GCD</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Let us make long story short. Please see the codes as following:</p>
+<pre><code>- (IBAction)didTapUploadButton:(id)sender
+{
+  NSString *clientID = @&quot;YOUR_CLIENT_ID_HERE&quot;;
+
+  NSString *title = [[self titleTextField] text];
+  NSString *description = [[self descriptionTextField] text];
+
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
+  __weak MLViewController *weakSelf = self;
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    UIImage *image = [UIImage imageNamed:@&quot;balloons.jpg&quot;];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+
+[MLIMGURUploader uploadPhoto:imageData 
+                       title:title 
+                 description:description 
+               imgurClientID:clientID completionBlock:^(NSString *result) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [[weakSelf linkTextView] setText:result];
+  });
+} failureBlock:^(NSURLResponse *response, NSError *error, NSInteger status) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [[[UIAlertView alloc] initWithTitle:@&quot;Upload Failed&quot;
+                              message:[NSString stringWithFormat:@&quot;%@ (Status code %d)&quot;, 
+                                               [error localizedDescription], status]
+                             delegate:nil
+                    cancelButtonTitle:nil
+                    otherButtonTitles:@&quot;OK&quot;, nil] show];
+  });
+}];
+
+  });
+}
+</code></pre><p>This is a method for uploading images to <a href="http://imgur.com/" target="_blank" rel="noopener">imgur</a>. In the section we can find the codes <code>__weak MLViewController *weakSelf = self;</code> and use it like <code>[[weakSelf linkTextView] setText:result];</code>. So, we have a question: Why we don‘t call self directly,but rather give a weak pointer to point it and use the weak pointer in the block section?</p>
+<p>It is what i will say. As we all know, the property of blocks is copy, and the property of self is retain. So, if we use self in the block section, we will get a retain circle. We will never release them. For this reason, we need do it as above.</p>
+<p><a href="http://blog.random-ideas.net/?p=160" target="_blank" rel="noopener">Here</a> is one reference </p>
+<p>Ok, Good night. See you. </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/" itemprop="url">
                   How to Customize the UI of MPMoviePlayerViewController
                 </a>
@@ -1477,135 +1630,6 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/" itemprop="url">
-                  管理iOS代码的一些规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-19T20:08:00+08:00" content="Mar 19 2013">
-              Mar 19 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Code-Standard/" itemprop="url" rel="index">
-                    <span itemprop="name">Code-Standard</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>做任何事前先<code>git init</code>。</li>
-<li>使用<a href="http://cocoapods.org/" target="_blank" rel="noopener">CocoaPods</a>管理第三方库。</li>
-<li>使用ARC。如果第三方库没有使用ARC，可以在他们的.m文件中加上<code>-fno-objc-arc</code>关键字。</li>
-<li>清除<code>@synthesize</code>。当你为成员变量增加<code>@property</code>时，Xcode会在编译时候默认为你增加<code>@synthesize</code>关键字。</li>
-<li>移除注释掉的代码或工程中未使用的文件。</li>
-<li>不要在AppDelete中写代码。</li>
-<li>增加<code>#pragram mark –</code>在你需要注释的地方</li>
-<li>管理好Xcode工程中的文件夹结构。一般使用<code>Model</code>,<code>View</code>,<code>Controller</code>,<code>Helper/Manager</code>和<code>Images</code>文件夹。如果有第三方库，则用<code>External</code>文件夹。</li>
-<li>代码格式，空格。</li>
-<li>将<code>__mycompany</code>改成有意义的。</li>
-<li>时常NSLog，形成日志系统。</li>
-</ol>
-<p>—————–神奇的分割线——————-</p>
-<p>又找到了一些规范：</p>
-<p>Under the Warnings header, also set the Other Linker Flags option to -Wall. The compiler will now check for all possible situations that can cause problems. By default many of these warnings are turned off but I find it useful to always have all warnings on and to treat them as fatal errors. In other words, if the compiler gives a warning I will first fix it before continuing. Whether that is something you may want to do on your own projects is up to you, but during the conversion to ARC I recommend that you take a good look at any issues the compiler may complain about.<br>For the exact same reason, also enable the Run Static Analyzer option under the Build Options header, Xcode will now run the analyzer every time we build the app. That makes the builds a bit slower but for an app of this size that’s barely noticeable.</p>
-<p>如果大家有什么好的代码规范，欢迎补充。O(∩_∩)O~。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1649,7 +1673,7 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
