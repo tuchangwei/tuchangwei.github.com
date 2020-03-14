@@ -259,263 +259,6 @@
             
               
                 
-                <a class="post-title-link" href="/2014/10/04/Swift-Study-Notes/" itemprop="url">
-                  Swift Study Notes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-10-04T21:17:32+08:00" content="Oct 4 2014">
-              Oct 4 2014
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="402-hd-introduction-to-swift-mov"><a href="#402-hd-introduction-to-swift-mov" class="headerlink" title="402-hd-introduction-to-swift.mov"></a>402-hd-introduction-to-swift.mov</h1><ol>
-<li>This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need to change. Now this makes your code safer in a multi-threaded environment. It also means that Swift can optimize your code more effectively because it knows what isn’t going to change and it just generally makes your code more readable, makes your intent clearer that you’re saying what is and isn’t going to vary.</li>
-</ol>
-<ol start="2">
-<li><p>Swift initializers don’t return a value. Rather, their main role to make sure that every stored property has a value by the time its initialization completes.</p>
-</li>
-<li><p>Non-Optional Types can’t be nil.</p>
-</li>
-</ol>
-<p>#403-hd-intermediate-swift.mov</p>
-<ol>
-<li><p>Weak References tell Swift that this object isn’t responsible for keeping the object on the other end alive. And weak references in Swift are modeled as optinonal values.</p>
-</li>
-<li><p>Unowned References tell Swift that although I don’t have an owning stake in the object, my lift depents on it, I can’t live without my owner, my card holder.</p>
-</li>
-<li><p>Every value must be initialized before it is used.</p>
-</li>
-<li><p>Initializers handle the responsibility of fully initailizing an instance.</p>
-</li>
-<li><p>We always make sure we set our own properties before we call our SuperClass’s initializer.</p>
-</li>
-<li><p>Convenience Initializers</p>
-</li>
-</ol>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">init</span> (<span class="attribute">color</span>: Color, <span class="attribute">turbo</span>: BOOl) &#123;</span><br><span class="line">	......</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">convenience</span> <span class="selector-tag">init</span>(<span class="attribute">color</span>: Color) &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-tag">self</span><span class="selector-class">.init</span>(<span class="attribute">color</span>: color, <span class="attribute">turbo</span>: true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>Lazy Properties.</li>
-</ol>
-<p>It will only be evaluated the time it’s accessed and only when it’s accessed and only that one time.</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@lazy</span> <span class="keyword">var</span> multiplayerManager  = MultiplayerManager()</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>Initialization</li>
-</ol>
-<p>Initialize all values before you use them.</p>
-<p>Set all stored properties first, then call super.init</p>
-<p>Designated initializers only delegate up</p>
-<p>Convenience initializers only delegate across</p>
-<p>Deinitializers are there…if you need them.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/17/all-activities/" itemprop="url">
-                  All Activities
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-17T10:20:00+08:00" content="Sep 17 2013">
-              Sep 17 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Activities/" itemprop="url" rel="index">
-                    <span itemprop="name">Activities</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- configurable section -->
-<p><script type="text/javascript"><br>if (typeof rtapi == ‘undefined’) var rtapi = {}; rtapi.kZlp = {};<br>rtapi.kZlp.title = ‘All Activities ‘;<br>rtapi.kZlp.kind = ‘sidebar’;<br>rtapi.kZlp.styling = { width:300, height:300 };<br></script><br><!-- below is required --></p>
-<p><div id="rtdivkZlp"><p id="rtmsg">RescueTime: <a href="http://www.rescuetime.com/tour" target="_blank" rel="noopener"> Project Time Tracking Software</a><br>&amp; Team <a href="http://www.rescuetime.com" target="_blank" rel="noopener">Time Management Software</a></p></div></p>
-<p><script src="https://www.rescuetime.com/anapi/js/embed/B63ZlpfCES1H5YXfRYazNNI4wzIoE_1CtV33kfXc" type="text/javascript"></script><script type="text/javascript">RTAPI.render_all(rtapi);</script><br>&lt;!– a little how-to </p>
-<ul>
-<li>Paste this into your web page where you want the chart.</li>
-<li>You may have multiple embedded charts on the same page.</li>
-<li>You can change the title, width and height by editing the named properties.</li>
-<li>You can opt for the more verbose full chart by setting .kind to ‘default’.</li>
-<li>If you want your own css control, you can add ‘rtapi.my_css = true;’ before the render function.</li>
-<li>css class names are: </li>
-<li>rtdiv : the whole container</li>
-<li>rttitle : the title, rtchart : the chart, rtfeed : the footer<br>–&gt;</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2013/09/16/how-to-import-one-project-to-another-one-in-xcode/" itemprop="url">
                   How to Import One Project to Another One in Xcode.
                 </a>
@@ -1905,6 +1648,284 @@ static NSBundle *bundle = nil;
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/04/10/avoid-retain-cycle-in-block/" itemprop="url">
+                  Avoid Retain Cycle in Block
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-10T23:08:00+08:00" content="Apr 10 2013">
+              Apr 10 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/GCD/" itemprop="url" rel="index">
+                    <span itemprop="name">GCD</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Let us make long story short. Please see the codes as following:</p>
+<pre><code>- (IBAction)didTapUploadButton:(id)sender
+{
+  NSString *clientID = @&quot;YOUR_CLIENT_ID_HERE&quot;;
+
+  NSString *title = [[self titleTextField] text];
+  NSString *description = [[self descriptionTextField] text];
+
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
+  __weak MLViewController *weakSelf = self;
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    UIImage *image = [UIImage imageNamed:@&quot;balloons.jpg&quot;];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+
+[MLIMGURUploader uploadPhoto:imageData 
+                       title:title 
+                 description:description 
+               imgurClientID:clientID completionBlock:^(NSString *result) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [[weakSelf linkTextView] setText:result];
+  });
+} failureBlock:^(NSURLResponse *response, NSError *error, NSInteger status) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [[[UIAlertView alloc] initWithTitle:@&quot;Upload Failed&quot;
+                              message:[NSString stringWithFormat:@&quot;%@ (Status code %d)&quot;, 
+                                               [error localizedDescription], status]
+                             delegate:nil
+                    cancelButtonTitle:nil
+                    otherButtonTitles:@&quot;OK&quot;, nil] show];
+  });
+}];
+
+  });
+}
+</code></pre><p>This is a method for uploading images to <a href="http://imgur.com/" target="_blank" rel="noopener">imgur</a>. In the section we can find the codes <code>__weak MLViewController *weakSelf = self;</code> and use it like <code>[[weakSelf linkTextView] setText:result];</code>. So, we have a question: Why we don‘t call self directly,but rather give a weak pointer to point it and use the weak pointer in the block section?</p>
+<p>It is what i will say. As we all know, the property of blocks is copy, and the property of self is retain. So, if we use self in the block section, we will get a retain circle. We will never release them. For this reason, we need do it as above.</p>
+<p><a href="http://blog.random-ideas.net/?p=160" target="_blank" rel="noopener">Here</a> is one reference </p>
+<p>Ok, Good night. See you. </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/" itemprop="url">
+                  How to Customize the UI of MPMoviePlayerViewController
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-06T17:18:00+08:00" content="Apr 6 2013">
+              Apr 6 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MPMoviePlayerViewController/" itemprop="url" rel="index">
+                    <span itemprop="name">MPMoviePlayerViewController</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>As we all know, the user interface of MPMoviePlayerViewController is ugly. Sometimes, our customer needs a better UI, so let’s do it.</p>
+<p>Some codes like this:</p>
+<pre><code>MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] init];
+    player.moviePlayer.contentURL = self.url;
+    //here, i set the controlStyle equal to MPMovieControlStyleNone, as a result, we only see the movie view, yet volume button, progress slider, play button as so on.
+    player.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    player.moviePlayer.view.frame = self.playerViewController.view.frame;
+    //next, i create a UIViewController named playerViewController, and insert the moverPlay view to the view of playerViewController.
+    [self.playerViewController.view insertSubview:player.moviePlayer.view atIndex:0];
+    [player.moviePlayer play];
+    [self presentModalViewController:self.playerViewController animated:YES];
+</code></pre><p>after do that, we need add a view to playerViewController, and set the view is transparent    , we can add custom button on the view to control the move playing. The effect as below:</p>
+<p><a href="http://www.flickr.com/photos/tuchangwei/8624399482/" title="Flickr 上 涂 涂 的 Screenshot 2013.04.03 09.32.26" target="_blank" rel="noopener"><img src="http://static.flickr.com/8111/8624399482_3801facaf7.jpg" width="500" height="375" alt="Screenshot 2013.04.03 09.32.26"></a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1948,7 +1969,7 @@ static NSBundle *bundle = nil;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
