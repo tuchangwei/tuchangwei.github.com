@@ -259,6 +259,199 @@
             
               
                 
+                <a class="post-title-link" href="/2015/02/04/What-you-want-to-do-during-your-best-decade/" itemprop="url">
+                  What Do You Want to Do During Your Best Decade
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-02-04T09:41:34+08:00" content="Feb 4 2015">
+              Feb 4 2015
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>One friend ever asked me :”Are you planning to stay home during your best decade?”</p>
+<p>I answer to him :”Why not? It is the best thing for me to stay with my family during my best decade.”</p>
+<p>Spring is coming.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/12/22/Mix-Auto-Layout-With-Manual-Layout-Code/" itemprop="url">
+                  Mix Auto Layout With Manual Layout Code
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-12-22T21:09:01+08:00" content="Dec 22 2014">
+              Dec 22 2014
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>Set <code>translates​Autoresizing​Mask​Into​Constraints = NO</code> on the view since you will position and size it manually, anyway :)</li>
+<li>Override <code>layoutSubviews</code> (or <code>viewDidLayoutSubviews</code> if you want to do this in a view controller), call super (which performs the Auto Layout step) and then perform any manual layout we want to add</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/12/19/How-to-understand-the-in-the-end-of-IBOutlet-Properties/" itemprop="url">
                   How to Understand the '!' in the End of IBOutlet Properties in Swift
                 </a>
@@ -1070,263 +1263,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/04/Swift-Study-Notes/" itemprop="url">
-                  Swift Study Notes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-10-04T21:17:32+08:00" content="Oct 4 2014">
-              Oct 4 2014
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="402-hd-introduction-to-swift-mov"><a href="#402-hd-introduction-to-swift-mov" class="headerlink" title="402-hd-introduction-to-swift.mov"></a>402-hd-introduction-to-swift.mov</h1><ol>
-<li>This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need to change. Now this makes your code safer in a multi-threaded environment. It also means that Swift can optimize your code more effectively because it knows what isn’t going to change and it just generally makes your code more readable, makes your intent clearer that you’re saying what is and isn’t going to vary.</li>
-</ol>
-<ol start="2">
-<li><p>Swift initializers don’t return a value. Rather, their main role to make sure that every stored property has a value by the time its initialization completes.</p>
-</li>
-<li><p>Non-Optional Types can’t be nil.</p>
-</li>
-</ol>
-<p>#403-hd-intermediate-swift.mov</p>
-<ol>
-<li><p>Weak References tell Swift that this object isn’t responsible for keeping the object on the other end alive. And weak references in Swift are modeled as optinonal values.</p>
-</li>
-<li><p>Unowned References tell Swift that although I don’t have an owning stake in the object, my lift depents on it, I can’t live without my owner, my card holder.</p>
-</li>
-<li><p>Every value must be initialized before it is used.</p>
-</li>
-<li><p>Initializers handle the responsibility of fully initailizing an instance.</p>
-</li>
-<li><p>We always make sure we set our own properties before we call our SuperClass’s initializer.</p>
-</li>
-<li><p>Convenience Initializers</p>
-</li>
-</ol>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">init</span> (<span class="attribute">color</span>: Color, <span class="attribute">turbo</span>: BOOl) &#123;</span><br><span class="line">	......</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">convenience</span> <span class="selector-tag">init</span>(<span class="attribute">color</span>: Color) &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-tag">self</span><span class="selector-class">.init</span>(<span class="attribute">color</span>: color, <span class="attribute">turbo</span>: true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>Lazy Properties.</li>
-</ol>
-<p>It will only be evaluated the time it’s accessed and only when it’s accessed and only that one time.</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@lazy</span> <span class="keyword">var</span> multiplayerManager  = MultiplayerManager()</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>Initialization</li>
-</ol>
-<p>Initialize all values before you use them.</p>
-<p>Set all stored properties first, then call super.init</p>
-<p>Designated initializers only delegate up</p>
-<p>Convenience initializers only delegate across</p>
-<p>Deinitializers are there…if you need them.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/17/all-activities/" itemprop="url">
-                  All Activities
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-17T10:20:00+08:00" content="Sep 17 2013">
-              Sep 17 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Activities/" itemprop="url" rel="index">
-                    <span itemprop="name">Activities</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- configurable section -->
-<p><script type="text/javascript"><br>if (typeof rtapi == ‘undefined’) var rtapi = {}; rtapi.kZlp = {};<br>rtapi.kZlp.title = ‘All Activities ‘;<br>rtapi.kZlp.kind = ‘sidebar’;<br>rtapi.kZlp.styling = { width:300, height:300 };<br></script><br><!-- below is required --></p>
-<p><div id="rtdivkZlp"><p id="rtmsg">RescueTime: <a href="http://www.rescuetime.com/tour" target="_blank" rel="noopener"> Project Time Tracking Software</a><br>&amp; Team <a href="http://www.rescuetime.com" target="_blank" rel="noopener">Time Management Software</a></p></div></p>
-<p><script src="https://www.rescuetime.com/anapi/js/embed/B63ZlpfCES1H5YXfRYazNNI4wzIoE_1CtV33kfXc" type="text/javascript"></script><script type="text/javascript">RTAPI.render_all(rtapi);</script><br>&lt;!– a little how-to </p>
-<ul>
-<li>Paste this into your web page where you want the chart.</li>
-<li>You may have multiple embedded charts on the same page.</li>
-<li>You can change the title, width and height by editing the named properties.</li>
-<li>You can opt for the more verbose full chart by setting .kind to ‘default’.</li>
-<li>If you want your own css control, you can add ‘rtapi.my_css = true;’ before the render function.</li>
-<li>css class names are: </li>
-<li>rtdiv : the whole container</li>
-<li>rttitle : the title, rtchart : the chart, rtfeed : the footer<br>–&gt;</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1370,7 +1306,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">68</span>
+              <span class="site-state-item-count">70</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
