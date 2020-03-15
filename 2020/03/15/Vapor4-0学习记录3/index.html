@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="Changwei&#39;s Blog">
 <meta property="og:description" content="昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。 本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。 我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-15T15:56:01.620Z">
+<meta property="og:updated_time" content="2020-03-15T16:03:57.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vapor4.0学习记录3">
 <meta name="twitter:description" content="昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。 本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。 我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相">
@@ -321,17 +321,17 @@
 <p>项目就开始在Docker中安装了。注意命令后面那个<code>.</code>别忘了，那个是当前目录的意思。</p>
 <p>完后我按照上面大佬的命令：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:80 tblog</span></span><br></pre></td></tr></table></figure></p>
 <p>并没有把项目跑起来，这里可以从两处做一下更改。一个是把命令行改成：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:8080 tblog</span></span><br></pre></td></tr></table></figure></p>
-<p>大佬说docker默认暴露的是8080端口。或者在<code>Dockerfile</code>文件中把最后一行改为：</p>
+<p>因为另一个大佬说docker默认暴露的是8080端口。或者在<code>Dockerfile</code>文件中把最后一行改为：</p>
 <blockquote>
 <p>CMD [“serve”, “–env”, “production”, “–hostname”, “0.0.0.0”, “–port”, “80”]</p>
 </blockquote>
 <p>把80端口暴露出来。</p>
 <p><code>Dockerfile</code>里的命令大概解释一下，就是先在Docker容器里下载Swift5.2, 然后把本地的项目拷贝到容器里，然后编译。然后再把Ubuntu拷贝下来，把编译的文件放在Ubuntu的目录结构下。然后运行。</p>
-<p>这个时候项目跑起来是没有数据库的, 这个时候<code>docker-compose.yml</code>这个文件就有用了。</p>
+<p>这个时候项目跑起来是没有数据库的, <code>docker-compose.yml</code>这个文件就有用了。</p>
 <p>运行命令：<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="meta">up</span> <span class="built_in">db</span></span><br></pre></td></tr></table></figure></p>
 <p>会安装数据库postgres，并启动数据库。</p>
 <p>运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up migrate</span></span><br></pre></td></tr></table></figure></p>
-<p>会在数据库中创建TOOD这个表。</p>
+<p>会在数据库中创建TODO这个表。</p>
 <p>这个时候，你再访问localhost:8080/todos这个API程序就不会报错了。这个数据库是建在另外一个容器里的。我们既可以通过运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up app</span></span><br></pre></td></tr></table></figure></p>
 <p>让前一个容器里的app启动，然后通过localhost:8080/todos去访问数据库，也可以直接在Xcode中运行app，然后通过这个URL去访问数据库。数据库是同一个，但是跑起来的app却是两个。Xcode跑的那个是开发用的。容器里的这个用来发布的。</p>
 <p>如果运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose build</span></span><br></pre></td></tr></table></figure></p>
