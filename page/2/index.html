@@ -259,6 +259,148 @@
             
               
                 
+                <a class="post-title-link" href="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/" itemprop="url">
+                  增加Document Provider Extensions时遇到的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-03-06T09:15:26+08:00" content="Mar 6 2016">
+              Mar 6 2016
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。</p>
+<p>首先这里有几个名词，<code>host app</code>,<code>UIDocumentPickerViewController</code>,<code>Document Provider Extensions</code>,这些名词的关系如下图所示：</p>
+<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-2@2x.png">
+<p>也就是说怎么显示<code>Document Provider Extensions</code>菜单，那是host app的事，我们能做的是在container app中开发这个Extension,它就会显示在这个菜单上。不论中间的过程怎样，最终我们只要<strong>通过这个Extension给host app回传一个文件URL</strong>，我们目标就完成了。</p>
+<h3 id="问题一，要不要创建File-Provider-Extension"><a href="#问题一，要不要创建File-Provider-Extension" class="headerlink" title="问题一，要不要创建File Provider Extension"></a>问题一，要不要创建File Provider Extension</h3><p>突然蹦出的这个Extension是干嘛的？这个Extension是没有界面的,官方说法是它相当于<code>Document Picker extension</code>的后端。当你在xcode中选择创建<code>Document Provider</code>target时，它会弹一个复选框让你选择要不要同时创建<code>File Provider extension</code>。那要不要同时创建呢？这个要看你的需求了，官方和raywenderlich的资料中都说的比较含糊，我自己的理解是，如果你要分享的数据在<code>Document Picker extension</code>里能拿到，而不是通过URL从container app中取的，那你就没有必要创建<code>File Provider extension</code>。在我这个需求中是不需要通过URL从container app中取数据的，所以我没有创建这个extension。那第二个问题来了。</p>
+<h3 id="问题二，Document-Picker-Extension怎样回传给host-app-一个URL"><a href="#问题二，Document-Picker-Extension怎样回传给host-app-一个URL" class="headerlink" title="问题二，Document Picker Extension怎样回传给host app 一个URL"></a>问题二，Document Picker Extension怎样回传给host app 一个URL</h3><p>这里的关键是<code>UIDocumentPickerExtensionViewController</code>中的<code>dismissGrantingAccessToURL</code> 方法。<br>官方的说法是:</p>
+<blockquote>
+<p>Dismisses the document picker.</p>
+<p>Call this method when the user selects a document or destination. This method dismisses the document picker view controller in the host app and triggers the appropriate file transfer. After the transfer is complete, the method passes the provided URL to the host app’s documentPicker:didPickDocumentAtURL: delegate method.</p>
+<p>The URL must meet all of the following conditions:</p>
+<ul>
+<li>Import Document Picker mode. Provide a URL for the selected file. The URL only needs to be accessible by the Document Picker View Controller extension.</li>
+</ul>
+<p>…</p>
+</blockquote>
+<p>也就是说只要把date写到<code>Document Picker View Controller extension</code>能访问的地方就行了，那刚好就用公共区域好了。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *containerURL = [fileManager <span class="string">containerURLForSecurityApplicationGroupIdentifier:</span>@<span class="string">"group.xxx"</span>];</span><br></pre></td></tr></table></figure>
+<h3 id="第三个问题，啥是公共区。"><a href="#第三个问题，啥是公共区。" class="headerlink" title="第三个问题，啥是公共区。"></a>第三个问题，啥是公共区。</h3><p>这个公共区是你的extensions和container app都能访问的区域，在你的extensions和container app的target的配置中，你会配置一个App Groups，拥有相同App Groups的targets会有一个都可访问的公共区。那么第四个问题也来了。</p>
+<h3 id="第四个问题，extensions和container-app共享的数据放在哪？"><a href="#第四个问题，extensions和container-app共享的数据放在哪？" class="headerlink" title="第四个问题，extensions和container app共享的数据放在哪？"></a>第四个问题，extensions和container app共享的数据放在哪？</h3><p>这个问题在第三个问题中已经回答了，但是恰好你用的是MagicalRecord，那么你可以把你的数据库创建在公共区域内，用来共享，相关代码是:</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSFileManager</span> *fileManager = [<span class="symbol">NSFileManager</span> defaultManager];</span><br><span class="line"><span class="symbol">NSURL</span> *containerURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:@<span class="string">"group.xxx"</span>];</span><br><span class="line"><span class="symbol">NSURL</span> *storeURL = [containerURL <span class="symbol">URLByAppendingPathComponent</span>:[<span class="symbol">MagicalRecord</span> defaultStoreName]];</span><br><span class="line">[<span class="symbol">MagicalRecord</span> setupCoreDataStackWithAutoMigratingSqliteStoreAtURL:storeURL];</span><br></pre></td></tr></table></figure>
+<p>如果你恰好也用了CocoaPads去管理你的第三方代码库,那么第五个问题也粗线了。</p>
+<h3 id="第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库"><a href="#第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库" class="headerlink" title="第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?"></a>第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?</h3><p>在你的Podfile中加一行代码，然后pod install就解决了。</p>
+<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link_with <span class="symbol">'Your</span> container app', <span class="symbol">'Your</span> extension'</span><br></pre></td></tr></table></figure>
+<p>上面的代码不是很推荐，你也可以用下面的代码。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">'Haystack_V2'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SVProgressHUD'</span>, <span class="string">'~&gt; 1.1.3'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br><span class="line">target <span class="string">'Photo Search'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br></pre></td></tr></table></figure>
+<p>所以你也可能遇到第六个问题，如果你也想在extension中使用SVProgressHUD这个库的话。</p>
+<h3 id="第六个问题，在Extensions中使用SVProgressHUD库"><a href="#第六个问题，在Extensions中使用SVProgressHUD库" class="headerlink" title="第六个问题，在Extensions中使用SVProgressHUD库"></a>第六个问题，在Extensions中使用SVProgressHUD库</h3><p>请看下图:</p>
+<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-3@2x.png">
+<p>好像就这些了。</p>
+<p>Happy coding。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/01/30/国外威客网站对比/" itemprop="url">
                   国外威客网站对比
                 </a>
@@ -1385,151 +1527,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/14/Cocoa-Autolayout-content-hugging-vs-content-compression-resistance-priority/" itemprop="url">
-                  Cocoa Autolayout: Content Hugging vs Content Compression Resistance Priority
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-09-14T22:11:15+08:00" content="Sep 14 2015">
-              Sep 14 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###Intrinsic Content Size</p>
-<p>The intrinsic content size is the size a view prefers to have for a specific content it displays. For example, UILabel has a preferred height based on the font, and a preferred width based on the font and the text it displays. A UIProgressView only has a preferred height based on its artwork, but no preferred width. A plain UIView has neither a preferred width nor a preferred height.</p>
-<p>###Compression Resistance and Content Hugging</p>
-<p>Each view has content compression resistance priorities and content hugging priorities assigned for both dimensions. These properties only take effect for views which define an intrinsic content size, otherwise there is no content size defined that could resist compression or be hugged.</p>
-<p>Behind the scenes, the intrinsic content size and these priority values get translated into constraints. For a label with an intrinsic content size of { 100, 30 }, horizontal/vertical compression resistance priority of 750, and horizontal/vertical content hugging priority of 250, four constraints will be generated:</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">H</span>:[label(&lt;=<span class="number">100</span><span class="variable">@250</span>)] </span><br><span class="line"><span class="attribute">H</span>:[label(&gt;=<span class="number">100</span><span class="variable">@750</span>)]</span><br><span class="line"><span class="attribute">V</span>:[label(&lt;=<span class="number">30</span><span class="variable">@250</span>)]</span><br><span class="line"><span class="attribute">V</span>:[label(&gt;=<span class="number">30</span><span class="variable">@750</span>)]</span><br></pre></td></tr></table></figure>
-<p>If you’re not familiar with the visual format language for the constraints used above, you can read up about it in Apple’s documentation. Keeping in mind that these additional constraints are generated implicitly helps to understand Auto Layout’s behavior and to make better sense of its error messages.</p>
-<hr>
-<p>Quick summary of the concepts:</p>
-<ul>
-<li>Hugging =&gt; content does not want to grow<br>Compression </li>
-<li>Resistance =&gt; content does not want to shrink</li>
-</ul>
-<p>and an example:</p>
-<p>Say you’ve got button like this:</p>
-<p><code>[       Click Me      ]</code></p>
-<p>and you’ve pinned the edges to a larger superview with priority 500.</p>
-<p>Then, if Hugging priority &gt; 500 it’ll look like this:</p>
-<p><code>[Click Me]</code></p>
-<p>If Hugging priority &lt; 500 it’ll look like this:</p>
-<p><code>[       Click Me      ]</code></p>
-<p>If superview now shrinks then, if the Compression Resistance priority &gt; 500, it’ll look like this</p>
-<p><code>[Click Me]</code></p>
-<p>Else if Compression Resistance priority &lt; 500, it could look like this:</p>
-<p><code>[Cli..]</code></p>
-<p>If it doesn’t work like this then you’ve probably got some other constraints going on that are messing up your good work!</p>
-<p>E.g. you could have it pinned to the superview with priority 1000. Or you could have a width priority. If so, this can be helpful:</p>
-<p>Editor &gt; Size to Fit Content</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1568,7 +1570,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

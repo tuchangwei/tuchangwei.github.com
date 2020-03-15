@@ -259,6 +259,126 @@
             
               
                 
+                <a class="post-title-link" href="/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/" itemprop="url">
+                  对象传值的几种方式(Some  Methods to Make Talk to Each Other Between Objects a and B)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-03-19T21:59:00+08:00" content="Mar 19 2013">
+              Mar 19 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Summary/" itemprop="url" rel="index">
+                    <span itemprop="name">Summary</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li><strong>NSNotificationCenter</strong>. This is anonymous one-to-many communication. Object A posts a notification to the NSNotificationCenter, which then distributes it to any other objects listening for that notification, including Object B. A and B do not have to know anything about each other, so this is a very loose coupling. Maybe a little too loose…</li>
+<li><strong>KVO (Key-Value Observing)</strong>. One object observes the properties of another. This is a very tight coupling, because Object B is now peeking directly into Object A. The advantage of KVO is that Object A doesn’t have to be aware of this at all, and therefore does not need to send out any notifications — the KVO mechanism takes care of this behind the scenes.</li>
+<li><strong>Direct pointers</strong>. Object A has a pointer to Object B and directly sends it messages when something of interest happens. This is the tightest coupling possible because A and B cannot function without each other. In the case of view controllers you generally want to avoid this.</li>
+<li><strong>Delegates</strong>. Object B is a delegate of Object A. In this scenario, Object A does not know anything about Object B. It just knows that some object performs the role of its delegate and it will happily send messages to that delegate, but it doesn’t know — or care — that this is Object B. The delegate pattern is often the preferred way to communicate between view controllers, but it takes some work to set up.</li>
+<li><strong>Blocks</strong>. Essentially the same approach as delegates, except that Object B now gives Object A one or more blocks (closures) to be executed when certain events take place. There is no formal delegate protocol and the only thing that Object A sees of Object B is the blocks it is given.</li>
+</ol>
+<p>话说KVO检测对象的属性和Blocks相互传值还没使用过，回头试一下。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/" itemprop="url">
                   管理iOS代码的一些规范
                 </a>
@@ -1543,134 +1663,11 @@ Liquid::Template.register_tag(&apos;category_list&apos;, Jekyll::CategoryListTag
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/02/15/zhong-yu-you-zi-ji-de-bo-ke-liao/" itemprop="url">
-                  终于有自己的博客了
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-02-15T13:53:00+08:00" content="Feb 15 2013">
-              Feb 15 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/octopress/" itemprop="url" rel="index">
-                    <span itemprop="name">octopress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>将octopress搭建在github上,我终于有了自己的第一个博客。<br>昨天在网上瞎逛，看到唐巧的博客，说自己的博客是建立在github上，前段时间因为12306的关系，github无法访问。于是搜索资料，开始搭建自己的第一个博客，由于中间安装ruby以及配置SSH key的关系，到目前为止才搭建完毕。</p>
-<p>####参考</p>
-<ul>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/" target="_blank" rel="noopener">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
-<li><a href="http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/" target="_blank" rel="noopener">http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/</a></li>
-<li><a href="http://sharecore.info/blog/2012/12/25/octopress-plus-github/" target="_blank" rel="noopener">http://sharecore.info/blog/2012/12/25/octopress-plus-github/</a></li>
-</ul>
-<p>####博文发布工具</p>
-<ul>
-<li><a href="http://mouapp.com/" target="_blank" rel="noopener">http://mouapp.com/</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1709,7 +1706,7 @@ Liquid::Template.register_tag(&apos;category_list&apos;, Jekyll::CategoryListTag
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

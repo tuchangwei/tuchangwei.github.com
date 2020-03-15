@@ -259,6 +259,141 @@
             
               
                 
+                <a class="post-title-link" href="/2020/03/15/Vapor4-0学习记录3/" itemprop="url">
+                  Vapor4.0学习记录3
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-03-15T10:54:37+08:00" content="Mar 15 2020">
+              Mar 15 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。</p>
+<p>本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。</p>
+<p>我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相关的文件 <code>Dockerfile</code> 和 <code>docker-compose.yml</code>。但是网络上关于Docker部署Vapor4的资料简直是没有，看着两个文件中的命令就头大。脑中的问题一直在飞： 本地项目怎么部署到Docker容器中？是不是要先在容器中安装Swift和Postpostgres?部署的项目和postpostrges是同一个容器，还是两个容器？这两个容器怎么交流？本地项目做了更改后，Docker中的项目会自动更改吗？这些问题怎么用命令行解决？谁想谁脑炸。</p>
+<p>正当我要放弃的时候，社区的温暖送来了🙏。</p>
+<blockquote>
+<p>Deploying with docker is quite easy. Assuming you want to deploy a fresh Vapor 4 project:</p>
+</blockquote>
+<blockquote>
+<p>Requirements: Install latest Xcode 11.4 Beta and switch to Swift 5.2 in the preferences. (You can check in the command line using swift –version) If you want to use Docker locally on your Mac, you should install Docker Desktop for Mac. </p>
+</blockquote>
+<blockquote>
+<p>Run <code>vapor new --branch=4 myProject</code> to create a fresh project from template. (You can do any changes if you want, but the fresh template already provides a Hello World example.)</p>
+</blockquote>
+<blockquote>
+<p>To run your application within Docker, there is already a <code>web.Dockerfile</code> provided in the template.<br>We’ll have to build an image first. Run <code>docker build -f web.Dockerfile -t my-project .</code>  Of course you can use whatever tag (my-project) you like.<br>To test your image locally use <code>docker run --rm -p 8080:80 my-project</code> (We use –rm to delete the container when we stop the app. The flag -p 8080:80 exposes the port 80 from within the container to port 8080 on our host.) You will see something like [ NOTICE ] Server starting on <a href="http://0.0.0.0:80" target="_blank" rel="noopener">http://0.0.0.0:80</a> in the command line. Visit <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> in your browser and you should see “It works!” from your Vapor application.</p>
+</blockquote>
+<blockquote>
+<p>If you make changes to your application, stop the container, build and run it again.</p>
+</blockquote>
+<p>所以什么都不用管，先在项目目录下输入如下命令:</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-f Dockerfile -t tblog .</span><br></pre></td></tr></table></figure>
+<p>项目就开始在Docker中安装了。注意命令后面那个<code>.</code>别忘了，那个是当前目录的意思。</p>
+<p>完后我按照上面大佬的命令：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:80 tblog</span></span><br></pre></td></tr></table></figure></p>
+<p>并没有把项目跑起来，这里可以从两处做一下更改。一个是把命令行改成：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:8080 tblog</span></span><br></pre></td></tr></table></figure></p>
+<p>大佬说docker默认暴露的是8080端口。或者在<code>Dockerfile</code>文件中把最后一行改为：</p>
+<blockquote>
+<p>CMD [“serve”, “–env”, “production”, “–hostname”, “0.0.0.0”, “–port”, “80”]</p>
+</blockquote>
+<p>把80端口暴露出来。</p>
+<p><code>Dockerfile</code>里的命令大概解释一下，就是先在Docker容器里下载Swift5.2, 然后把本地的项目拷贝到容器里，然后编译。然后再把Ubuntu拷贝下来，把编译的文件放在Ubuntu的目录结构下。然后运行。</p>
+<p>这个时候项目跑起来是没有数据库的, 这个时候<code>docker-compose.yml</code>这个文件就有用了。</p>
+<p>运行命令：<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="meta">up</span> <span class="built_in">db</span></span><br></pre></td></tr></table></figure></p>
+<p>会安装数据库postgres，并启动数据库。</p>
+<p>运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up migrate</span></span><br></pre></td></tr></table></figure></p>
+<p>会在数据库中创建TOOD这个表。</p>
+<p>这个时候，你再访问localhost:8080/todos这个API程序就不会报错了。这个数据库是建在另外一个容器里的。我们既可以通过运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up app</span></span><br></pre></td></tr></table></figure></p>
+<p>让前一个容器里的app启动，然后通过localhost:8080/todos去访问数据库，也可以直接在Xcode中运行app，然后通过这个URL去访问数据库。数据库是同一个，但是跑起来的app却是两个。Xcode跑的那个是开发用的。容器里的这个用来发布的。</p>
+<p>如果运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose build</span></span><br></pre></td></tr></table></figure></p>
+<p>它会执行<code>Dockerfile</code>里的命令。也就是说和前面docker build的命令差不多。</p>
+<p>这些命令在<code>docker-compose.yml</code>中都有说明。</p>
+<p>最后我发现原来docker在国内有镜像，可以加速下载images。具体方法看<a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">这里</a>。这个博客很不错，回头看看把Docker的知识补一补。</p>
+<p>文中关于Docker的解释，我半靠理解半靠猜，但无论如何app是跑起来了，数据库也通了。后面慢慢练手，慢慢填坑。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/03/13/Vapor4-0学习记录2/" itemprop="url">
                   Vapor4.0学习记录2
                 </a>
@@ -1380,153 +1515,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/" itemprop="url">
-                  增加Document Provider Extensions时遇到的问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-03-06T09:15:26+08:00" content="Mar 6 2016">
-              Mar 6 2016
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近有个需求是在其他的应用中可以选择自己app中的文件，于是接触到了Document Provider Extensions，其实我所遇到的问题在其他Extensions中也可能会遇到，做个总结。</p>
-<p>首先这里有几个名词，<code>host app</code>,<code>UIDocumentPickerViewController</code>,<code>Document Provider Extensions</code>,这些名词的关系如下图所示：</p>
-<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-2@2x.png">
-<p>也就是说怎么显示<code>Document Provider Extensions</code>菜单，那是host app的事，我们能做的是在container app中开发这个Extension,它就会显示在这个菜单上。不论中间的过程怎样，最终我们只要<strong>通过这个Extension给host app回传一个文件URL</strong>，我们目标就完成了。</p>
-<h3 id="问题一，要不要创建File-Provider-Extension"><a href="#问题一，要不要创建File-Provider-Extension" class="headerlink" title="问题一，要不要创建File Provider Extension"></a>问题一，要不要创建File Provider Extension</h3><p>突然蹦出的这个Extension是干嘛的？这个Extension是没有界面的,官方说法是它相当于<code>Document Picker extension</code>的后端。当你在xcode中选择创建<code>Document Provider</code>target时，它会弹一个复选框让你选择要不要同时创建<code>File Provider extension</code>。那要不要同时创建呢？这个要看你的需求了，官方和raywenderlich的资料中都说的比较含糊，我自己的理解是，如果你要分享的数据在<code>Document Picker extension</code>里能拿到，而不是通过URL从container app中取的，那你就没有必要创建<code>File Provider extension</code>。在我这个需求中是不需要通过URL从container app中取数据的，所以我没有创建这个extension。那第二个问题来了。</p>
-<h3 id="问题二，Document-Picker-Extension怎样回传给host-app-一个URL"><a href="#问题二，Document-Picker-Extension怎样回传给host-app-一个URL" class="headerlink" title="问题二，Document Picker Extension怎样回传给host app 一个URL"></a>问题二，Document Picker Extension怎样回传给host app 一个URL</h3><p>这里的关键是<code>UIDocumentPickerExtensionViewController</code>中的<code>dismissGrantingAccessToURL</code> 方法。<br>官方的说法是:</p>
-<blockquote>
-<p>Dismisses the document picker.</p>
-<p>Call this method when the user selects a document or destination. This method dismisses the document picker view controller in the host app and triggers the appropriate file transfer. After the transfer is complete, the method passes the provided URL to the host app’s documentPicker:didPickDocumentAtURL: delegate method.</p>
-<p>The URL must meet all of the following conditions:</p>
-<ul>
-<li>Import Document Picker mode. Provide a URL for the selected file. The URL only needs to be accessible by the Document Picker View Controller extension.</li>
-</ul>
-<p>…</p>
-</blockquote>
-<p>也就是说只要把date写到<code>Document Picker View Controller extension</code>能访问的地方就行了，那刚好就用公共区域好了。</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NSURL *containerURL = [fileManager <span class="string">containerURLForSecurityApplicationGroupIdentifier:</span>@<span class="string">"group.xxx"</span>];</span><br></pre></td></tr></table></figure>
-<h3 id="第三个问题，啥是公共区。"><a href="#第三个问题，啥是公共区。" class="headerlink" title="第三个问题，啥是公共区。"></a>第三个问题，啥是公共区。</h3><p>这个公共区是你的extensions和container app都能访问的区域，在你的extensions和container app的target的配置中，你会配置一个App Groups，拥有相同App Groups的targets会有一个都可访问的公共区。那么第四个问题也来了。</p>
-<h3 id="第四个问题，extensions和container-app共享的数据放在哪？"><a href="#第四个问题，extensions和container-app共享的数据放在哪？" class="headerlink" title="第四个问题，extensions和container app共享的数据放在哪？"></a>第四个问题，extensions和container app共享的数据放在哪？</h3><p>这个问题在第三个问题中已经回答了，但是恰好你用的是MagicalRecord，那么你可以把你的数据库创建在公共区域内，用来共享，相关代码是:</p>
-<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">NSFileManager</span> *fileManager = [<span class="symbol">NSFileManager</span> defaultManager];</span><br><span class="line"><span class="symbol">NSURL</span> *containerURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:@<span class="string">"group.xxx"</span>];</span><br><span class="line"><span class="symbol">NSURL</span> *storeURL = [containerURL <span class="symbol">URLByAppendingPathComponent</span>:[<span class="symbol">MagicalRecord</span> defaultStoreName]];</span><br><span class="line">[<span class="symbol">MagicalRecord</span> setupCoreDataStackWithAutoMigratingSqliteStoreAtURL:storeURL];</span><br></pre></td></tr></table></figure>
-<p>如果你恰好也用了CocoaPads去管理你的第三方代码库,那么第五个问题也粗线了。</p>
-<h3 id="第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库"><a href="#第五个问题，怎样用CocoaPads在你的container-app和extensions-中共享第三方代码库" class="headerlink" title="第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?"></a>第五个问题，怎样用CocoaPads在你的container app和extensions 中共享第三方代码库?</h3><p>在你的Podfile中加一行代码，然后pod install就解决了。</p>
-<figure class="highlight sml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">link_with <span class="symbol">'Your</span> container app', <span class="symbol">'Your</span> extension'</span><br></pre></td></tr></table></figure>
-<p>上面的代码不是很推荐，你也可以用下面的代码。</p>
-<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">target <span class="string">'Haystack_V2'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SVProgressHUD'</span>, <span class="string">'~&gt; 1.1.3'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br><span class="line">target <span class="string">'Photo Search'</span> <span class="built_in">do</span></span><br><span class="line">    pod <span class="string">'MagicalRecord'</span>, <span class="string">'~&gt; 2.3.0'</span></span><br><span class="line">    pod <span class="string">'SwipeBack'</span>, <span class="string">'~&gt; 1.0'</span></span><br><span class="line"><span class="built_in">end</span></span><br></pre></td></tr></table></figure>
-<p>所以你也可能遇到第六个问题，如果你也想在extension中使用SVProgressHUD这个库的话。</p>
-<h3 id="第六个问题，在Extensions中使用SVProgressHUD库"><a href="#第六个问题，在Extensions中使用SVProgressHUD库" class="headerlink" title="第六个问题，在Extensions中使用SVProgressHUD库"></a>第六个问题，在Extensions中使用SVProgressHUD库</h3><p>请看下图:</p>
-<img src="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/QQ20160306-3@2x.png">
-<p>好像就这些了。</p>
-<p>Happy coding。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1565,7 +1558,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

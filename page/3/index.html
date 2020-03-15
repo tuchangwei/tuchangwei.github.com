@@ -259,6 +259,146 @@
             
               
                 
+                <a class="post-title-link" href="/2015/09/14/Cocoa-Autolayout-content-hugging-vs-content-compression-resistance-priority/" itemprop="url">
+                  Cocoa Autolayout: Content Hugging vs Content Compression Resistance Priority
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-09-14T22:11:15+08:00" content="Sep 14 2015">
+              Sep 14 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>###Intrinsic Content Size</p>
+<p>The intrinsic content size is the size a view prefers to have for a specific content it displays. For example, UILabel has a preferred height based on the font, and a preferred width based on the font and the text it displays. A UIProgressView only has a preferred height based on its artwork, but no preferred width. A plain UIView has neither a preferred width nor a preferred height.</p>
+<p>###Compression Resistance and Content Hugging</p>
+<p>Each view has content compression resistance priorities and content hugging priorities assigned for both dimensions. These properties only take effect for views which define an intrinsic content size, otherwise there is no content size defined that could resist compression or be hugged.</p>
+<p>Behind the scenes, the intrinsic content size and these priority values get translated into constraints. For a label with an intrinsic content size of { 100, 30 }, horizontal/vertical compression resistance priority of 750, and horizontal/vertical content hugging priority of 250, four constraints will be generated:</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">H</span>:[label(&lt;=<span class="number">100</span><span class="variable">@250</span>)] </span><br><span class="line"><span class="attribute">H</span>:[label(&gt;=<span class="number">100</span><span class="variable">@750</span>)]</span><br><span class="line"><span class="attribute">V</span>:[label(&lt;=<span class="number">30</span><span class="variable">@250</span>)]</span><br><span class="line"><span class="attribute">V</span>:[label(&gt;=<span class="number">30</span><span class="variable">@750</span>)]</span><br></pre></td></tr></table></figure>
+<p>If you’re not familiar with the visual format language for the constraints used above, you can read up about it in Apple’s documentation. Keeping in mind that these additional constraints are generated implicitly helps to understand Auto Layout’s behavior and to make better sense of its error messages.</p>
+<hr>
+<p>Quick summary of the concepts:</p>
+<ul>
+<li>Hugging =&gt; content does not want to grow<br>Compression </li>
+<li>Resistance =&gt; content does not want to shrink</li>
+</ul>
+<p>and an example:</p>
+<p>Say you’ve got button like this:</p>
+<p><code>[       Click Me      ]</code></p>
+<p>and you’ve pinned the edges to a larger superview with priority 500.</p>
+<p>Then, if Hugging priority &gt; 500 it’ll look like this:</p>
+<p><code>[Click Me]</code></p>
+<p>If Hugging priority &lt; 500 it’ll look like this:</p>
+<p><code>[       Click Me      ]</code></p>
+<p>If superview now shrinks then, if the Compression Resistance priority &gt; 500, it’ll look like this</p>
+<p><code>[Click Me]</code></p>
+<p>Else if Compression Resistance priority &lt; 500, it could look like this:</p>
+<p><code>[Cli..]</code></p>
+<p>If it doesn’t work like this then you’ve probably got some other constraints going on that are messing up your good work!</p>
+<p>E.g. you could have it pinned to the superview with priority 1000. Or you could have a width priority. If so, this can be helpful:</p>
+<p>Editor &gt; Size to Fit Content</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/08/09/切图攻略/" itemprop="url">
                   切图攻略
                 </a>
@@ -1400,130 +1540,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/04/13/how-to-use-gradle-in-v2ex-android-app/" itemprop="url">
-                  [V2ex客户端源码分析]Gradle的使用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-04-13T17:36:49+08:00" content="Apr 13 2015">
-              Apr 13 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在学习Android开发，看教程太枯燥，网上找了几个不错的源码，试着分析clone，并把学习的点记录下来。</p>
-<p>先看看根目录的build.gradle文件。</p>
-<figure class="highlight plain"><figcaption><span>&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    repositories &#123;</span><br><span class="line">        //mavenCentral()</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">    dependencies &#123;</span><br><span class="line">        classpath &apos;com.android.tools.build:gradle:1.1.0&apos;</span><br><span class="line"></span><br><span class="line">        // NOTE: Do not place your application dependencies here; they belong</span><br><span class="line">        // in the individual module build.gradle files</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这个文件中<code>repositories</code>是必须要配置的，gradle会根据这个仓库去查找你要包含到项目中的第三方库，老版本的Android Studio 用的仓库是<code>mavenCentral()</code>, 新版本换成了这个<code>jcenter()</code>,具体区别见<a href="http://blog.bintray.com/2015/02/09/android-studio-migration-from-maven-central-to-jcenter/" target="_blank" rel="noopener">这里</a>。</p>
-<p>再看看app目录里的build.gradle。</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="number">21</span></span><br><span class="line">    buildToolsVersion <span class="string">"21.1.2"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        minSdkVersion <span class="number">14</span></span><br><span class="line">        targetSdkVersion <span class="number">19</span></span><br><span class="line">        versionCode <span class="number">6</span></span><br><span class="line">        versionName <span class="string">"1.3.0"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">dependencies</span> &#123;</span><br><span class="line"><span class="comment">//  The shortcut form for declaring external dependencies looks like “group:name:version”.</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.android.support:support-v4:19.0.0'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.android.support:support-v13:19.0.0'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'uk.co.chrisjenx.calligraphy:calligraphy:0.6.0'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.github.chrisbanes.actionbarpulltorefresh:library:0.9.9'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.etsy.android.grid:library:1.0.5'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.astuetz:pagerslidingtabstrip:1.0.1'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="string">'com.loopj.android:android-async-http:1.4.6'</span></span><br><span class="line">    <span class="keyword">compile</span> <span class="keyword">fileTree</span>(dir: <span class="string">'libs'</span>, <span class="keyword">include</span>: [<span class="string">'*.jar'</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里面的<code>dependencies</code>就是从<code>jcenter()</code>那里下载的第三方库，它的格式是:<code>group:name:version</code>，其他key值的解释见<a href="http://tools.android.com/tech-docs/new-build-system/user-guide" target="_blank" rel="noopener">这里</a>。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1562,7 +1583,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

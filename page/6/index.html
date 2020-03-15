@@ -259,6 +259,275 @@
             
               
                 
+                <a class="post-title-link" href="/2013/04/20/localize-string-and-some-utilities/" itemprop="url">
+                  Localize Strings Using Some Utilities
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-20T22:07:00+08:00" content="Apr 20 2013">
+              Apr 20 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Localize/" itemprop="url" rel="index">
+                    <span itemprop="name">Localize</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>When release applications, one thing will not be avoided, it is localizing. According to the different user demands, we can divide them into <code>Set language through Settings</code> and <code>Set language inside App</code></p>
+<p>###Set language through Settings</p>
+<p>The user demand is easier than another one, when we change language by “Settings -&gt; General -&gt; international”, all applications will restart. So, the .strings file will be loaded again and the language is changed.</p>
+<p>Now, let’s see how to do it.</p>
+<ul>
+<li>Use the macro <code>NSLocalizedString(@&quot;user_label_text&quot;, nil);</code> to wrap your strings.</li>
+<li>Add one kind of language to project as follow, Xcode will generate a forder named <code>language-lproj</code>.<br><a href="http://www.flickr.com/photos/tuchangwei/8664824887/" title="Flickr 上 涂 涂 的 412C868B-805A-405A-B5FB-B8F4FB0B96CC" target="_blank" rel="noopener"><img src="http://static.flickr.com/8244/8664824887_29f530680e.jpg" width="500" height="284" alt="412C868B-805A-405A-B5FB-B8F4FB0B96CC"></a></li>
+<li><p>Use the commend tool <code>genstrings</code> to generate Localizable.strings file.</p>
+<pre><code>genstrings *m -a -o  language-lproj
+</code></pre></li>
+<li><p>Change the value of the key for different language.</p>
+<pre><code>&quot;user_label_text&quot; = &quot;用户登陆&quot;
+</code></pre></li>
+</ul>
+<p>The game seems over, but it is not true. The genstrings commend either replaces your earily changes, or just follows the changes, does not merge them. This is boring.</p>
+<p>So what can i do? You know, we do not be defeated by Ants. Some advice as follows:</p>
+<ol>
+<li><a href="http://www.delitestudio.com/app/localizable-strings-merge/" target="_blank" rel="noopener">Localizable Strings Merge </a> needs $4.99.</li>
+<li><a href="AGi18n">AGi18n</a> free and can auto convert strings in xib.</li>
+<li><p>my shells.</p>
+<p> localizedstring.sh</p>
+<pre><code>#!/bin/sh
+echo &quot;input the language you want localize:&quot;
+read language
+echo $language
+desFilePath=$PWD/&quot;$language&quot;.lproj/Localizable.strings
+echo des file path is:&quot;$desFilePath&quot;
+if [ ! -e $desFilePath ] ; then
+    echo &quot;des file doed not exit, touch it.&quot;
+    touch $desFilePath
+fi
+tmpDir=$PWD/&quot;$language&quot;.lproj/tmp
+tmpFile=&quot;$tmpDir&quot;/Localizable.strings
+tmpFile1=&quot;$tmpDir&quot;/Localizable1.strings
+
+rm -rf $tmpDir
+mkdir $tmpDir
+touch $tmpFile1
+find . -name &apos;*.m&apos; | xargs genstrings -macRoman -a -o  $tmpDir
+find . -name &apos;*.mm&apos; | xargs genstrings -macRoman -a -o  $tmpDir
+iconv -f utf-16le  -t utf-8 $tmpFile &gt; $tmpFile1
+chmod 755 loop.sh
+echo  tempfile=$tmpFile1
+echo des=$desFilePath
+./loop.sh $tmpFile1 $desFilePath
+</code></pre></li>
+</ol>
+<pre><code>loop.sh
+
+    #!/bin/sh  
+    echo 1=$1
+    echo 2=$2
+    SRC=$1
+    DES=$2
+    if [ $# -ne 2 ] ; then
+        echo Usage: loop.sh src des
+        exit 1
+    fi
+    echo arg OK
+    while read line; do
+        #line is NULL
+    #echo line=$line
+        if [ &quot;$line&quot; == &quot;&quot; ] ; then
+            echo $line &gt;&gt; $2
+            continue
+        fi    
+        equal=`echo $line|grep &quot;=&quot;`
+        if [ &quot;$equal&quot; == &quot;&quot; ] ; then
+            echo &quot;$line&quot; &gt;&gt; $2
+            continue
+        fi    
+        left=`echo $line| cut -d &quot;=&quot; -f1`
+        num=`cat $2|grep &quot;$left&quot;|wc -l`
+    #echo num=$num
+    #    sleep 1
+        if [ $num -eq 0 ]; then
+    #   echo &quot;$line insert $2 !!!!!!!!!!!!&quot;
+            echo $line &gt;&gt; $2
+        fi
+    done &lt; $SRC
+</code></pre><ol start="4">
+<li><p><a href="https://github.com/questbeat/Lin" target="_blank" rel="noopener">Lin</a> can reduce workload for you.</p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/e089475332f6d71842cf1769d80aaccb14b5e809/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330312e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/6c4fc4630543be9addbb384133d07074866d0a8a/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330322e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/cd16d08d3838fbe83fc72922046ca2e1a03fe7a3/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330332e706e67" alt></p>
+<p> <img src="https://a248.e.akamai.net/camo.github.com/ee79f2b06520190d207530b805dc4e656c396efa/687474703a2f2f61646f746f75742e73616b7572612e6e652e6a702f6769746875622f4c696e2f6c696e5f737330342e706e67" alt></p>
+</li>
+</ol>
+<p>###Set language inside App</p>
+<p>For this, we need an Object to load stings information real-time.</p>
+<p>LanguageHelper.h</p>
+<pre><code>#import &lt;Foundation/Foundation.h&gt;
+#define CustomLocalizedString(str,comment) [LanguageHelper  get:str alter:nil]
+@interface LanguageHelper : NSObject
+
++(void)initialize;
++(void)setLanguage:(NSString *)lan;
++(NSString *)get:(NSString *)key alter:(NSString *)alternate;
+
+/* @brief 返回当前语言
+ * @return 返回当前设置的语言
+ */
++(NSString *)currentLanguage;
+@end
+</code></pre><p>LanguageHelper.m</p>
+<pre><code>#import &quot;LanguageHelper.h&quot;
+
+@implementation LanguageHelper
+
+static NSBundle *bundle = nil;
+
++(void)initialize {
+
+
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSString *current = @&quot;&quot;;
+    if ([defs valueForKey:@&quot;userLanguage&quot;])
+    {
+        current = [defs valueForKey:@&quot;userLanguage&quot;];
+    }
+    else
+    {
+        NSArray* languages = [defs objectForKey:@&quot;AppleLanguages&quot;];
+        current =[languages objectAtIndex:0];
+
+
+        NSArray *supportLanguage = [[NSBundle mainBundle] objectForInfoDictionaryKey:@&quot;SupportedLanguage&quot;];
+        if (![supportLanguage containsObject:current])
+        {
+            current = [[NSBundle mainBundle] objectForInfoDictionaryKey:@&quot;DefaultLanguage&quot;];
+        }
+        [defs setValue:current forKey:@&quot;userLanguage&quot;];
+        [defs synchronize];
+    }
+
+    [self setLanguage:current];
+
+}
++(void)setLanguage:(NSString *)lan {
+    NSLog(@&quot;preferredLang: %@&quot;, lan);
+    NSString *path = [[ NSBundle mainBundle ] pathForResource:lan ofType:@&quot;lproj&quot; ];
+    bundle = [NSBundle bundleWithPath:path];
+}
+
++(NSString *)get:(NSString *)key alter:(NSString *)alternate {
+    return [bundle localizedStringForKey:key value:alternate table:nil];
+}
+
++(NSString *)currentLanguage{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+
+    return [defs objectForKey:@&quot;userLanguage&quot;];
+}
+
+@end
+</code></pre><p>First, we need replace <code>NSLocalizable(string,commit)</code> to <code>CustomLocalizable(string,commit)</code>, then when the app initializes, we call the method <code>+(void)initialize</code>, when we  change another language, we call the method <code>+(void)setLanguage:(NSString *)lan</code>, then we reload the data on views, the function come true.</p>
+<p>###Attention！！！<br>Today, the earthquake attracked YaAn. They need our help, you can donate money through <a href="https://love.alipay.com/donate/itemDetail.htm?name=201304201216494301" target="_blank" rel="noopener">壹基金</a>, God blesses YaAn and us.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/04/10/avoid-retain-cycle-in-block/" itemprop="url">
                   Avoid Retain Cycle in Block
                 </a>
@@ -1510,131 +1779,11 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/" itemprop="url">
-                  对象传值的几种方式(Some  Methods to Make Talk to Each Other Between Objects a and B)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-19T21:59:00+08:00" content="Mar 19 2013">
-              Mar 19 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Summary/" itemprop="url" rel="index">
-                    <span itemprop="name">Summary</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li><strong>NSNotificationCenter</strong>. This is anonymous one-to-many communication. Object A posts a notification to the NSNotificationCenter, which then distributes it to any other objects listening for that notification, including Object B. A and B do not have to know anything about each other, so this is a very loose coupling. Maybe a little too loose…</li>
-<li><strong>KVO (Key-Value Observing)</strong>. One object observes the properties of another. This is a very tight coupling, because Object B is now peeking directly into Object A. The advantage of KVO is that Object A doesn’t have to be aware of this at all, and therefore does not need to send out any notifications — the KVO mechanism takes care of this behind the scenes.</li>
-<li><strong>Direct pointers</strong>. Object A has a pointer to Object B and directly sends it messages when something of interest happens. This is the tightest coupling possible because A and B cannot function without each other. In the case of view controllers you generally want to avoid this.</li>
-<li><strong>Delegates</strong>. Object B is a delegate of Object A. In this scenario, Object A does not know anything about Object B. It just knows that some object performs the role of its delegate and it will happily send messages to that delegate, but it doesn’t know — or care — that this is Object B. The delegate pattern is often the preferred way to communicate between view controllers, but it takes some work to set up.</li>
-<li><strong>Blocks</strong>. Essentially the same approach as delegates, except that Object B now gives Object A one or more blocks (closures) to be executed when certain events take place. There is no formal delegate protocol and the only thing that Object A sees of Object B is the blocks it is given.</li>
-</ol>
-<p>话说KVO检测对象的属性和Blocks相互传值还没使用过，回头试一下。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1673,7 +1822,7 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">70</span>
+              <span class="site-state-item-count">71</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

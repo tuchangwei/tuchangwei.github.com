@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Swift,">
+  <meta name="keywords" content="iOS Development, iPhone Development, Android Development, API Development">
 
 
 
@@ -84,18 +84,16 @@
 
 
 
-<meta name="description" content="402-hd-introduction-to-swift.mov This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need">
-<meta name="keywords" content="Swift">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Swift Study Notes">
-<meta property="og:url" content="http://tuchangwei.github.com/2014/10/04/Swift-Study-Notes/index.html">
+<meta name="description" content="I develop iOS/Android apps with Swift/Kotlin language.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Changwei&#39;s Blog">
+<meta property="og:url" content="http://tuchangwei.github.com/page/8/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="402-hd-introduction-to-swift.mov This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need">
+<meta property="og:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-14T20:33:03.170Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swift Study Notes">
-<meta name="twitter:description" content="402-hd-introduction-to-swift.mov This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need">
+<meta name="twitter:title" content="Changwei&#39;s Blog">
+<meta name="twitter:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 
 
 
@@ -116,9 +114,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2014/10/04/Swift-Study-Notes/">
+  <link rel="canonical" href="http://tuchangwei.github.com/page/8/">
 
-  <title> Swift Study Notes | Changwei's Blog </title>
+  <title> Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -139,7 +137,9 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left page-post-detail ">
+  <div class="container one-collumn sidebar-position-left 
+   page-home 
+ ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -236,9 +236,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
   
@@ -258,7 +258,10 @@
             
             
               
-                Swift Study Notes
+                
+                <a class="post-title-link" href="/2013/02/15/zhong-yu-you-zi-ji-de-bo-ke-liao/" itemprop="url">
+                  终于有自己的博客了
+                </a>
               
             
           </h1>
@@ -270,11 +273,30 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-10-04T21:17:32+08:00" content="Oct 4 2014">
-              Oct 4 2014
+            <time itemprop="dateCreated" datetime="2013-02-15T13:53:00+08:00" content="Feb 15 2013">
+              Feb 15 2013
             </time>
           </span>
 
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/octopress/" itemprop="url" rel="index">
+                    <span itemprop="name">octopress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
@@ -298,102 +320,54 @@
       
 
       
-        <h1 id="402-hd-introduction-to-swift-mov"><a href="#402-hd-introduction-to-swift-mov" class="headerlink" title="402-hd-introduction-to-swift.mov"></a>402-hd-introduction-to-swift.mov</h1><ol>
-<li>This is a general principle in Swift, that we prefer immutability or constants by default and only really opt into mutablility or variables where things actually need to change. Now this makes your code safer in a multi-threaded environment. It also means that Swift can optimize your code more effectively because it knows what isn’t going to change and it just generally makes your code more readable, makes your intent clearer that you’re saying what is and isn’t going to vary.</li>
-</ol>
-<ol start="2">
-<li><p>Swift initializers don’t return a value. Rather, their main role to make sure that every stored property has a value by the time its initialization completes.</p>
-</li>
-<li><p>Non-Optional Types can’t be nil.</p>
-</li>
-</ol>
-<p>#403-hd-intermediate-swift.mov</p>
-<ol>
-<li><p>Weak References tell Swift that this object isn’t responsible for keeping the object on the other end alive. And weak references in Swift are modeled as optinonal values.</p>
-</li>
-<li><p>Unowned References tell Swift that although I don’t have an owning stake in the object, my lift depents on it, I can’t live without my owner, my card holder.</p>
-</li>
-<li><p>Every value must be initialized before it is used.</p>
-</li>
-<li><p>Initializers handle the responsibility of fully initailizing an instance.</p>
-</li>
-<li><p>We always make sure we set our own properties before we call our SuperClass’s initializer.</p>
-</li>
-<li><p>Convenience Initializers</p>
-</li>
-</ol>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">init</span> (<span class="attribute">color</span>: Color, <span class="attribute">turbo</span>: BOOl) &#123;</span><br><span class="line">	......</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">convenience</span> <span class="selector-tag">init</span>(<span class="attribute">color</span>: Color) &#123;</span><br><span class="line">	</span><br><span class="line">	<span class="selector-tag">self</span><span class="selector-class">.init</span>(<span class="attribute">color</span>: color, <span class="attribute">turbo</span>: true)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ol start="7">
-<li>Lazy Properties.</li>
-</ol>
-<p>It will only be evaluated the time it’s accessed and only when it’s accessed and only that one time.</p>
-<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@lazy</span> <span class="keyword">var</span> multiplayerManager  = MultiplayerManager()</span><br></pre></td></tr></table></figure>
-<ol start="8">
-<li>Initialization</li>
-</ol>
-<p>Initialize all values before you use them.</p>
-<p>Set all stored properties first, then call super.init</p>
-<p>Designated initializers only delegate up</p>
-<p>Convenience initializers only delegate across</p>
-<p>Deinitializers are there…if you need them.</p>
+        
+          
+            <p>将octopress搭建在github上,我终于有了自己的第一个博客。<br>昨天在网上瞎逛，看到唐巧的博客，说自己的博客是建立在github上，前段时间因为12306的关系，github无法访问。于是搜索资料，开始搭建自己的第一个博客，由于中间安装ruby以及配置SSH key的关系，到目前为止才搭建完毕。</p>
+<p>####参考</p>
+<ul>
+<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/" target="_blank" rel="noopener">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
+<li><a href="http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/" target="_blank" rel="noopener">http://easypi.github.com/blog/2013/01/05/using-octopress-to-setup-blog-on-github/</a></li>
+<li><a href="http://sharecore.info/blog/2012/12/25/octopress-plus-github/" target="_blank" rel="noopener">http://sharecore.info/blog/2012/12/25/octopress-plus-github/</a></li>
+</ul>
+<p>####博文发布工具</p>
+<ul>
+<li><a href="http://mouapp.com/" target="_blank" rel="noopener">http://mouapp.com/</a></li>
+</ul>
 
+          
+        
       
     </div>
 
     <div>
       
-        
-
-      
     </div>
 
     <div>
-      
-        
-
       
     </div>
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Swift/" rel="tag">#Swift</a>
-          
-        </div>
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2013/09/17/all-activities/" rel="next" title="All Activities">
-                <i class="fa fa-chevron-left"></i> All Activities
-              </a>
-            
-          </div>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/10/08/pod-command-uses-wrong-ruby-path/" rel="prev" title="Pod Command Uses Wrong Ruby Path">
-                Pod Command Uses Wrong Ruby Path <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span>
+  </nav>
+
 
 
           </div>
@@ -401,10 +375,6 @@
 
 
           
-  <div class="comments" id="comments">
-    
-  </div>
-
 
         </div>
         
@@ -424,17 +394,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel ">
+      <section class="site-overview sidebar-panel  sidebar-panel-active ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
           <p class="site-author-name" itemprop="name">Changwei</p>
@@ -545,17 +506,6 @@
       </section>
 
       
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-            
-              
-            
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#402-hd-introduction-to-swift-mov"><span class="nav-number">1.</span> <span class="nav-text">402-hd-introduction-to-swift.mov</span></a></li></ol></div>
-            
-          </div>
-        </section>
-      
 
     </div>
   </aside>
@@ -651,10 +601,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
-
-
 
   
 
