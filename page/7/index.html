@@ -259,6 +259,137 @@
             
               
                 
+                <a class="post-title-link" href="/2013/03/19/cong-nibjia-zai-view-loading-view-from-nib/" itemprop="url">
+                  从Nib加载View(loading View From Nib)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-03-19T22:15:00+08:00" content="Mar 19 2013">
+              Mar 19 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/nib/" itemprop="url" rel="index">
+                    <span itemprop="name">nib</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>话说，有些View界面控件比较多，还是用nib拖拖拉拉方便。但是麻烦的一点是，我们要将nib与View对应的类进行连接，然后使用这个View的地方通过nib进行对象反序列化。我们一般用下面的语句进行反对象序列化。</p>
+<pre><code>self.aboutView = [[[NSBundle mainBundle]loadNibNamed:@&quot;AboutView&quot; owner:self options:nil] objectAtIndex:0];
+[self.view addSubview:self.aboutView];
+</code></pre><p>每次都写如上的代码有些麻烦，其实我们可以为UIView创建一个category:</p>
+<pre><code>@implementation UIView (MHExtensions)
+
++ (id)mh_viewFromNibNamed:(NSString *)nibName owner:(id)ownerOrNil
+{
+    NSArray *nib = [[NSBundle mainBundle] loadNibNamed:nibName owner:ownerOrNil options:nil];
+    for (id object in nib)
+    {
+        if ([object isKindOfClass:[self class]])
+            return object;
+    }
+    return nil;
+}
+
+@end
+</code></pre><p>这样每次反序列化就只需要调用 <code>+ (id)mh_viewFromNibNamed:(NSString *)nibName owner:(id)ownerOrNil</code> 这个方法即可。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/" itemprop="url">
                   对象传值的几种方式(Some  Methods to Make Talk to Each Other Between Objects a and B)
                 </a>
@@ -1518,151 +1649,6 @@ git reset --hard origin/master
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/02/16/zen-yao-tian-jia-fen-lei/" itemprop="url">
-                  Octopress 怎么添加分类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-02-16T11:07:00+08:00" content="Feb 16 2013">
-              Feb 16 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/octopress/" itemprop="url" rel="index">
-                    <span itemprop="name">octopress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>大致步骤为：</p>
-<p>###增加category_list插件<br>保存以下代码到plugins/category_list_tag.rb：</p>
-<pre><code>module Jekyll
-  class CategoryListTag &lt; Liquid::Tag
-    def render(context)
-      html = &quot;&quot;
-      categories = context.registers[:site].categories.keys
-      categories.sort.each do |category|
-        posts_in_category = context.registers[:site].categories[category].size
-        category_dir = context.registers[:site].config[&apos;category_dir&apos;]
-        category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, &apos;-&apos;).gsub(/-{2,}/, &apos;-&apos;).downcase)
-        html &lt;&lt; &quot;&lt;li class=&apos;category&apos;&gt;&lt;a href=&apos;/#{category_url}/&apos;&gt;#{category} (#{posts_in_category})&lt;/a&gt;&lt;/li&gt;\n&quot;
-      end
-      html
-    end
-  end
-end
-
-Liquid::Template.register_tag(&apos;category_list&apos;, Jekyll::CategoryListTag)
-</code></pre><p>这个插件会向liquid注册一个名为category_list的tag，该tag就是以li的形式将站点所有的category组织起来。如果要将category加入到侧边导航栏，需要增加一个aside。</p>
-<p>###增加aside<br>复制以下代码到source/_includes/asides/category_list.html。(请将下面的$号换成%号)</p>
-<pre><code>&lt;section&gt;
-  &lt;h1&gt;Categories&lt;/h1&gt;
-  &lt;ul id=&quot;categories&quot;&gt;      
-      {$ category_list $}        
-  &lt;/ul&gt;
-&lt;/section&gt;
-</code></pre><p>配置侧边栏需要修改_config.yml文件，修改其default_asides项：</p>
-<pre><code>default_asides: [asides/category_list.html, asides/recent_posts.html]
-</code></pre><p>###使用<br>当新建markdown文件时，顶部会自动显示：“categories:”，在其后写上自己的分类名即可。</p>
-<p>###参考<br><a href="http://codemacro.com/2012/07/18/add-category-list-to-octopress/" target="_blank" rel="noopener">http://codemacro.com/2012/07/18/add-category-list-to-octopress/</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/02/16/zen-yao-tian-jia-fen-lei/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1706,7 +1692,7 @@ Liquid::Template.register_tag(&apos;category_list&apos;, Jekyll::CategoryListTag
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

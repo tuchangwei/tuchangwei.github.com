@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="Some days ago, i posted the blog to introduce some ways to talk to each oher between Object A and B. One of the points is Blocks. Now I will show how to call back use Block instead of Delegate. Some c">
+<meta name="description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Use Block to Call Back Instead of Delegate">
-<meta property="og:url" content="http://tuchangwei.github.com/2013/03/21/use-block-to-call-back-instead-of-delegate/index.html">
+<meta property="og:title" content="Vapor4.0学习记录4">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/03/18/Vapor4-0学习记录4/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="Some days ago, i posted the blog to introduce some ways to talk to each oher between Object A and B. One of the points is Blocks. Now I will show how to call back use Block instead of Delegate. Some c">
+<meta property="og:description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-14T20:33:03.165Z">
+<meta property="og:updated_time" content="2020-03-18T03:29:20.844Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Use Block to Call Back Instead of Delegate">
-<meta name="twitter:description" content="Some days ago, i posted the blog to introduce some ways to talk to each oher between Object A and B. One of the points is Blocks. Now I will show how to call back use Block instead of Delegate. Some c">
+<meta name="twitter:title" content="Vapor4.0学习记录4">
+<meta name="twitter:description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2013/03/21/use-block-to-call-back-instead-of-delegate/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/18/Vapor4-0学习记录4/">
 
-  <title> Use Block to Call Back Instead of Delegate | Changwei's Blog </title>
+  <title> Vapor4.0学习记录4 | Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -257,7 +257,7 @@
             
             
               
-                Use Block to Call Back Instead of Delegate
+                Vapor4.0学习记录4
               
             
           </h1>
@@ -269,30 +269,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-21T22:25:00+08:00" content="Mar 21 2013">
-              Mar 21 2013
+            <time itemprop="dateCreated" datetime="2020-03-18T10:46:20+08:00" content="Mar 18 2020">
+              Mar 18 2020
             </time>
           </span>
 
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/GCD/" itemprop="url" rel="index">
-                    <span itemprop="name">GCD</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -316,44 +297,15 @@
       
 
       
-        <p>Some days ago, i posted the <a href="http://tuchangwei.github.com/blog/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/">blog</a> to introduce some ways to talk to each oher between Object A and B. One of the points is Blocks. Now I will show how to call back use Block instead of Delegate.</p>
-<p>Some codes posted as follow:</p>
-<pre><code>A：SWDPromptViewController
-
-.h
-//declare a block named &quot;dismissPromptViewBlock&quot;.
-@property (copy, nonatomic) void(^dismissPromptViewBlock)    (SWDPromptViewController *prompt);
-
-.m
-//after some operations, we will dismiss A and release it.
--(void)dismissPrompt
-{
-    if (self.dismissPromptViewBlock)
-    {
-        self.dismissPromptViewBlock(self);
-        self.dismissPromptViewBlock = nil;
-    }
-}
-
-
-B：
-.m
-//declare A object and init it,then assign a block to the property of A.
-//so when A executes the method &quot;dismissPrompt&quot;, the block plays a part of
-//Delegate.
-SWDPromptViewController *promptViewController = [[SWDPromptViewController     alloc] initWithNibName:@&quot;SWDPromptViewController&quot; bundle:nil type:type];
-UIWindow *promptWindow = [[UIWindow alloc] initWithFrame:[[UIScreen     mainScreen] bounds]];
-promptWindow.windowLevel = UIWindowLevelAlert;
-promptWindow.backgroundColor = [UIColor clearColor];
-promptWindow.rootViewController = promptViewController;
-[promptViewController release];
-[promptWindow makeKeyAndVisible];
-
-promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *prompt){
-
-    [promptWindow release];
-    };
-</code></pre><p>   That is all. Welcome to communicate with me.O(∩_∩)O~.</p>
+        <p>上篇对<code>docker-compose.yml</code>的某些理解有误，这篇对某些命令进行浅解。<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-f Dockerfile -t tblog .</span><br></pre></td></tr></table></figure></p>
+<p>那个<code>.</code>是指上下文路径，参见<a href="https://yeasy.gitbooks.io/docker_practice/image/build.html" target="_blank" rel="noopener">这里</a>-<strong>镜像构建上下文(Context)</strong></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose build</span></span><br></pre></td></tr></table></figure>
+<p>这个命令为啥先去运行<code>Dockerfile</code>里的命令呢？因为这个文件是用来构建<code>tblog:latest</code>镜像的。在<code>docker-compose.xml</code>中的首要任务就是构建<code>tblog:latest</code>， 并指定了build所需要的上下文, docker就找到上下文中的<code>Dockerfile</code>进行编辑了。就是下面这一段。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span><br><span class="line"><span class="attr"> app:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">tblog:latest</span></span><br><span class="line"><span class="attr">    build:</span></span><br><span class="line"><span class="attr">      context:</span> <span class="string">.</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure></p>
+<p><code>docker-compose.xml</code>最上面有一段：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">volumes:</span></span><br><span class="line"><span class="symbol">  db_data:</span></span><br><span class="line">  ....</span><br></pre></td></tr></table></figure></p>
+<p>这个是干嘛的呢？这个是创建一个磁盘。<code>db_data:</code>应该就相当于我们说的盘符。没有给这个盘指定名称，它会有个默认的名称<code>tblog_db_data</code>, 也可以这样指定磁盘的名称。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">volumes:</span></span><br><span class="line"><span class="symbol">  db_data:</span></span><br><span class="line"><span class="symbol">    name:</span> <span class="string">"tuchangwei"</span></span><br></pre></td></tr></table></figure>
+<p>磁盘是用来存数据的，它不会消失。多个容器也可以共享这个磁盘。我们的数据库就把数据放在这个磁盘里面:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">db:</span></span><br><span class="line">    <span class="symbol">image:</span> <span class="symbol">postgres:</span><span class="number">12.1</span>-alpine</span><br><span class="line">    <span class="symbol">volumes:</span></span><br><span class="line">       - <span class="symbol">db_data:</span>/var/<span class="class"><span class="keyword">lib</span>/<span class="title">postgresql</span>/<span class="title">data</span>/<span class="title">pgdata</span></span></span><br></pre></td></tr></table></figure></p>
+<p>对于<code>docker-compose.xml</code>文件里命令的解释，可以参考<a href="https://docs.docker.com/compose/compose-file/#depends_on" target="_blank" rel="noopener">这里</a></p>
 
       
     </div>
@@ -379,17 +331,13 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/03/19/cong-nibjia-zai-view-loading-view-from-nib/" rel="next" title="从Nib加载View(loading View From Nib)">
-                <i class="fa fa-chevron-left"></i> 从Nib加载View(loading View From Nib)
+              <a href="/2020/03/15/Vapor4-0学习记录3/" rel="next" title="Vapor4.0学习记录3">
+                <i class="fa fa-chevron-left"></i> Vapor4.0学习记录3
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2013/03/26/how-should-we-use-nslog/" rel="prev" title="How Should We Use NSLog">
-                How Should We Use NSLog <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

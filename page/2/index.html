@@ -259,6 +259,130 @@
             
               
                 
+                <a class="post-title-link" href="/2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/" itemprop="url">
+                  The Solution That the Menu Item of Navigation View Can't Change Its Background When It Is Selected/checked.
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T10:08:03+08:00" content="Jul 18 2016">
+              Jul 18 2016
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Today, when I created a left navigation bar in android app, I met a strange issue. That was I couldn’t appoint a background color for the navigation item when it was selected. Like this:</p>
+<img src="/2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/no-background.gif">
+<p> It was annoying, I found many answers on the internet, but they all couldn’t fix my issue.</p>
+<p>Most of answers said I should created a selector in drawable folder, like:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@color/primary"</span> <span class="attr">android:state_checked</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:drawable</span>=<span class="string">"@android:color/transparent"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>and set NavigationView like:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app:itemBackground="@drawable/nav_view_item_background"</span><br></pre></td></tr></table></figure>
+<p>For me, it is not the correct answer. Though I set the <code>state_checked</code> is true and give it a drawable color, it seems the item is never checked.</p>
+<p>For more search, I found the issue was happened with menu item.<br>The original menu file is:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"主题"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_dashboard_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/theme"</span> <span class="attr">android:checked</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"节点"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_view_agenda_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/node"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"其他"</span> <span class="attr">android:id</span>=<span class="string">"@+id/other"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">menu</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"关于"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_info_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/about"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Then I add a tag <code>android:checkable=true</code> to it:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">menu</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"主题"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_dashboard_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/theme"</span> <span class="attr">android:checked</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:checkable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"节点"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_view_agenda_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/node"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:checkable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"其他"</span> <span class="attr">android:id</span>=<span class="string">"@+id/other"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">menu</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:title</span>=<span class="string">"关于"</span> <span class="attr">android:icon</span>=<span class="string">"@drawable/ic_info_grey"</span> <span class="attr">android:id</span>=<span class="string">"@+id/about"</span></span></span><br><span class="line"><span class="tag">                    <span class="attr">android:checkable</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">menu</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>Now, the effect is normal.</p>
+<img src="/2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/background.gif">
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/" itemprop="url">
                   增加Document Provider Extensions时遇到的问题
                 </a>
@@ -1408,125 +1532,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/09/15/Helpful-JS-Resources-Recommanded-by-Code-School/" itemprop="url">
-                  Helpful JS Resources Recommanded by Code School
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-09-15T20:44:39+08:00" content="Sep 15 2015">
-              Sep 15 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Javascript/" itemprop="url" rel="index">
-                    <span itemprop="name">Javascript</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>完成了code school中的JS课程部分，纪录一些老师推荐的网站</p>
-<ul>
-<li><a href="http://jstherightway.org/" target="_blank" rel="noopener">JavaScript: The Right Way</a></li>
-<li><a href="http://javascript.crockford.com/code.html" target="_blank" rel="noopener">Code Conventions for JavaScript</a></li>
-<li><a href="http://flippinawesome.org/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/" target="_blank" rel="noopener">45 Useful JavaScript Tips and Tricks</a></li>
-<li><a href="http://www.thinkful.com/learn/javascript-best-practices-1/" target="_blank" rel="noopener">Thinkful: Best Practices 1 and 2</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1570,7 +1575,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

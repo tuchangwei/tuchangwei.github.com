@@ -259,6 +259,108 @@
             
               
                 
+                <a class="post-title-link" href="/2014/10/12/One-or-two-things-I-want-to-do-recently/" itemprop="url">
+                  One or Two Things I Want to Do Recently
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-10-12T14:45:14+08:00" content="Oct 12 2014">
+              Oct 12 2014
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/2014/10/12/One-or-two-things-I-want-to-do-recently/15481293376_3b4833b325_b.jpg" alt="Image"></p>
+<p>During a long time, I am thinking which programming language I want to learn on next step, Ruby or javascript, Android or Swift, and many times I can’t make a decision. Ruby looks like very cool, but it is far from the region I contribute to, Android is near with the region, but sometimes I think it is boring.</p>
+<p>Now, I don’t want to waste my time any more. So I decide to do the following things next step:</p>
+<ol>
+<li>Learn Swift.</li>
+<li>Develop a music app using Swift language.</li>
+<li>Rebuild the music app using Java language.</li>
+</ol>
+<p>And then, Focus on mobile developing.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/10/08/pod-command-uses-wrong-ruby-path/" itemprop="url">
                   Pod Command Uses Wrong Ruby Path
                 </a>
@@ -1490,261 +1592,6 @@ export.outputURL = outputURL;
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/24/the-replacement-of-the-semaphore/" itemprop="url">
-                  The Replacement of the Semaphore
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-05-24T22:49:00+08:00" content="May 24 2013">
-              May 24 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/GCD-iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">GCD iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>In order to synchronize between threads, i used semaphore in <a href="http://tuchangwei.github.io/blog/2013/03/05/gcdhe-xin-hao-liang/" target="_blank" rel="noopener">here</a>. Today, I find a replacement of the semaphore. I think it is more efficient and cool. Now, i note it as follow:</p>
-<pre><code>    - (id)initWithLibraryChangedHandler:(void (^)(void))libraryChangedHandler
-{
-    self = [super init];
-    if (self) 
-    {
-        _assetItems = [NSMutableArray array];
-        //Creates a new dispatch queue to which blocks can be submitted.  创建一个新的分发队列用于提交blocks
-        _assetItemsQueue = dispatch_queue_create(&quot;com.apple.avmovieexporter.assetItemLibraryQueue&quot;, DISPATCH_QUEUE_SERIAL);
-
-        _libraryGroup = dispatch_group_create();
-        //Returns a well-known global concurrent queue of a given priority level.
-        //The well-known global concurrent queues cannot be modified
-        //Blocks submitted to these global concurrent queues may be executed concurrently with respect to each other.
-        _libraryQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-
-        // Update the table view whenever the library changes
-        [[NSNotificationCenter defaultCenter] addObserverForName:ALAssetsLibraryChangedNotification 
-                                                          object:nil 
-                                                           queue:[NSOperationQueue mainQueue] 
-                                                      usingBlock:^(NSNotification *block){
-                                                               libraryChangedHandler();
-                                                           }];
-    }
-
-    return self;
-}
-
-- (void)dealloc
-{
-    dispatch_release(_assetItemsQueue);
-
-    dispatch_release(_libraryQueue);
-    dispatch_release(_libraryGroup);
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:ALAssetsLibraryChangedNotification object:nil];
-}
-
-- (void)loadLibraryWithCompletionBlock:(void (^)(void))completionHandler
-{
-    // Load content using the Media Library and AssetLibrary APIs, also check for content included in the application bundle
-    [self.assetItems removeAllObjects];
-
-    [self buildMediaLibrary];
-    [self buildAssetLibrary];
-    [self buildApplicationBundleLibrary];
-
-
-    //Schedules a block object to be submitted to a queue when a group of previously submitted block objects have completed.
-    dispatch_group_notify(self.libraryGroup, self.libraryQueue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler();
-        });
-    });
-}
-
-- (void)addURL:(NSURL *)url
-{
-    __unsafe_unretained __block VideoLibrary *weakSelf = (VideoLibrary *)self;
-
-    if (url == nil)
-        return;
-
-    dispatch_async(self.assetItemsQueue, ^{
-        [weakSelf.assetItems addObject:[[AssetItem alloc] initWithURL:url]];
-    });
-}
-
-#pragma mark - iPod Library
-
-- (void)buildMediaLibrary
-{
-    __unsafe_unretained __block VideoLibrary *weakSelf = (VideoLibrary *)self;
-
-    //将blocks绑定到libraryGroup，然后放在libraryQueue并发队列中
-    dispatch_group_async(self.libraryGroup, self.libraryQueue, ^{
-        NSLog(@&quot;started building media library...&quot;);
-
-        // Search for video content in the Media Library
-#if  __IPHONE_OS_VERSION_MAX_ALLOWED &gt;= 50000
-        NSNumber *videoTypeNum = [NSNumber numberWithInteger:MPMediaTypeAnyVideo];
-#else
-        NSNumber *videoTypeNum = [NSNumber numberWithInteger:(MPMediaTypeAny ^ MPMediaTypeAnyAudio)];
-#endif
-        MPMediaPropertyPredicate *videoPredicate = [MPMediaPropertyPredicate predicateWithValue:videoTypeNum forProperty:MPMediaItemPropertyMediaType];
-        MPMediaQuery *videoQuery = [[MPMediaQuery alloc] init];
-        [videoQuery addFilterPredicate: videoPredicate];
-        NSArray *items = [videoQuery items];
-
-        for (MPMediaItem *mediaItem in items) 
-            [weakSelf addURL:[mediaItem valueForProperty:MPMediaItemPropertyAssetURL]];
-
-        NSLog(@&quot;done building media library...&quot;);
-    });
-}
-
-- (void)buildAssetLibrary
-{
-    NSLog(@&quot;started building asset library...&quot;);
-
-    __unsafe_unretained __block VideoLibrary *weakSelf = (VideoLibrary *)self;
-    dispatch_group_enter(weakSelf.libraryGroup);
-
-    ALAssetsLibrary *assetLibrary = [[ALAssetsLibrary alloc] init];
-
-    // Enumerate through all the groups in the Asset Library
-    [assetLibrary enumerateGroupsWithTypes:ALAssetsGroupAll 
-                                usingBlock:
-     ^(ALAssetsGroup *group, BOOL *stop)
-     {
-         if (group != nil)
-         {
-             // Filter by groups that contain video
-             [group setAssetsFilter:[ALAssetsFilter allVideos]];
-             [group enumerateAssetsUsingBlock:
-              ^(ALAsset *asset, NSUInteger index, BOOL *stop)
-              {
-                  if (asset)
-                      [weakSelf addURL:[[asset defaultRepresentation] url]];
-              }];
-         }
-         else
-         {
-             dispatch_group_leave(weakSelf.libraryGroup);
-             NSLog(@&quot;done building asset library...&quot;);
-         }
-     }
-                              failureBlock:^(NSError *error)
-     {
-         dispatch_group_leave(weakSelf.libraryGroup);
-         NSLog(@&quot;error enumerating AssetLibrary groups %@\n&quot;, error);
-     }];
-
-}
-</code></pre><p>The above is used for understanding the whole plot, now you can see the detail:</p>
-<pre><code>dispatch_group_notify(self.libraryGroup, self.libraryQueue, ^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler();
-        });
-    });
-}
-</code></pre><p>The explain of the <a href="https://developer.apple.com/library/ios/#documentation/Performance/Reference/GCD_libdispatch_Ref/Reference/reference.html" target="_blank" rel="noopener">document</a> for the selector is that “Schedules a block object to be submitted to a queue when a group of previously submitted block objects have completed.” So, we can wait the tasks to complete, then to do something we want. The <code>dispatch_group_enter</code> is cool as well. it can let the block enter the queue and execute as a task associated group.</p>
-<p>So, that is all. See you.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1788,7 +1635,7 @@ export.outputURL = outputURL;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">71</span>
+              <span class="site-state-item-count">72</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
