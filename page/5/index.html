@@ -259,6 +259,120 @@
             
               
                 
+                <a class="post-title-link" href="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/" itemprop="url">
+                  How to Calculate Table Cell Height Using Auto-Layout
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-10-13T23:18:31+08:00" content="Oct 13 2014">
+              Oct 13 2014
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>No time to write it clearly, I just post some code which helps me finish it.</p>
+<ol>
+<li>Use Xib, not storyboard.</li>
+<li>Add the following code:</li>
+</ol>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView heightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> TBGrowRecordCell *sizingCell = <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        sizingCell = [<span class="keyword">self</span>.tableView dequeueReusableCellWithIdentifier:CellIdentifier];</span><br><span class="line">    &#125;);</span><br><span class="line">    TBGrowRecordEntity  *record = <span class="keyword">self</span>.recordArray[indexPath.row];</span><br><span class="line">    sizingCell.contentLabel.text = record.content;</span><br><span class="line">    [sizingCell layoutIfNeeded];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Notice that: this is "sizingCell.contentView", not "sizingCell"</span></span><br><span class="line">    <span class="built_in">CGFloat</span> height = [sizingCell.contentView systemLayoutSizeFittingSize:<span class="built_in">UILayoutFittingCompressedSize</span>].height;</span><br><span class="line">    <span class="keyword">return</span> height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Notice that: this is “sizingCell.contentView”, not “sizingCell”.</p>
+<ol start="3">
+<li>Choosing the checkbox <code>constraint to margins</code>.</li>
+</ol>
+<p><img src="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-1@2x.png" alt></p>
+<ol start="4">
+<li>Set <code>lines</code> to 0.</li>
+<li>choosing the checkbox <code>explicit</code>.</li>
+</ol>
+<p><img src="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-2@2x.png" alt></p>
+<p>Done! The effect is that the UIlabel named <code>sizingCell.contentLabel</code> will resize by text’s length, and the UITableViewCell will resize by the UILabel.</p>
+<p>Refer to:</p>
+<p><a href="http://www.raywenderlich.com/73602/dynamic-table-view-cell-height-auto-layout" target="_blank" rel="noopener">Dynamic Table View Cell Height and Auto Layout</a></p>
+<p> <a href="http://blog.amyworrall.com/post/66085151655/using-auto-layout-to-calculate-table-cell-height" target="_blank" rel="noopener">Using auto-layout to calculate table cell height</a></p>
+<p> <a href="http://stackoverflow.com/questions/25265173/how-can-a-get-the-auto-layout-size-of-the-uicollectionviewcells-in-ios-8-syste" target="_blank" rel="noopener">http://stackoverflow.com/questions/25265173/how-can-a-get-the-auto-layout-size-of-the-uicollectionviewcells-in-ios-8-syste</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/10/12/One-or-two-things-I-want-to-do-recently/" itemprop="url">
                   One or Two Things I Want to Do Recently
                 </a>
@@ -1408,190 +1522,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/04/how-to-export-mp3-from-ipod-library/" itemprop="url">
-                  How to Export Mp3 From Ipod-Library
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-06-04T22:33:00+08:00" content="Jun 4 2013">
-              Jun 4 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS-ipod-library/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS ipod-library</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Someday, our leader let me export videos, music and photos from Video, Music and Photos in iPad or iPhone. After looked up some articles, I found it was difficult to export mp3.</p>
-<p>But, Nowadays, it came true to export mp3, so every format of ipod-library files can be exported. </p>
-<p>Now, See how to do it.</p>
-<ul>
-<li>first, import some frameworks, such as <code>MobileCoreServices.framework</code>,<code>MediaPlayer.framework</code>,<code>AVFoundation.framework</code></li>
-<li><p>second, query the media from ipod-library.</p>
-<pre><code>//request videos and music come from system&apos;s Videos and Music 
-NSNumber *videoTypeNum = [NSNumber numberWithInteger:MPMediaTypeAny];
-
-MPMediaPropertyPredicate *videoPredicate = [MPMediaPropertyPredicate predicateWithValue:videoTypeNum forProperty:MPMediaItemPropertyMediaType];
-
-MPMediaQuery *videoQuery = [[MPMediaQuery alloc] init];
-[videoQuery addFilterPredicate: videoPredicate];
-_mediaItems = [[videoQuery items] copy];
-</code></pre></li>
-</ul>
-<p>*third, convert MPMediaItem to AVURLAsset, generate file name and file extension, then start export,the format of exported file is “MOV”.Finally, i need use NSFileManager rename the mov to mp3.</p>
-<pre><code> MPMediaItem *mediaItem = [_mediaItems objectAtIndex:_count];
-
- //get the name of the file.
- NSString *songTitle = [mediaItem valueForProperty: MPMediaItemPropertyTitle];
-
- //convert MPMediaItem to AVURLAsset.
- AVURLAsset *sset = [AVURLAsset assetWithURL:[mediaItem valueForProperty:MPMediaItemPropertyAssetURL]];
-
-//get the extension of the file.
-NSString *fileType = [[[[sset.URL absoluteString] componentsSeparatedByString:@&quot;?&quot;] objectAtIndex:0] pathExtension];
-
-//init export, here you must set &quot;presentName&quot; argument to &quot;AVAssetExportPresetPassthrough&quot;. If not, you will can&apos;t export mp3 correct.
-AVAssetExportSession *export = [[AVAssetExportSession alloc] initWithAsset:sset presetName:AVAssetExportPresetPassthrough];
-
-NSLog(@&quot;export.supportedFileTypes : %@&quot;,export.supportedFileTypes);
-//export to mov format.
-export.outputFileType = @&quot;com.apple.quicktime-movie&quot;;
-
-export.shouldOptimizeForNetworkUse = YES;
-
-NSString *extension = ( NSString *)UTTypeCopyPreferredTagWithClass(( CFStringRef)export.outputFileType, kUTTagClassFilenameExtension);
-
-NSLog(@&quot;extension %@&quot;,extension);
-NSString *path = [NSHomeDirectory() stringByAppendingFormat:@&quot;/Documents/%@.%@&quot;,songTitle,extension];
-
-NSURL *outputURL = [NSURL fileURLWithPath:path];
-export.outputURL = outputURL;
-[export exportAsynchronouslyWithCompletionHandler:^{
-
-   if (export.status == AVAssetExportSessionStatusCompleted)
-     {
-        //then rename mov format to the original format.
-         NSFileManager *manage = [NSFileManager defaultManager];
-
-         NSString *mp3Path = [NSHomeDirectory() stringByAppendingFormat:@&quot;/Documents/%@.%@&quot;,songTitle,fileType];
-
-         NSError *error = nil;
-
-         [manage moveItemAtPath:path toPath:mp3Path error:&amp;error];
-
-         NSLog(@&quot;error %@&quot;,error);
-
-      }
-      else
-      {
-         NSLog(@&quot;%@&quot;,export.error);
-      }
-
-}];
-</code></pre><p>Some points you need notice:</p>
-<ul>
-<li>when you init AVAssetExportSession object, the “presetName” argument must be “AVAssetExportPresetPassthrough”.</li>
-<li>The “outputFileType” may be “com.apple.quicktime-movie”.</li>
-</ul>
-<p>So easy, doesn’t it? Good night.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1635,7 +1565,7 @@ export.outputURL = outputURL;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

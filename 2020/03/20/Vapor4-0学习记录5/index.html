@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="AutoLayout,">
+  <meta name="keywords" content="iOS Development, iPhone Development, Android Development, API Development">
 
 
 
@@ -84,21 +84,17 @@
 
 
 
-<meta name="description" content="No time to write it clearly, I just post some code which helps me finish it.  Use Xib, not storyboard. Add the following code:  12345678910111213141516- (CGFloat)tableView:(UITableView *)tableView hei">
-<meta name="keywords" content="AutoLayout">
+<meta name="description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
 <meta property="og:type" content="article">
-<meta property="og:title" content="How to Calculate Table Cell Height Using Auto-Layout">
-<meta property="og:url" content="http://tuchangwei.github.com/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/index.html">
+<meta property="og:title" content="Vapor4.0学习记录5">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/03/20/Vapor4-0学习记录5/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="No time to write it clearly, I just post some code which helps me finish it.  Use Xib, not storyboard. Add the following code:  12345678910111213141516- (CGFloat)tableView:(UITableView *)tableView hei">
+<meta property="og:description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://tuchangwei.github.com/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-1@2x.png">
-<meta property="og:image" content="http://tuchangwei.github.com/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-2@2x.png">
-<meta property="og:updated_time" content="2019-06-14T20:33:03.175Z">
+<meta property="og:updated_time" content="2020-03-20T08:44:45.950Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="How to Calculate Table Cell Height Using Auto-Layout">
-<meta name="twitter:description" content="No time to write it clearly, I just post some code which helps me finish it.  Use Xib, not storyboard. Add the following code:  12345678910111213141516- (CGFloat)tableView:(UITableView *)tableView hei">
-<meta name="twitter:image" content="http://tuchangwei.github.com/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-1@2x.png">
+<meta name="twitter:title" content="Vapor4.0学习记录5">
+<meta name="twitter:description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
 
 
 
@@ -119,9 +115,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/20/Vapor4-0学习记录5/">
 
-  <title> How to Calculate Table Cell Height Using Auto-Layout | Changwei's Blog </title>
+  <title> Vapor4.0学习记录5 | Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -261,7 +257,7 @@
             
             
               
-                How to Calculate Table Cell Height Using Auto-Layout
+                Vapor4.0学习记录5
               
             
           </h1>
@@ -273,8 +269,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-10-13T23:18:31+08:00" content="Oct 13 2014">
-              Oct 13 2014
+            <time itemprop="dateCreated" datetime="2020-03-20T16:01:06+08:00" content="Mar 20 2020">
+              Mar 20 2020
             </time>
           </span>
 
@@ -301,27 +297,14 @@
       
 
       
-        <p>No time to write it clearly, I just post some code which helps me finish it.</p>
-<ol>
-<li>Use Xib, not storyboard.</li>
-<li>Add the following code:</li>
-</ol>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)tableView:(<span class="built_in">UITableView</span> *)tableView heightForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> TBGrowRecordCell *sizingCell = <span class="literal">nil</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">dispatch_once_t</span> onceToken;</span><br><span class="line">    <span class="built_in">dispatch_once</span>(&amp;onceToken, ^&#123;</span><br><span class="line">        sizingCell = [<span class="keyword">self</span>.tableView dequeueReusableCellWithIdentifier:CellIdentifier];</span><br><span class="line">    &#125;);</span><br><span class="line">    TBGrowRecordEntity  *record = <span class="keyword">self</span>.recordArray[indexPath.row];</span><br><span class="line">    sizingCell.contentLabel.text = record.content;</span><br><span class="line">    [sizingCell layoutIfNeeded];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//Notice that: this is "sizingCell.contentView", not "sizingCell"</span></span><br><span class="line">    <span class="built_in">CGFloat</span> height = [sizingCell.contentView systemLayoutSizeFittingSize:<span class="built_in">UILayoutFittingCompressedSize</span>].height;</span><br><span class="line">    <span class="keyword">return</span> height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Notice that: this is “sizingCell.contentView”, not “sizingCell”.</p>
-<ol start="3">
-<li>Choosing the checkbox <code>constraint to margins</code>.</li>
-</ol>
-<p><img src="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-1@2x.png" alt></p>
-<ol start="4">
-<li>Set <code>lines</code> to 0.</li>
-<li>choosing the checkbox <code>explicit</code>.</li>
-</ol>
-<p><img src="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/QQ20141013-2@2x.png" alt></p>
-<p>Done! The effect is that the UIlabel named <code>sizingCell.contentLabel</code> will resize by text’s length, and the UITableViewCell will resize by the UILabel.</p>
-<p>Refer to:</p>
-<p><a href="http://www.raywenderlich.com/73602/dynamic-table-view-cell-height-auto-layout" target="_blank" rel="noopener">Dynamic Table View Cell Height and Auto Layout</a></p>
-<p> <a href="http://blog.amyworrall.com/post/66085151655/using-auto-layout-to-calculate-table-cell-height" target="_blank" rel="noopener">Using auto-layout to calculate table cell height</a></p>
-<p> <a href="http://stackoverflow.com/questions/25265173/how-can-a-get-the-auto-layout-size-of-the-uicollectionviewcells-in-ios-8-syste" target="_blank" rel="noopener">http://stackoverflow.com/questions/25265173/how-can-a-get-the-auto-layout-size-of-the-uicollectionviewcells-in-ios-8-syste</a></p>
+        <p>今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。</p>
+<p>数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。</p>
+<p>访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后输入用户名和数据库名就进去了。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">psql</span> -U vapor_username -d vapor_database</span><br></pre></td></tr></table></figure>
+<p>另一种方式是用Terminal访问，也就是从容器外访问。首先安装postgres到本地。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>postgresql</span><br></pre></td></tr></table></figure></p>
+<p>然后命令:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U vapor_username -d vapor_database -h localhost -<span class="selector-tag">p</span> <span class="number">5432</span></span><br></pre></td></tr></table></figure></p>
+<p>我因为以前一直开着Proxifier，导致访问5432端口都给转发给1081端口了，所以一直登陆不上，看了Proxifier中的日志才发现这个问题。</p>
+<p>从大学毕业就没写过SQL语句了，postgres也是第一次用，测试外键费了不少功夫。如下插入的语句，因为忘记打最后面的分号，psql还在等我输入，我又输入查询语句，啥也没显示，后面查查才知道后面要带分号。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> articles(<span class="keyword">id</span>, <span class="keyword">name</span>, <span class="keyword">body</span>, category_id) <span class="keyword">VALUES</span>(<span class="string">'40e6215d-b5c6-4896-987c-f30f3678f604'</span>,<span class="string">'hello'</span>,<span class="string">'my name is vale'</span>,<span class="string">'40e6215d-b5c6-4896-987c-f30f3678f604'</span>);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -342,28 +325,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/AutoLayout/" rel="tag">#AutoLayout</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/10/12/One-or-two-things-I-want-to-do-recently/" rel="next" title="One or Two Things I Want to Do Recently">
-                <i class="fa fa-chevron-left"></i> One or Two Things I Want to Do Recently
+              <a href="/2020/03/18/Vapor4-0学习记录4/" rel="next" title="Vapor4.0学习记录4">
+                <i class="fa fa-chevron-left"></i> Vapor4.0学习记录4
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/" rel="prev" title="How to Open the Xcode Project Directly When We Use SourceTree">
-                How to Open the Xcode Project Directly When We Use SourceTree <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

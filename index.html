@@ -259,6 +259,107 @@
             
               
                 
+                <a class="post-title-link" href="/2020/03/20/Vapor4-0学习记录5/" itemprop="url">
+                  Vapor4.0学习记录5
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-03-20T16:01:06+08:00" content="Mar 20 2020">
+              Mar 20 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。</p>
+<p>数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。</p>
+<p>访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后输入用户名和数据库名就进去了。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">psql</span> -U vapor_username -d vapor_database</span><br></pre></td></tr></table></figure>
+<p>另一种方式是用Terminal访问，也就是从容器外访问。首先安装postgres到本地。<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>postgresql</span><br></pre></td></tr></table></figure></p>
+<p>然后命令:<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">psql -U vapor_username -d vapor_database -h localhost -<span class="selector-tag">p</span> <span class="number">5432</span></span><br></pre></td></tr></table></figure></p>
+<p>我因为以前一直开着Proxifier，导致访问5432端口都给转发给1081端口了，所以一直登陆不上，看了Proxifier中的日志才发现这个问题。</p>
+<p>从大学毕业就没写过SQL语句了，postgres也是第一次用，测试外键费了不少功夫。如下插入的语句，因为忘记打最后面的分号，psql还在等我输入，我又输入查询语句，啥也没显示，后面查查才知道后面要带分号。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> articles(<span class="keyword">id</span>, <span class="keyword">name</span>, <span class="keyword">body</span>, category_id) <span class="keyword">VALUES</span>(<span class="string">'40e6215d-b5c6-4896-987c-f30f3678f604'</span>,<span class="string">'hello'</span>,<span class="string">'my name is vale'</span>,<span class="string">'40e6215d-b5c6-4896-987c-f30f3678f604'</span>);</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/03/18/Vapor4-0学习记录4/" itemprop="url">
                   Vapor4.0学习记录4
                 </a>
@@ -1374,125 +1475,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/08/15/Android-导出app中的数据库/" itemprop="url">
-                  [Android]导出app中的数据库
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-08-15T00:21:14+08:00" content="Aug 15 2016">
-              Aug 15 2016
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近做iOS项目，需要把Android端的数据库导出来比较一下，这个还挺麻烦。</p>
-<p>如果用模拟器的话，可以直接用DDMS查看数据库的路径，然后导出，这样最方便。但我这个项目需要用到Google的服务， 模拟器上无法运行。</p>
-<p>如果是真机，在不越狱的情况下是无法查看数据库路径的，没办法，只能用代码把数据库拷贝到SDCard上，然后用<code>File Manager</code>这个app把数据库文件导出来。</p>
-<p>用代码拷贝文件到SDCard上，需要在<code>AndroidManifest.xml</code>文件中加入如下权限：<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:<span class="attribute">name</span>=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br><span class="line">&lt;uses-permission android:<span class="attribute">name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
-<p>如果你的真机是6.0以上的系统，还需要在程序中向用户请求权限：</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">requestPermission</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">            android.Manifest.permission.WRITE_EXTERNAL_STORAGE)</span><br><span class="line">            != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Should we show an explanation?</span></span><br><span class="line">        <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Show an expanation to the user *asynchronously* -- don't block</span></span><br><span class="line">            <span class="comment">// this thread waiting for the user's response! After the user</span></span><br><span class="line">            <span class="comment">// sees the explanation, try again to request the permission.</span></span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// No explanation needed, we can request the permission.</span></span><br><span class="line"></span><br><span class="line">            ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                    <span class="keyword">new</span> String[]&#123;android.Manifest.permission.WRITE_EXTERNAL_STORAGE&#125;,</span><br><span class="line">                    <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// MY_PERMISSIONS_REQUEST_READ_CONTACTS is an</span></span><br><span class="line">            <span class="comment">// app-defined int constant. The callback method gets the</span></span><br><span class="line">            <span class="comment">// result of the request.</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        copyDatabase();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> onRequestPermissionsResult(<span class="keyword">int</span> requestCode,</span><br><span class="line">                                           String permissions[], <span class="keyword">int</span>[] grantResults) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">                <span class="comment">// If request is cancelled, the result arrays are empty.</span></span><br><span class="line">                <span class="keyword">if</span> (grantResults.length &gt; <span class="number">0</span></span><br><span class="line">                        &amp;&amp; grantResults[<span class="number">0</span>] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">                    copyDatabase();</span><br><span class="line">                    <span class="comment">// permission was granted, yay! Do the</span></span><br><span class="line">                    <span class="comment">// contacts-related task you need to do.</span></span><br><span class="line"></span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// permission denied, boo! Disable the</span></span><br><span class="line">                    <span class="comment">// functionality that depends on this permission.</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// other 'case' lines to check for other</span></span><br><span class="line">            <span class="comment">// permissions this app might request</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>最后，将数据库拷贝到SDCard。<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> copyDatabase() &#123;</span><br><span class="line">        <span class="keyword">String</span> dbPath = <span class="string">"/data/data/&lt;packageName&gt;/databases/"</span> + DatabaseName;</span><br><span class="line">        <span class="built_in">File</span> file = <span class="keyword">new</span> <span class="built_in">File</span>(dbPath);</span><br><span class="line">        <span class="built_in">if</span> (file.<span class="built_in">exists</span>()) &#123;</span><br><span class="line">            <span class="built_in">File</span> dbCopy = <span class="keyword">new</span> <span class="built_in">File</span>(Environment.getExternalStorageDirectory().getAbsolutePath(), <span class="string">"copy.db"</span>);</span><br><span class="line">            <span class="built_in">try</span> &#123;</span><br><span class="line">                BufferedInputStream in = <span class="keyword">new</span> BufferedInputStream(<span class="keyword">new</span> FileInputStream(dbPath));</span><br><span class="line">                BufferedOutputStream out = <span class="keyword">new</span> BufferedOutputStream(<span class="keyword">new</span> FileOutputStream(dbCopy));</span><br><span class="line">                <span class="keyword">byte</span>[] bb = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">                <span class="keyword">int</span> n;</span><br><span class="line">                <span class="built_in">while</span> ((n = in.<span class="built_in">read</span>(bb)) != <span class="number">-1</span>) &#123;</span><br><span class="line">                    out.<span class="built_in">write</span>(bb, <span class="number">0</span>, n);</span><br><span class="line">                &#125;</span><br><span class="line">                out.<span class="built_in">close</span>();</span><br><span class="line">                in.<span class="built_in">close</span>();</span><br><span class="line">            &#125; <span class="built_in">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125; <span class="built_in">catch</span> (IOException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1536,7 +1518,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

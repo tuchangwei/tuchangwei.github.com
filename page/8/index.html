@@ -259,6 +259,123 @@
             
               
                 
+                <a class="post-title-link" href="/2013/02/16/octopresszen-yao-zeng-jia-dao-hang-lan-biao-qian/" itemprop="url">
+                  Octopress怎么增加导航栏标签
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-02-16T13:24:00+08:00" content="Feb 16 2013">
+              Feb 16 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/octopress/" itemprop="url" rel="index">
+                    <span itemprop="name">octopress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>多年前学习的html知识都又还回去了，再加上不懂ruby，对博客样式的修改觉得还很吃力。几经摸索，找到增加导航栏标签的方法如下：</p>
+<p>###用命令行增加新页面<br>    tumatoMac-mini:octopress tuchangwei$ rake new_page[你要添加的标签]<br>    mkdir -p source/你要添加的标签<br>    Creating new page: source/你要添加的标签/index.markdown </p>
+<p>###在source/_includes/custom/navigation.html中添加如下代码</p>
+<pre><code>&lt;li&gt;&lt;a href=&quot;{{ root_url }}/你要添加的标签&quot;&gt;你要添加的标签名&lt;/a&gt;&lt;/li&gt;
+</code></pre><p>那么剩下的操作就是在新的标签页的index.markdown文件中写博文了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/02/16/zen-yao-tian-jia-fen-lei/" itemprop="url">
                   Octopress 怎么添加分类
                 </a>
@@ -549,7 +666,7 @@ Liquid::Template.register_tag(&apos;category_list&apos;, Jekyll::CategoryListTag
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

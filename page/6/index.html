@@ -259,6 +259,190 @@
             
               
                 
+                <a class="post-title-link" href="/2013/06/04/how-to-export-mp3-from-ipod-library/" itemprop="url">
+                  How to Export Mp3 From Ipod-Library
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-06-04T22:33:00+08:00" content="Jun 4 2013">
+              Jun 4 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS-ipod-library/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS ipod-library</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Someday, our leader let me export videos, music and photos from Video, Music and Photos in iPad or iPhone. After looked up some articles, I found it was difficult to export mp3.</p>
+<p>But, Nowadays, it came true to export mp3, so every format of ipod-library files can be exported. </p>
+<p>Now, See how to do it.</p>
+<ul>
+<li>first, import some frameworks, such as <code>MobileCoreServices.framework</code>,<code>MediaPlayer.framework</code>,<code>AVFoundation.framework</code></li>
+<li><p>second, query the media from ipod-library.</p>
+<pre><code>//request videos and music come from system&apos;s Videos and Music 
+NSNumber *videoTypeNum = [NSNumber numberWithInteger:MPMediaTypeAny];
+
+MPMediaPropertyPredicate *videoPredicate = [MPMediaPropertyPredicate predicateWithValue:videoTypeNum forProperty:MPMediaItemPropertyMediaType];
+
+MPMediaQuery *videoQuery = [[MPMediaQuery alloc] init];
+[videoQuery addFilterPredicate: videoPredicate];
+_mediaItems = [[videoQuery items] copy];
+</code></pre></li>
+</ul>
+<p>*third, convert MPMediaItem to AVURLAsset, generate file name and file extension, then start export,the format of exported file is “MOV”.Finally, i need use NSFileManager rename the mov to mp3.</p>
+<pre><code> MPMediaItem *mediaItem = [_mediaItems objectAtIndex:_count];
+
+ //get the name of the file.
+ NSString *songTitle = [mediaItem valueForProperty: MPMediaItemPropertyTitle];
+
+ //convert MPMediaItem to AVURLAsset.
+ AVURLAsset *sset = [AVURLAsset assetWithURL:[mediaItem valueForProperty:MPMediaItemPropertyAssetURL]];
+
+//get the extension of the file.
+NSString *fileType = [[[[sset.URL absoluteString] componentsSeparatedByString:@&quot;?&quot;] objectAtIndex:0] pathExtension];
+
+//init export, here you must set &quot;presentName&quot; argument to &quot;AVAssetExportPresetPassthrough&quot;. If not, you will can&apos;t export mp3 correct.
+AVAssetExportSession *export = [[AVAssetExportSession alloc] initWithAsset:sset presetName:AVAssetExportPresetPassthrough];
+
+NSLog(@&quot;export.supportedFileTypes : %@&quot;,export.supportedFileTypes);
+//export to mov format.
+export.outputFileType = @&quot;com.apple.quicktime-movie&quot;;
+
+export.shouldOptimizeForNetworkUse = YES;
+
+NSString *extension = ( NSString *)UTTypeCopyPreferredTagWithClass(( CFStringRef)export.outputFileType, kUTTagClassFilenameExtension);
+
+NSLog(@&quot;extension %@&quot;,extension);
+NSString *path = [NSHomeDirectory() stringByAppendingFormat:@&quot;/Documents/%@.%@&quot;,songTitle,extension];
+
+NSURL *outputURL = [NSURL fileURLWithPath:path];
+export.outputURL = outputURL;
+[export exportAsynchronouslyWithCompletionHandler:^{
+
+   if (export.status == AVAssetExportSessionStatusCompleted)
+     {
+        //then rename mov format to the original format.
+         NSFileManager *manage = [NSFileManager defaultManager];
+
+         NSString *mp3Path = [NSHomeDirectory() stringByAppendingFormat:@&quot;/Documents/%@.%@&quot;,songTitle,fileType];
+
+         NSError *error = nil;
+
+         [manage moveItemAtPath:path toPath:mp3Path error:&amp;error];
+
+         NSLog(@&quot;error %@&quot;,error);
+
+      }
+      else
+      {
+         NSLog(@&quot;%@&quot;,export.error);
+      }
+
+}];
+</code></pre><p>Some points you need notice:</p>
+<ul>
+<li>when you init AVAssetExportSession object, the “presetName” argument must be “AVAssetExportPresetPassthrough”.</li>
+<li>The “outputFileType” may be “com.apple.quicktime-movie”.</li>
+</ul>
+<p>So easy, doesn’t it? Good night.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/05/24/the-replacement-of-the-semaphore/" itemprop="url">
                   The Replacement of the Semaphore
                 </a>
@@ -1753,156 +1937,6 @@ fprintf(stderr,&quot;[--%s--]*[--%s--]*[--%s:%d--]\n&quot;,[str UTF8String],    
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/21/use-block-to-call-back-instead-of-delegate/" itemprop="url">
-                  Use Block to Call Back Instead of Delegate
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-21T22:25:00+08:00" content="Mar 21 2013">
-              Mar 21 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/GCD/" itemprop="url" rel="index">
-                    <span itemprop="name">GCD</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Some days ago, i posted the <a href="http://tuchangwei.github.com/blog/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/">blog</a> to introduce some ways to talk to each oher between Object A and B. One of the points is Blocks. Now I will show how to call back use Block instead of Delegate.</p>
-<p>Some codes posted as follow:</p>
-<pre><code>A：SWDPromptViewController
-
-.h
-//declare a block named &quot;dismissPromptViewBlock&quot;.
-@property (copy, nonatomic) void(^dismissPromptViewBlock)    (SWDPromptViewController *prompt);
-
-.m
-//after some operations, we will dismiss A and release it.
--(void)dismissPrompt
-{
-    if (self.dismissPromptViewBlock)
-    {
-        self.dismissPromptViewBlock(self);
-        self.dismissPromptViewBlock = nil;
-    }
-}
-
-
-B：
-.m
-//declare A object and init it,then assign a block to the property of A.
-//so when A executes the method &quot;dismissPrompt&quot;, the block plays a part of
-//Delegate.
-SWDPromptViewController *promptViewController = [[SWDPromptViewController     alloc] initWithNibName:@&quot;SWDPromptViewController&quot; bundle:nil type:type];
-UIWindow *promptWindow = [[UIWindow alloc] initWithFrame:[[UIScreen     mainScreen] bounds]];
-promptWindow.windowLevel = UIWindowLevelAlert;
-promptWindow.backgroundColor = [UIColor clearColor];
-promptWindow.rootViewController = promptViewController;
-[promptViewController release];
-[promptWindow makeKeyAndVisible];
-
-promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *prompt){
-
-    [promptWindow release];
-    };
-</code></pre><p>   That is all. Welcome to communicate with me.O(∩_∩)O~.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1946,7 +1980,7 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">72</span>
+              <span class="site-state-item-count">73</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
