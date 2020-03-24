@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。 本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。 我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相">
+<meta name="description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vapor4.0学习记录3">
-<meta property="og:url" content="http://tuchangwei.github.com/2020/03/15/Vapor4-0学习记录3/index.html">
+<meta property="og:title" content="Vapor4.0对docker-Compose文件浅析">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/03/18/Vapor4-0对docker-compose文件浅析/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。 本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。 我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相">
+<meta property="og:description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-23T23:36:17.861Z">
+<meta property="og:updated_time" content="2020-03-23T23:54:40.377Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vapor4.0学习记录3">
-<meta name="twitter:description" content="昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。 本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。 我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相">
+<meta name="twitter:title" content="Vapor4.0对docker-Compose文件浅析">
+<meta name="twitter:description" content="上篇对docker-compose.yml的某些理解有误，这篇对某些命令进行浅解。1docker build -f Dockerfile -t tblog . 那个.是指上下文路径，参见这里-镜像构建上下文(Context) 1docker-compose build 这个命令为啥先去运行Dockerfile里的命令呢？因为这个文件是用来构建tblog:latest镜像的。在docker-comp">
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/15/Vapor4-0学习记录3/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/18/Vapor4-0对docker-compose文件浅析/">
 
-  <title> Vapor4.0学习记录3 | Changwei's Blog </title>
+  <title> Vapor4.0对docker-Compose文件浅析 | Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -257,7 +257,7 @@
             
             
               
-                Vapor4.0学习记录3
+                Vapor4.0对docker-Compose文件浅析
               
             
           </h1>
@@ -269,8 +269,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2020-03-15T10:54:37+08:00" content="Mar 15 2020">
-              Mar 15 2020
+            <time itemprop="dateCreated" datetime="2020-03-18T10:46:20+08:00" content="Mar 18 2020">
+              Mar 18 2020
             </time>
           </span>
 
@@ -297,48 +297,15 @@
       
 
       
-        <p>昨天周六，被Docker中配置Vapor搞到脑袋要炸，差一点放弃Vapor的学习。但今天感觉还好，脑炸是源于对未知的恐惧。</p>
-<p>本身相关的包依赖下载就非常的耗时，稍个不慎还要重新下载，简直奔溃。</p>
-<p>我的想法是先建个模版项目发布一下，熟悉整个流程后，就边加功能边发布。因为要保持环境的一致性，Vapor社区比较推荐在Docker中部署，然后再把Docker部署到服务器上，模版项目中也提供了两个Docker相关的文件 <code>Dockerfile</code> 和 <code>docker-compose.yml</code>。但是网络上关于Docker部署Vapor4的资料简直是没有，看着两个文件中的命令就头大。脑中的问题一直在飞： 本地项目怎么部署到Docker容器中？是不是要先在容器中安装Swift和Postpostgres?部署的项目和postpostrges是同一个容器，还是两个容器？这两个容器怎么交流？本地项目做了更改后，Docker中的项目会自动更改吗？这些问题怎么用命令行解决？谁想谁脑炸。</p>
-<p>正当我要放弃的时候，社区的温暖送来了🙏。</p>
-<blockquote>
-<p>Deploying with docker is quite easy. Assuming you want to deploy a fresh Vapor 4 project:</p>
-</blockquote>
-<blockquote>
-<p>Requirements: Install latest Xcode 11.4 Beta and switch to Swift 5.2 in the preferences. (You can check in the command line using swift –version) If you want to use Docker locally on your Mac, you should install Docker Desktop for Mac. </p>
-</blockquote>
-<blockquote>
-<p>Run <code>vapor new --branch=4 myProject</code> to create a fresh project from template. (You can do any changes if you want, but the fresh template already provides a Hello World example.)</p>
-</blockquote>
-<blockquote>
-<p>To run your application within Docker, there is already a <code>web.Dockerfile</code> provided in the template.<br>We’ll have to build an image first. Run <code>docker build -f web.Dockerfile -t my-project .</code>  Of course you can use whatever tag (my-project) you like.<br>To test your image locally use <code>docker run --rm -p 8080:80 my-project</code> (We use –rm to delete the container when we stop the app. The flag -p 8080:80 exposes the port 80 from within the container to port 8080 on our host.) You will see something like [ NOTICE ] Server starting on <a href="http://0.0.0.0:80" target="_blank" rel="noopener">http://0.0.0.0:80</a> in the command line. Visit <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> in your browser and you should see “It works!” from your Vapor application.</p>
-</blockquote>
-<blockquote>
-<p>If you make changes to your application, stop the container, build and run it again.</p>
-</blockquote>
-<p>所以什么都不用管，先在项目目录下输入如下命令:</p>
-<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-f Dockerfile -t tblog .</span><br></pre></td></tr></table></figure>
-<p>项目就开始在Docker中安装了。注意命令后面那个<code>.</code>别忘了，那个是当前目录的意思。</p>
-<p>完后我按照上面大佬的命令：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:80 tblog</span></span><br></pre></td></tr></table></figure></p>
-<p>并没有把项目跑起来，这里可以从两处做一下更改。一个是把命令行改成：<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">run</span> <span class="comment">--rm -p 8080:8080 tblog</span></span><br></pre></td></tr></table></figure></p>
-<p>因为另一个大佬说docker默认暴露的是8080端口。或者在<code>Dockerfile</code>文件中把最后一行改为：</p>
-<blockquote>
-<p>CMD [“serve”, “–env”, “production”, “–hostname”, “0.0.0.0”, “–port”, “80”]</p>
-</blockquote>
-<p>把80端口暴露出来。</p>
-<p><code>Dockerfile</code>里的命令大概解释一下，就是先在Docker容器里下载Swift5.2, 然后把本地的项目拷贝到容器里，然后编译。然后再把Ubuntu拷贝下来，把编译的文件放在Ubuntu的目录结构下。然后运行。</p>
-<p>这个时候项目跑起来是没有数据库的, <code>docker-compose.yml</code>这个文件就有用了。</p>
-<p>运行命令：<br><figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose <span class="meta">up</span> <span class="built_in">db</span></span><br></pre></td></tr></table></figure></p>
-<p>会安装数据库postgres，并启动数据库。</p>
-<p>运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up migrate</span></span><br></pre></td></tr></table></figure></p>
-<p>会在数据库中创建TODO这个表。</p>
-<p>这个时候，你再访问localhost:8080/todos这个API程序就不会报错了。这个数据库是建在另外一个容器里的。我们既可以通过运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose up app</span></span><br></pre></td></tr></table></figure></p>
-<p>让前一个容器里的app启动，然后通过localhost:8080/todos去访问数据库，也可以直接在Xcode中运行app，然后通过这个URL去访问数据库。数据库是同一个，但是跑起来的app却是两个。Xcode跑的那个是开发用的。容器里的这个用来发布的。</p>
-<p>如果运行命令：<br><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose build</span></span><br></pre></td></tr></table></figure></p>
-<p>它会执行<code>Dockerfile</code>里的命令。也就是说和前面docker build的命令差不多。</p>
-<p>这些命令在<code>docker-compose.yml</code>中都有说明。</p>
-<p>最后我发现原来docker在国内有镜像，可以加速下载images。具体方法看<a href="https://yeasy.gitbooks.io/docker_practice/install/mirror.html" target="_blank" rel="noopener">这里</a>。这个博客很不错，回头看看把Docker的知识补一补。</p>
-<p>文中关于Docker的解释，我半靠理解半靠猜，但无论如何app是跑起来了，数据库也通了。后面慢慢练手，慢慢填坑。</p>
+        <p>上篇对<code>docker-compose.yml</code>的某些理解有误，这篇对某些命令进行浅解。<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">docker</span> <span class="keyword">build </span>-f Dockerfile -t tblog .</span><br></pre></td></tr></table></figure></p>
+<p>那个<code>.</code>是指上下文路径，参见<a href="https://yeasy.gitbooks.io/docker_practice/image/build.html" target="_blank" rel="noopener">这里</a>-<strong>镜像构建上下文(Context)</strong></p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">docker-compose build</span></span><br></pre></td></tr></table></figure>
+<p>这个命令为啥先去运行<code>Dockerfile</code>里的命令呢？因为这个文件是用来构建<code>tblog:latest</code>镜像的。在<code>docker-compose.xml</code>中的首要任务就是构建<code>tblog:latest</code>， 并指定了build所需要的上下文, docker就找到上下文中的<code>Dockerfile</code>进行编辑了。就是下面这一段。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">...</span></span><br><span class="line"><span class="attr"> app:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">tblog:latest</span></span><br><span class="line"><span class="attr">    build:</span></span><br><span class="line"><span class="attr">      context:</span> <span class="string">.</span></span><br><span class="line"><span class="string">...</span></span><br></pre></td></tr></table></figure></p>
+<p><code>docker-compose.xml</code>最上面有一段：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">volumes:</span></span><br><span class="line"><span class="symbol">  db_data:</span></span><br><span class="line">  ....</span><br></pre></td></tr></table></figure></p>
+<p>这个是干嘛的呢？这个是创建一个磁盘。<code>db_data:</code>应该就相当于我们说的盘符。没有给这个盘指定名称，它会有个默认的名称<code>tblog_db_data</code>, 也可以这样指定磁盘的名称。</p>
+<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">volumes:</span></span><br><span class="line"><span class="symbol">  db_data:</span></span><br><span class="line"><span class="symbol">    name:</span> <span class="string">"tuchangwei"</span></span><br></pre></td></tr></table></figure>
+<p>磁盘是用来存数据的，它不会消失。多个容器也可以共享这个磁盘。我们的数据库就把数据放在这个磁盘里面:<br><figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">db:</span></span><br><span class="line">    <span class="symbol">image:</span> <span class="symbol">postgres:</span><span class="number">12.1</span>-alpine</span><br><span class="line">    <span class="symbol">volumes:</span></span><br><span class="line">       - <span class="symbol">db_data:</span>/var/<span class="class"><span class="keyword">lib</span>/<span class="title">postgresql</span>/<span class="title">data</span>/<span class="title">pgdata</span></span></span><br></pre></td></tr></table></figure></p>
+<p>对于<code>docker-compose.xml</code>文件里命令的解释，可以参考<a href="https://docs.docker.com/compose/compose-file/#depends_on" target="_blank" rel="noopener">这里</a></p>
 
       
     </div>
@@ -364,16 +331,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/13/Vapor4-0学习记录2/" rel="next" title="Vapor4.0学习记录2">
-                <i class="fa fa-chevron-left"></i> Vapor4.0学习记录2
+              <a href="/2020/03/15/Vapor4-0对Dockerfile文件浅析/" rel="next" title="Vapor4.0对Dockerfile文件浅析">
+                <i class="fa fa-chevron-left"></i> Vapor4.0对Dockerfile文件浅析
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/18/Vapor4-0学习记录4/" rel="prev" title="Vapor4.0学习记录4">
-                Vapor4.0学习记录4 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/20/Vapor4-0加入数据库/" rel="prev" title="Vapor4.0加入数据库">
+                Vapor4.0加入数据库 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

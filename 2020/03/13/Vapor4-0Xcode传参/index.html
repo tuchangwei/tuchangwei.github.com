@@ -84,17 +84,19 @@
 
 
 
-<meta name="description" content="最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。 平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。 现在的想法是先建个博客练练手，后端用Vapor4.">
+<meta name="description" content="太难了。 每一个项目都要重新下载Swift Package Dependencies，并不会把相同的库像Nodejs那样全局地装在本地。 命令行运行和Xcode运行，他们需要下载的Swift Package Dependencies在不同的位置。我本来在Xcode配置环境变量，想用命令行验证一下，结果，命令行也要重新下载一遍这些包。黑脸… 记录一下Xcode中环境配置的位置吧。上边可以配置环境。下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vapor4.0学习记录1">
-<meta property="og:url" content="http://tuchangwei.github.com/2020/03/13/Vapor4-0学习记录1/index.html">
+<meta property="og:title" content="Vapor4.0Xcode传参">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/03/13/Vapor4-0Xcode传参/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。 平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。 现在的想法是先建个博客练练手，后端用Vapor4.">
+<meta property="og:description" content="太难了。 每一个项目都要重新下载Swift Package Dependencies，并不会把相同的库像Nodejs那样全局地装在本地。 命令行运行和Xcode运行，他们需要下载的Swift Package Dependencies在不同的位置。我本来在Xcode配置环境变量，想用命令行验证一下，结果，命令行也要重新下载一遍这些包。黑脸… 记录一下Xcode中环境配置的位置吧。上边可以配置环境。下">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-23T23:36:17.857Z">
+<meta property="og:image" content="http://tuchangwei.github.com/2020/03/13/Vapor4-0Xcode传参/QQ20200313-210331.png">
+<meta property="og:updated_time" content="2020-03-24T00:00:24.029Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vapor4.0学习记录1">
-<meta name="twitter:description" content="最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。 平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。 现在的想法是先建个博客练练手，后端用Vapor4.">
+<meta name="twitter:title" content="Vapor4.0Xcode传参">
+<meta name="twitter:description" content="太难了。 每一个项目都要重新下载Swift Package Dependencies，并不会把相同的库像Nodejs那样全局地装在本地。 命令行运行和Xcode运行，他们需要下载的Swift Package Dependencies在不同的位置。我本来在Xcode配置环境变量，想用命令行验证一下，结果，命令行也要重新下载一遍这些包。黑脸… 记录一下Xcode中环境配置的位置吧。上边可以配置环境。下">
+<meta name="twitter:image" content="http://tuchangwei.github.com/2020/03/13/Vapor4-0Xcode传参/QQ20200313-210331.png">
 
 
 
@@ -115,9 +117,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/13/Vapor4-0学习记录1/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/13/Vapor4-0Xcode传参/">
 
-  <title> Vapor4.0学习记录1 | Changwei's Blog </title>
+  <title> Vapor4.0Xcode传参 | Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -257,7 +259,7 @@
             
             
               
-                Vapor4.0学习记录1
+                Vapor4.0Xcode传参
               
             
           </h1>
@@ -269,7 +271,7 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2020-03-13T10:34:02+08:00" content="Mar 13 2020">
+            <time itemprop="dateCreated" datetime="2020-03-13T20:50:10+08:00" content="Mar 13 2020">
               Mar 13 2020
             </time>
           </span>
@@ -297,42 +299,12 @@
       
 
       
-        <p>最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。</p>
-<p>平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。</p>
-<p>现在的想法是先建个博客练练手，后端用Vapor4.0，前端用Vue.js。两个技术一起学。将来可能把这个博客迁移过去。</p>
-<p>Vapor4.0的文档还不够完善，大佬们建议从<a href="https://github.com/vapor/api-template" target="_blank" rel="noopener">vapor / api-template</a>这里搞起，记得分支选<code>4</code>。</p>
-<p>对Vapor4要有大概的了解才能继续下去。看到Nodejs主要是通过<code>EventLoop</code>来接收请求的。就问问大佬们Vapor是怎么个机制。热心的大佬回复说Vapor底层用的SwiftNIO,其底层的逻辑和Nodejs差不多，SwiftNIO的这个机制叫做<code>EventLoopFuture</code>。网上查了些<a href="https://www.raywenderlich.com/1124580-swiftnio-a-simple-guide-to-async-on-the-server" target="_blank" rel="noopener">资料</a>, 摘录如下:</p>
-<blockquote>
-<p><strong>The Event Loop</strong></p>
-</blockquote>
-<blockquote>
-<p>Efficiency is an important goal when writing server-side code. The more efficient your code, the more users it can help concurrently. Where an unoptimized app can only help ten to a hundred users at a time, highly optimized apps are able to help a hundred-thousand concurrent users on the same hardware.</p>
-</blockquote>
-<blockquote>
-<p>The main reason for this difference is architectural. A poorly optimized app will be idle most of the time, whereas a highly optimized app will try to spend its time cleverly and actively. The brains behind this architecture in server-side Swift is provided by SwiftNIO, Apple’s cross-platform event-driven networking framework, by a type called EventLoop.</p>
-</blockquote>
-<blockquote>
-<p>EventLoop is, in its essence, a while loop that keeps looking to do work when an external factor, such as a user uploading a file, has made progress.</p>
-</blockquote>
-<blockquote>
-<p>If one thread writes to a variable, and another thread tries to read it or write to it at the same time, a race condition occurs, which will crash your app. One method you can use to prevent race conditions from occurring is using locks for each of these variables. You’ll lock this lock before accessing a variable and unlock is after accessing it is completed, so any future accesses to the resource are prevented until you’ll unlock the lock. The main downside of this approach is its complexity and impact on performance.</p>
-</blockquote>
-<blockquote>
-<p>Using a single thread to access this information is another way to tackle the issue of race conditions. Doing this means all read and write operations are done by this thread. One example of this is the database you’ll find in the sample project. Using this method requires you to give the read/write thread a way to return the result to the event loop that requested it.</p>
-</blockquote>
-<blockquote>
-<p>If you respond to a request from a different EventLoop, SwiftNIO will crash the app to prevent undefined behaviour from causing trouble.</p>
-</blockquote>
-<blockquote>
-<p><strong>Futures and Promises</strong></p>
-</blockquote>
-<blockquote>
-<p>Future is a type used to describe information that does not exist yet, but will exist in the future. Writing asynchronous code with futures means directing the futures to respond to the successful results or to the failures. You can create a future with a predefined result: either success or failure. However, if the result is not known yet, you need to create a Promise.</p>
-</blockquote>
-<blockquote>
-<p>These promises and futures need to be created from the EventLoop since the future type will always return to the event loop it originated from. A future can only hold one result at a time, at which point it is considered completed. Completion can be either successful or unsuccessful, thus failed futures are also considered completed. Finally, if a promise is creates, it must be completed.</p>
-</blockquote>
-<p>现在就开始建立自己的新项目吧。</p>
+        <p>太难了。</p>
+<p>每一个项目都要重新下载Swift Package Dependencies，并不会把相同的库像Nodejs那样全局地装在本地。</p>
+<p>命令行运行和Xcode运行，他们需要下载的Swift Package Dependencies在不同的位置。我本来在Xcode配置环境变量，想用命令行验证一下，结果，命令行也要重新下载一遍这些包。黑脸…</p>
+<p>记录一下Xcode中环境配置的位置吧。上边可以配置环境。下边可以配置数据库的信息。</p>
+<img src="/2020/03/13/Vapor4-0Xcode传参/QQ20200313-210331.png">
+<p>大神说命令行配置应该这样 <code>EXPORT DATABASE_HOST=vapor; vapor-beta run</code>, 因为命令行下包还没下下来，没有验证。</p>
 
       
     </div>
@@ -358,16 +330,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/13/Android-三张图搞定Touch事件传递机制/" rel="next" title="Android-三张图搞定Touch事件传递机制">
-                <i class="fa fa-chevron-left"></i> Android-三张图搞定Touch事件传递机制
+              <a href="/2020/03/13/Vapor4-0概念/" rel="next" title="Vapor4.0学习记录1">
+                <i class="fa fa-chevron-left"></i> Vapor4.0学习记录1
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/03/13/Vapor4-0学习记录2/" rel="prev" title="Vapor4.0学习记录2">
-                Vapor4.0学习记录2 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/03/15/Vapor4-0对Dockerfile文件浅析/" rel="prev" title="Vapor4.0对Dockerfile文件浅析">
+                Vapor4.0对Dockerfile文件浅析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
