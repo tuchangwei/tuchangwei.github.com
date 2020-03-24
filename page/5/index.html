@@ -259,6 +259,112 @@
             
               
                 
+                <a class="post-title-link" href="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/" itemprop="url">
+                  How to Open the Xcode Project Directly When We Use SourceTree
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-10-17T09:32:29+08:00" content="Oct 17 2014">
+              Oct 17 2014
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>More and more projects are controlled by Git, then I start to use <a href="http://www.sourcetreeapp.com" target="_blank" rel="noopener">SourceTree</a> as the Git GUI. So, many times, I like to open SourceTree first, not some forder, not Xcode. Now, there is a question on my table. After I open the SourceTree, I still need to <code>cd</code> to my xcode project forder, then open the <code>.xcodepro</code> or <code>.xcodeworkspace</code> file. It is boring, right?</p>
+<p>So, I expect there is a way to simplify the workflow.</p>
+<p>Now, it is coming. </p>
+<p>1, created a small automator workflow. There are two workflow files I have written, you can download them in <a href="https://github.com/tuchangwei/SoureTreeWorkflow" target="_blank" rel="noopener">here</a></p>
+<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-1@2x.png" alt></p>
+<p>2, add <code>Custom Actions</code> on SourceTree.</p>
+<p>Script to run: automator</p>
+<p>Parameters:  -D VariableName=$REPO /Path/To/Workflow.workflow</p>
+<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-2@2x.png" alt></p>
+<p>3, try it!</p>
+<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-3@2x.png" alt></p>
+<p>So, this is all.</p>
+<p>Refer to: <a href="http://blog.sourcetreeapp.com/2012/02/08/custom-actions-more-power-to-you/" target="_blank" rel="noopener">http://blog.sourcetreeapp.com/2012/02/08/custom-actions-more-power-to-you/</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/10/13/How-to-calculate-table-cell-height-using-auto-layout/" itemprop="url">
                   How to Calculate Table Cell Height Using Auto-Layout
                 </a>
@@ -1396,132 +1502,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/09/sep1-7/" itemprop="url">
-                  Sep 1-7,2013 All Activities
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-09T08:49:00+08:00" content="Sep 9 2013">
-              Sep 9 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Activities/" itemprop="url" rel="index">
-                    <span itemprop="name">Activities</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- configurable section -->
-<p><script type="text/javascript"><br>if (typeof rtapi == ‘undefined’) var rtapi = {}; rtapi.keSu = {};<br>rtapi.keSu.title = ‘All Activities ‘;<br>rtapi.keSu.kind = ‘sidebar’;<br>rtapi.keSu.styling = { width:300, height:300 };<br></script><br><!-- below is required --></p>
-<p><div id="rtdivkeSu"><p id="rtmsg">RescueTime: <a href="http://www.rescuetime.com/tour" target="_blank" rel="noopener"> Project Time Tracking Software</a><br>&amp; Team <a href="http://www.rescuetime.com" target="_blank" rel="noopener">Time Management Software</a></p></div></p>
-<p><script src="https://www.rescuetime.com/anapi/js/embed/B63eSu_COao2zbuL22YAGJtRGAfydngMlhTrcaIY" type="text/javascript"></script><script type="text/javascript">RTAPI.render_all(rtapi);</script><br>&lt;!– a little how-to </p>
-<ul>
-<li>Paste this into your web page where you want the chart.</li>
-<li>You may have multiple embedded charts on the same page.</li>
-<li>You can change the title, width and height by editing the named properties.</li>
-<li>You can opt for the more verbose full chart by setting .kind to ‘default’.</li>
-<li>If you want your own css control, you can add ‘rtapi.my_css = true;’ before the render function.</li>
-<li>css class names are: </li>
-<li>rtdiv : the whole container</li>
-<li>rttitle : the title, rtchart : the chart, rtfeed : the footer<br>–&gt;</li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1565,7 +1545,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

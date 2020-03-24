@@ -84,17 +84,17 @@
 
 
 
-<meta name="description" content="I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.  Firstly, add the following code to “octopress/_config.yml” file">
+<meta name="description" content="没有文档的情况下，一切都靠摸索。刚开始的时候都不知道怎么下手，看看Vapor的测试怎么写，看看Fluent的测试怎么写。万事开头难，总算摸出个头绪。 首先，要配置测试环境, 在Xcode中的配置如下。然后新建测试数据库。123docker run --name postgres-test -e POSTGRES_DB=test \-e POSTGRES_USER=test -e POSTGRES_">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Add Sina Weibo Support for Greyshade Theme of Octopress">
-<meta property="og:url" content="http://tuchangwei.github.com/2013/09/10/add-sina-weibo-support-for-greyshade-theme-of-octopress/index.html">
+<meta property="og:title" content="Vapor4.0写一些测试">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/03/24/Vapor4-0写一些测试/index.html">
 <meta property="og:site_name" content="Changwei&#39;s Blog">
-<meta property="og:description" content="I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.  Firstly, add the following code to “octopress/_config.yml” file">
+<meta property="og:description" content="没有文档的情况下，一切都靠摸索。刚开始的时候都不知道怎么下手，看看Vapor的测试怎么写，看看Fluent的测试怎么写。万事开头难，总算摸出个头绪。 首先，要配置测试环境, 在Xcode中的配置如下。然后新建测试数据库。123docker run --name postgres-test -e POSTGRES_DB=test \-e POSTGRES_USER=test -e POSTGRES_">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-14T20:33:03.169Z">
+<meta property="og:updated_time" content="2020-03-24T06:03:33.495Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Add Sina Weibo Support for Greyshade Theme of Octopress">
-<meta name="twitter:description" content="I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.  Firstly, add the following code to “octopress/_config.yml” file">
+<meta name="twitter:title" content="Vapor4.0写一些测试">
+<meta name="twitter:description" content="没有文档的情况下，一切都靠摸索。刚开始的时候都不知道怎么下手，看看Vapor的测试怎么写，看看Fluent的测试怎么写。万事开头难，总算摸出个头绪。 首先，要配置测试环境, 在Xcode中的配置如下。然后新建测试数据库。123docker run --name postgres-test -e POSTGRES_DB=test \-e POSTGRES_USER=test -e POSTGRES_">
 
 
 
@@ -115,9 +115,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2013/09/10/add-sina-weibo-support-for-greyshade-theme-of-octopress/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/03/24/Vapor4-0写一些测试/">
 
-  <title> Add Sina Weibo Support for Greyshade Theme of Octopress | Changwei's Blog </title>
+  <title> Vapor4.0写一些测试 | Changwei's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -257,7 +257,7 @@
             
             
               
-                Add Sina Weibo Support for Greyshade Theme of Octopress
+                Vapor4.0写一些测试
               
             
           </h1>
@@ -269,30 +269,11 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-10T21:07:00+08:00" content="Sep 10 2013">
-              Sep 10 2013
+            <time itemprop="dateCreated" datetime="2020-03-24T13:21:52+08:00" content="Mar 24 2020">
+              Mar 24 2020
             </time>
           </span>
 
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Octopress/" itemprop="url" rel="index">
-                    <span itemprop="name">Octopress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
@@ -316,27 +297,11 @@
       
 
       
-        <p>I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.</p>
-<ul>
-<li>Firstly, add the following code to “octopress/_config.yml” file. Note that the weibo_user should be your weibo id, not your nickname.</li>
-</ul>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta"># Weibo link</span></span><br><span class="line"><span class="symbol">weibo_user:</span> thankforyou</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>Behind of the following code:</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># ----------------------- #</span><br><span class="line">#   <span class="number">3</span>rd Party Settings    #</span><br><span class="line"># ----------------------- #</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Secondly, add the “weibo.png” to “octopress/source/images/social” dirctory.</li>
-<li>Thirdly, add the following code to “octopress/sass/parts/_header.scss” file.</li>
-</ul>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">&amp;<span class="selector-class">.weibo</span>&#123;</span><br><span class="line">	<span class="attribute">background</span>: image-url(<span class="string">'social/weibo.png'</span>) center no-repeat <span class="number">#e32529</span>;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#e32529</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="attribute">border</span>: <span class="number">1px</span> solid darken(<span class="number">#e32529</span>, <span class="number">10%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>In front of the following code:</p>
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;.facebook&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/facebook.png') <span class="built_in">center</span> no-repeat #<span class="number">3B5998</span>;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #<span class="number">3B5998</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#<span class="number">3B5998</span>, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.google&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/google.png') <span class="built_in">center</span> no-repeat #C83D20;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #C83D20;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#C83D20, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.twitter&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/twitter.png') <span class="built_in">center</span> no-repeat #55CFF8;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #55CFF8;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#55CFF8, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">……			</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Fourthly, add the following code to “octopress/source/_includes/header.html” file.</li>
-</ul>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-<p>Behind of the following code:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">……</span><br><span class="line">&lt;nav <span class="attribute">id</span>=<span class="string">"sub-nav"</span>&gt;</span><br><span class="line">	&lt;div <span class="attribute">class</span>=<span class="string">"social"</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>Ok, have done.</p>
+        <p>没有文档的情况下，一切都靠摸索。刚开始的时候都不知道怎么下手，看看Vapor的测试怎么写，看看Fluent的测试怎么写。万事开头难，总算摸出个头绪。</p>
+<p>首先，要配置测试环境, 在Xcode中的配置如下。<br><br>然后新建测试数据库。<br><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="builtin-name">run</span> --name postgres-test -e <span class="attribute">POSTGRES_DB</span>=test \</span><br><span class="line">-e <span class="attribute">POSTGRES_USER</span>=test -e <span class="attribute">POSTGRES_PASSWORD</span>=test \</span><br><span class="line">-p 5433:5432 -d postgres</span><br></pre></td></tr></table></figure></p>
+<p>测试一下:<br><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testDatabaseConfig</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> app = <span class="type">Application</span>(.testing)</span><br><span class="line">    <span class="keyword">defer</span> &#123; app.shutdown() &#125;</span><br><span class="line">    <span class="keyword">try</span> configure(app)</span><br><span class="line">    <span class="type">XCTAssertTrue</span>(<span class="type">Int</span>(<span class="type">Environment</span>.<span class="keyword">get</span>(<span class="string">"DATABASE_PORT"</span>) ?? <span class="string">"5432"</span>)! == <span class="number">5433</span>, <span class="string">"DATABASE_PORT is wrong"</span>)</span><br><span class="line">    <span class="type">XCTAssertTrue</span>(<span class="type">Environment</span>.<span class="keyword">get</span>(<span class="string">"DATABASE_USERNAME"</span>) == <span class="string">"test"</span>, <span class="string">"DATABASE_USERNAME is wrong"</span>)</span><br><span class="line">    <span class="type">XCTAssertTrue</span>(<span class="type">Environment</span>.<span class="keyword">get</span>(<span class="string">"DATABASE_PASSWORD"</span>) == <span class="string">"test"</span>, <span class="string">"DATABASE_PASSWORD is wrong"</span>)</span><br><span class="line">    <span class="type">XCTAssertTrue</span>(<span class="type">Environment</span>.<span class="keyword">get</span>(<span class="string">"DATABASE_NAME"</span>) == <span class="string">"test"</span>, <span class="string">"DATABASE_PASSWORD is wrong"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>测试新建数据库是否成功:<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">func testArticleTable() throws &#123;</span><br><span class="line">    let app = Application(.testing)</span><br><span class="line">    defer &#123; app.shutdown() &#125;</span><br><span class="line">    <span class="keyword">try</span> configure(app)</span><br><span class="line">    let article = Article(<span class="built_in">name</span>: <span class="string">"title"</span>, body: <span class="string">"body"</span>, categoryID: nil)</span><br><span class="line">    <span class="keyword">try</span> article.save(<span class="keyword">on</span>: app.db).wait()</span><br><span class="line">    let articles = <span class="keyword">try</span> Article.query(<span class="keyword">on</span>: app.db).all().wait()</span><br><span class="line">    XCTAssertEqual(articles.<span class="built_in">count</span>, <span class="number">1</span>)</span><br><span class="line">    XCTAssertEqual(articles.<span class="keyword">first</span>?.<span class="built_in">name</span>, <span class="string">"title"</span>)</span><br><span class="line">    XCTAssertEqual(articles.<span class="keyword">first</span>?.body, <span class="string">"body"</span>)</span><br><span class="line">    XCTAssertNil(articles.<span class="keyword">first</span>?.category)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中在<code>configure.swift</code>文件中加入一些辅助方法调用，使测试之前清空数据库。<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public func configure(_ <span class="keyword">app</span>: Application) throws &#123;</span><br><span class="line">    <span class="comment">// uncomment to serve files from /Public folder</span></span><br><span class="line">    <span class="keyword">app</span>.middleware.<span class="keyword">use</span>(FileMiddleware(publicDirectory: <span class="keyword">app</span>.directory.publicDirectory))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">app</span>.databases.<span class="keyword">use</span>(.postgres(</span><br><span class="line">        hostname: Environment.<span class="built_in">get</span>(<span class="string">"DATABASE_HOST"</span>) ?? <span class="string">"localhost"</span>,</span><br><span class="line">        port: Int(Environment.<span class="built_in">get</span>(<span class="string">"DATABASE_PORT"</span>) ?? <span class="string">"5432"</span>) ?? 5432,</span><br><span class="line">        username: Environment.<span class="built_in">get</span>(<span class="string">"DATABASE_USERNAME"</span>) ?? <span class="string">"vapor_username"</span>,</span><br><span class="line">        password: Environment.<span class="built_in">get</span>(<span class="string">"DATABASE_PASSWORD"</span>) ?? <span class="string">"vapor_password"</span>,</span><br><span class="line">        database: Environment.<span class="built_in">get</span>(<span class="string">"DATABASE_NAME"</span>) ?? <span class="string">"vapor_database"</span></span><br><span class="line">    ), <span class="keyword">as</span>: .psql)</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">app</span>.migrations.add(CreateArticleGategory())</span><br><span class="line">    <span class="keyword">app</span>.migrations.add(CreateArticle())</span><br><span class="line">    <span class="comment">//&lt;==如果是测试环境，则清空数据库。注意这三行代码的位置要放在add方法之下的。</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">app</span>.environment == .testing &#123;</span><br><span class="line">        try <span class="keyword">app</span>.autoRevert().wait()</span><br><span class="line">        try <span class="keyword">app</span>.autoMigrate().wait()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//开启页面渲染</span></span><br><span class="line">    <span class="keyword">app</span>.views.<span class="keyword">use</span>(.leaf)</span><br><span class="line">    <span class="keyword">app</span>.leaf.cache.isEnabled = false</span><br><span class="line">    <span class="comment">// register routes</span></span><br><span class="line">    try routes(<span class="keyword">app</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -362,17 +327,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/09/09/autolayout-in-interface-builder/" rel="next" title="[译]在IB中实现自动布局">
-                <i class="fa fa-chevron-left"></i> [译]在IB中实现自动布局
+              <a href="/2020/03/20/Vapor4-0加入数据库/" rel="next" title="Vapor4.0加入数据库">
+                <i class="fa fa-chevron-left"></i> Vapor4.0加入数据库
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2013/09/15/some-git-commands/" rel="prev" title="Some Git Commands">
-                Some Git Commands <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

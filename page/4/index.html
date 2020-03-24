@@ -259,6 +259,136 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/08/iOS8-New-Features-Photos-Framework/" itemprop="url">
+                  iOS8 New Features: Photos Framework
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-08T21:09:08+08:00" content="Jul 8 2015">
+              Jul 8 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS8/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS8</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近有个项目要请求系统相册，就先把iOS8中的新特性<code>Photos Framework</code>研究一下，参考 iOS_8_by_Tutorials。</p>
+<p>###模型对象<br><code>Photos Framework</code> 中的模型对象是继承于一个基类<code>PHObject</code>，它们是轻量级的对象，仅仅包含了一些原数据的描叙，但并不包含其内容。这些具体的模型对象是：</p>
+<ol>
+<li><p><code>PHAsset</code>：表示一个单独的asset，它可能是一张图片或者视频。它包含了元数据比如是否是喜爱的，是否是隐藏的和媒介的类型。</p>
+</li>
+<li><p><code>PHAssetCollection</code>： 表示一组有序的asset的列表。</p>
+</li>
+<li><p><code>PHCollectionList</code>: 表示一组有序的<code>PHAssetCollection</code>的列表，或者<code>PHCollectionList</code>的列表。</p>
+</li>
+</ol>
+<h3 id="获取-Fetching"><a href="#获取-Fetching" class="headerlink" title="获取(Fetching)"></a>获取(Fetching)</h3><p>获取(Fetching)在<code>Photos framework</code>中是一个关键的特性，你可以获取任何的模型对象通过使用它所对应的类方法。另外当你获取的时候，你也可以使用<code>PHFetchOptions</code>选项。<code>PHFetchOptions</code>允许你指定哪些是你想要的，获取的结果应该如何排列，还有当结果发生改变时，Photos应该怎样提醒你。这些可以通过设置<code>PHFetchOptions</code>对象中的<code>predicate</code>，<code>sortDescriptors</code>,<code>includeAllBurstAssets</code>,<code>includeHiddenAssets</code>和<code>wantsIncrementalChangeDetails</code>属性，然后把它传给获取(Fetch)方法得到。</p>
+<p>获取(Fetching)会一直返回一个<code>PHFetchResult</code>对象，一个<code>PHFetchResult</code>对象是一组有序的模型对象集合,它有一个接口和<code>NSArray</code>类似。这里最大的不同应该能让你站起来欢呼——<code>PHFetchResult</code>能替你管理内存并且实现对象的懒加载。这意味着获取和遍历上千的asset,理论上讲，不会比遍历几百个asset消耗更多的内存。十分惊奇。</p>
+<p>记住，模型对象并不hold任何的内容，如果你想retrieve某个asset collection中的所有assets， 你不的不fetch他们。类似的，如果你想去展示和这些asset绑定的图片，你不的不加载它们。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)fetchCollections &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//获取喜爱的asset集合</span></span><br><span class="line">  self.userFavorites = [PHAssetCollection <span class="string">fetchAssetCollectionsWithType:</span>PHAssetCollectionTypeSmartAlbum <span class="string">subtype:</span>PHAssetCollectionSubtypeSmartAlbumFavorites <span class="string">options:</span>nil];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">//获取相册的集合（即是asset的集合的集合）</span></span><br><span class="line">  self.userAlbums = [PHCollectionList <span class="string">fetchTopLevelUserCollectionsWithOptions:</span>nil];</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###加载内容<br>当你想展示属于一个asset的图片或视频内容的话，你需要通过一个<code>PHImageManager</code>的实例去加载它。这个默认的图片加载器是异步工作的，处理对asset的加载，缓存和调整。它的一个叫<code>PHCachingImageManager</code>的子类能预缓存asset的内容到内存中，并确保当你需要用到它们的时候，它们是可用的。</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span>let reuseCount = ++cell<span class="selector-class">.reuseCount</span>let asset = currentAssetAtIndex(indexPath.item)<span class="comment">// 2</span>let options = PHImageRequestOptions() options<span class="selector-class">.networkAccessAllowed</span> = true<span class="comment">// 3 PHImageManager.defaultManager().requestImageForAsset(asset,</span>targetSize: assetThumbnailSize, contentMode: <span class="selector-class">.AspectFill</span>, options: options) &#123; result, info <span class="keyword">in</span><span class="keyword">if</span> reuseCount == cell<span class="selector-class">.reuseCount</span> &#123; cell<span class="selector-class">.imageView</span><span class="selector-class">.image</span> = result&#125; &#125;</span><br></pre></td></tr></table></figure>
+<p>注意这里的<code>requestImageForAsset</code>方法，这个方法可能会被回调多次。<code>Photos Framework</code>提供了可以立即使用的低分辨率的asset版本，随后也可能提供一个高质量的asset版本。</p>
+<p>###预加载<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)updateCache &#123;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">CGFloat</span> currentFrameCenter = <span class="built_in">CGRectGetMidY</span>(<span class="keyword">self</span>.collectionView.bounds);</span><br><span class="line">  <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,<span class="built_in">NSStringFromCGRect</span>(<span class="keyword">self</span>.collectionView.bounds) );</span><br><span class="line">  <span class="keyword">if</span> (fabs(currentFrameCenter - <span class="keyword">self</span>.lastCacheFrameCenter) &lt; <span class="built_in">CGRectGetHeight</span>(<span class="keyword">self</span>.collectionView.bounds)/<span class="number">3</span>) &#123;</span><br><span class="line">    <span class="comment">// Haven't scrolled far enough yet</span></span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">self</span>.lastCacheFrameCenter = currentFrameCenter;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">static</span> <span class="built_in">NSInteger</span> numOffscreenAssetsToCache = <span class="number">60</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSArray</span> * visibleIndexes = [<span class="keyword">self</span>.collectionView.indexPathsForVisibleItems sortedArrayUsingSelector:<span class="keyword">@selector</span>(compare:)];</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span> (!visibleIndexes.count) &#123;</span><br><span class="line">    [<span class="keyword">self</span>.imageManager stopCachingImagesForAllAssets];</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSInteger</span> firstItemToCache = ((<span class="built_in">NSIndexPath</span> *)visibleIndexes[<span class="number">0</span>]).item - numOffscreenAssetsToCache/<span class="number">2</span>;</span><br><span class="line">  firstItemToCache = MAX(firstItemToCache, <span class="number">0</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSInteger</span> lastItemToCache = ((<span class="built_in">NSIndexPath</span> *)[visibleIndexes lastObject]).item + numOffscreenAssetsToCache/<span class="number">2</span>;</span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">self</span>.assetsFetchResults) &#123;</span><br><span class="line">    lastItemToCache = MIN(lastItemToCache, <span class="keyword">self</span>.assetsFetchResults.count - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    lastItemToCache = MIN(lastItemToCache, <span class="keyword">self</span>.selectedAssets.count - <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">NSMutableArray</span> * indexesToStopCaching = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">  <span class="built_in">NSMutableArray</span> * indexesToStartCaching = [[<span class="built_in">NSMutableArray</span> alloc] init];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Stop caching items we scrolled past</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">NSIndexPath</span> * index <span class="keyword">in</span> <span class="keyword">self</span>.cachingIndexes) &#123;</span><br><span class="line">    <span class="keyword">if</span> (index.item &lt; firstItemToCache || index.item &gt; lastItemToCache) &#123;</span><br><span class="line">      [indexesToStopCaching addObject:index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  [<span class="keyword">self</span>.cachingIndexes removeObjectsInArray:indexesToStopCaching];</span><br><span class="line">  </span><br><span class="line">  [<span class="keyword">self</span>.imageManager stopCachingImagesForAssets:[<span class="keyword">self</span> assetsAtIndexPaths:indexesToStopCaching]</span><br><span class="line">                                     targetSize:<span class="keyword">self</span>.assetThumbnailSize</span><br><span class="line">                                    contentMode:PHImageContentModeAspectFill</span><br><span class="line">                                        options:<span class="literal">nil</span>];</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// Start caching new items in range</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">NSInteger</span> i = firstItemToCache; i &lt; lastItemToCache; i++) &#123;</span><br><span class="line">    <span class="built_in">NSIndexPath</span> * index = [<span class="built_in">NSIndexPath</span> indexPathForItem:i inSection:<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (![<span class="keyword">self</span>.cachingIndexes containsObject:index]) &#123;</span><br><span class="line">      [indexesToStartCaching addObject:index];</span><br><span class="line">      [<span class="keyword">self</span>.cachingIndexes addObject:index];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  [<span class="keyword">self</span>.imageManager startCachingImagesForAssets:[<span class="keyword">self</span> assetsAtIndexPaths:indexesToStartCaching]</span><br><span class="line">                                      targetSize:<span class="keyword">self</span>.assetThumbnailSize</span><br><span class="line">                                     contentMode:PHImageContentModeAspectFill</span><br><span class="line">                                         options:<span class="literal">nil</span>];</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/07/自由职业者如何提高技术/" itemprop="url">
                   自由职业者如何提高技术
                 </a>
@@ -1242,112 +1372,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/" itemprop="url">
-                  How to Open the Xcode Project Directly When We Use SourceTree
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-10-17T09:32:29+08:00" content="Oct 17 2014">
-              Oct 17 2014
-            </time>
-          </span>
-
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>More and more projects are controlled by Git, then I start to use <a href="http://www.sourcetreeapp.com" target="_blank" rel="noopener">SourceTree</a> as the Git GUI. So, many times, I like to open SourceTree first, not some forder, not Xcode. Now, there is a question on my table. After I open the SourceTree, I still need to <code>cd</code> to my xcode project forder, then open the <code>.xcodepro</code> or <code>.xcodeworkspace</code> file. It is boring, right?</p>
-<p>So, I expect there is a way to simplify the workflow.</p>
-<p>Now, it is coming. </p>
-<p>1, created a small automator workflow. There are two workflow files I have written, you can download them in <a href="https://github.com/tuchangwei/SoureTreeWorkflow" target="_blank" rel="noopener">here</a></p>
-<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-1@2x.png" alt></p>
-<p>2, add <code>Custom Actions</code> on SourceTree.</p>
-<p>Script to run: automator</p>
-<p>Parameters:  -D VariableName=$REPO /Path/To/Workflow.workflow</p>
-<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-2@2x.png" alt></p>
-<p>3, try it!</p>
-<p><img src="/2014/10/17/How-to-open-the-xcode-project-directly-when-we-use-SoureTree/QQ20141017-3@2x.png" alt></p>
-<p>So, this is all.</p>
-<p>Refer to: <a href="http://blog.sourcetreeapp.com/2012/02/08/custom-actions-more-power-to-you/" target="_blank" rel="noopener">http://blog.sourcetreeapp.com/2012/02/08/custom-actions-more-power-to-you/</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1391,7 +1415,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">73</span>
+              <span class="site-state-item-count">74</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
