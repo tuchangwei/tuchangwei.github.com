@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Changwei&#39;s Blog">
 <meta property="og:description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-03-23T23:43:18.221Z">
+<meta property="og:updated_time" content="2020-03-25T09:35:17.554Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vapor4.0加入数据库">
 <meta name="twitter:description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
@@ -275,6 +275,25 @@
             </time>
           </span>
 
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Vapor4-0/" itemprop="url" rel="index">
+                    <span itemprop="name">Vapor4.0</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
