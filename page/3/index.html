@@ -259,6 +259,212 @@
             
               
                 
+                <a class="post-title-link" href="/2015/10/19/译-Reset-Checkout-and-Revert/" itemprop="url">
+                  [译]Reset, Checkout, and Revert
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-10-19T23:11:30+08:00" content="Oct 19 2015">
+              Oct 19 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>翻译自<a href="https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting/file-level-operations" target="_blank" rel="noopener">这篇文章</a></p>
+<p><code>git reset</code>, <code>get checkout</code> 和 <code>git revert</code>命令是你Git工具箱中最有用的几个工具。它们可以让你在仓库中撤销某些改变，前两个命令也可以用来处理提交或者单个的文件。</p>
+<p>因为他们很相似，所以在特定的开发场景下，使用哪种命令就很容易混淆。在这篇文章中，我们将比较这三个命令常见的配置，希望你能自行的用这些命令去驾驭你的仓库。</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/01.svg">
+<p>这帮助我们去想每一个命令在这三个Git仓库主要组件（工作区，快照，提交历史）中的作用。当你读这篇文章的时候，时常回想这些组件。</p>
+<h1 id="提交层面的操作"><a href="#提交层面的操作" class="headerlink" title="提交层面的操作"></a>提交层面的操作</h1><p>你传给 <code>git reset</code> 和 <code>git checkout</code> 的参数决定了它们的作用域。当你不包含一个文件路径做参数时，它们作用于整个提交。这是我们在这一章节将要介绍的内容。注意 <code>git revert</code>并没有文件层面对应的内容。</p>
+<h2 id="Reset"><a href="#Reset" class="headerlink" title="Reset"></a>Reset</h2><p>在提交层面，重设是移动分支末端到另一个不同的提交的一种方式。这能用来从当前分支移走一些提交。比如，下面的命令把 hotfix 分支向后移动两个提交。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git checkout hotfix</span><br><span class="line">git <span class="keyword">reset</span> <span class="keyword">HEAD</span>~<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>这两个位于hotfix末端的提交现在正在摇摆，也就是说，它们将会在Git下次执行垃圾收集的时候删除。换言之，你可以说你想要抛弃这些提交。下图看起来会比较直观：</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/02.svg">
+<p><code>git reset</code> 的使用是一个简单的方式去撤销还未分享给他人的更改。这是你将要用到的命令当你已经开始在一个feature分支上工作，然后你发现自己一直在想，“卧槽，我在干啥？我应该从头开始。”</p>
+<p>另外，移动当前分支时，你也可以通过传递一下的某个标识，让 <code>git reset</code> 去修改快照区和／或工作区。</p>
+<p>1, –soft － 快照区和工作区不会被修改。<br>2, –mixed －快照区将会更新到特定的提交，但是工作区不会受影响。这是默认选项。<br>3, –hard －快照区和工作区都会更新到特定的提交。</p>
+<p>当定义这个 <code>git reset</code> 操作的作用域时，它将会容易去思考这些模式。</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/03.svg">
+<p>这些标识常常和 <code>HEAD</code> 参数一起使用。比如 <code>git reset --mixed HEAD</code> 清空快照区，但是保留工作区的更改。另一方面，如果你想完全抛弃所有未提交的更改，你可以使用 <code>git reset --hard HEAD</code>. 这是 <code>git reset</code> 最常用两种使用方式。</p>
+<p>当传入的提交是 <code>HEAD</code> 以外的参数时，一定到小心，因为这将会重写当前分支的历史。正如在<a href="我并不知道地址是啥">The Golden Rule of Rebasing</a>中提到的，当工作在一个公共分支时，这将是一个大问题。</p>
+<h2 id="Checkout"><a href="#Checkout" class="headerlink" title="Checkout"></a>Checkout</h2><p>到现在为止，你应该比较熟悉 <code>git checkout</code> 的提交层面。当传递一个分支名称时，它让你在不同分支间切换。</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">git checkout hotfix</span></span><br></pre></td></tr></table></figure>
+<p>本质上讲，这个命令所做的就是移动HEAD到另一个分支，并且更新工作区使之于其匹配。因为这有重写本地更改的风险，Git强制你提交或者暂存工作区里的任何更改，以防这些更改在checkout操作中丢失。并不像 <code>git reset</code> 那样，<code>git checkout</code> 并不会向前后移动任何分支。</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/04.svg">
+<p>你也可以检出任何提交通过传递一个提交引用而不是分支。这确实也像检出一个分支那样：它移动这个HEAD引用到特定的提交。比如，下面的命令将检出当前提交的父父层。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout HEAD~<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/05.svg">
+<p>这对于快速查看项目中老的版本十分有用。但是，由于对于当前的HEAD并没有指定分支引用，这将把你放进一个临时的HEAD状态。如果此时你增加新的提交，那就会比较危险，因为当你切换到另一个分支之后，你就没有办法再找到它们。因为这个原因，在你增加新的提交到一个暂存的HEAD状态前，你应该新建一个新分支。</p>
+<h2 id="Revert"><a href="#Revert" class="headerlink" title="Revert"></a>Revert</h2><p>恢复原状通过提交一个新的提交去撤销一个提交。这是撤销改变的一个安全的方式，因为它不会改变或者重写提交的历史。比如，下面的命令将会找出最后两个提交的改变，创建新的提交去撤销那些改变，并且把这个新的提交钉在这个项目上。</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">git</span> checkout hotfix</span><br><span class="line"><span class="symbol">git</span> <span class="keyword">revert </span>HEAD~<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>下图更直观：</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/06.svg">
+<p>和 <code>git reset</code> 做比较，这个命令并不修改已存在的提交历史。因为这个原因，<code>git revert</code> 应该在公共分支上使用来撤销更改，<code>git reset</code> 应该在个人分支上使用来撤销更改。</p>
+<p>你也可以认为 <code>git revert</code> 是撤销已提交更改的工具，而 <code>git reset HEAD</code> 是撤销未提交更改的工具。</p>
+<p>像 <code>git checkout</code>，<code>git revert</code> 都有重写工作区文件的风险，所以当你进行这些操作时，都会被要求提交或缓存更改。</p>
+<h1 id="文件层面的操作"><a href="#文件层面的操作" class="headerlink" title="文件层面的操作"></a>文件层面的操作</h1><p>这个 <code>git reset</code> 和 <code>git checkout</code> 命令也允许一个可选的文件路径作为参数。这将修改它们的行为。代替操作整个快照区，这种方式将会限制它们操作在单个文件中。</p>
+<h2 id="Reset-1"><a href="#Reset-1" class="headerlink" title="Reset"></a>Reset</h2><p>当传递一个文件路径调用时， <code>git reset</code> 更新这个快照区去匹配特定提交的版本。比如，下面命令将会取得foo.py的倒数第二次提交的版本，并且在下一次提交时存储它。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="keyword">reset</span> <span class="keyword">HEAD</span>~<span class="number">2</span> foo.py</span><br></pre></td></tr></table></figure>
+<p>和提交层面的 <code>git reset</code> 一样，和HEAD搭配使用是比较常见的。<code>git reset HEAD foo.py</code> 将会取消暂存foo.py. 但是它所包含的更改在工作区中还是可见的。</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/07.svg">
+<p>这个 <code>--soft</code>, <code>--mixed</code> 和 <code>--hard</code> 标识对文件层面的 <code>git reset</code> 并没有什么卵用。因为快照区一直在更新，而工作区从来不更新。</p>
+<h2 id="Checkout-1"><a href="#Checkout-1" class="headerlink" title="Checkout"></a>Checkout</h2><p>检出一个文件和使用<code>git reset</code>后面带一个文件路径是类似的，唯一的不同是，它更新的是工作区而不是暂存区。并不像提交等级的版本那样，这个命令并不会移动<code>HEAD</code>的引用，这意味着你将不会切换分支。</p>
+<img src="/2015/10/19/译-Reset-Checkout-and-Revert/08.svg">
+<p>比如，下面的命令将会使在工作区里的foo.py文件匹配倒数第二次提交的这个文件。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">git</span> <span class="selector-tag">checkout</span> <span class="selector-tag">HEAD</span>~2 <span class="selector-tag">foo</span><span class="selector-class">.py</span></span><br></pre></td></tr></table></figure>
+<p>像提交等级的<code>git checkout</code>命令一样，这被用来检查一个项目的老的版本——但是他的作用范围是指定的文件。</p>
+<p>如果你暂存和提交这个检出的文件，这还会有回退到老文件的作用。注意这将移除所有随后的改变。但是<code>git revert</code>命令仅仅撤销某个指定的提交的改变。</p>
+<p>像<code>git reset</code>一样，这个命令常常和HEAD一起使用。比如，<code>git checkout HEAD foo.py</code>有丢弃未暂存的更改的作用。这有点类似<code>git reset HEAD --hard</code>,但是它操作的是指定的文件。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>你现在应该拥有所有工具去撤销改变了。<code>git reset</code>,<code>git checkout</code>,<code>git revert</code>命令可能是让人迷惑的，但是当你想一想它们对工作区，暂存区和提交历史的作用，对于那种命令适合哪种开发任务将会变的容易区别。</p>
+<p>下面的表格总结一些常用的用例，确保把这个手册放在手边，因为在你的Git生涯中，无疑你会用到它们中的一个或多个。</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Scope</th>
+<th>Common use cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>git reset</td>
+<td>Commit-level</td>
+<td>Discard commits in a private branch or throw away uncommited changes</td>
+<td></td>
+</tr>
+<tr>
+<td>git reset</td>
+<td>File-level</td>
+<td>Unstage a file</td>
+<td></td>
+</tr>
+<tr>
+<td>git checkout</td>
+<td>Commit-level</td>
+<td>Switch between branches or inspect old snapshots</td>
+<td></td>
+</tr>
+<tr>
+<td>git checkout</td>
+<td>File-level</td>
+<td>Discard changes in the working directory</td>
+<td></td>
+</tr>
+<tr>
+<td>git revert</td>
+<td>Commit-level</td>
+<td>Undo commits in a public branch</td>
+<td></td>
+</tr>
+<tr>
+<td>git revert</td>
+<td>File-level</td>
+<td>(N/A)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/10/19/HEXO-重装记录/" itemprop="url">
                   HEXO 重装记录
                 </a>
@@ -1415,118 +1621,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/07/18/一张图告诉你怎么选择后台运行技术/" itemprop="url">
-                  一张图告诉你怎么选择后台运行技术
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-07-18T15:33:26+08:00" content="Jul 18 2015">
-              Jul 18 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <img src="/2015/07/18/一张图告诉你怎么选择后台运行技术/image.png">
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1570,7 +1664,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">74</span>
+              <span class="site-state-item-count">75</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
