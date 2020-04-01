@@ -259,6 +259,139 @@
             
               
                 
+                <a class="post-title-link" href="/2013/09/10/add-sina-weibo-support-for-greyshade-theme-of-octopress/" itemprop="url">
+                  Add Sina Weibo Support for Greyshade Theme of Octopress
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-09-10T21:07:00+08:00" content="Sep 10 2013">
+              Sep 10 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Octopress/" itemprop="url" rel="index">
+                    <span itemprop="name">Octopress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.</p>
+<ul>
+<li>Firstly, add the following code to “octopress/_config.yml” file. Note that the weibo_user should be your weibo id, not your nickname.</li>
+</ul>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta"># Weibo link</span></span><br><span class="line"><span class="symbol">weibo_user:</span> thankforyou</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Behind of the following code:</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># ----------------------- #</span><br><span class="line">#   <span class="number">3</span>rd Party Settings    #</span><br><span class="line"># ----------------------- #</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Secondly, add the “weibo.png” to “octopress/source/images/social” dirctory.</li>
+<li>Thirdly, add the following code to “octopress/sass/parts/_header.scss” file.</li>
+</ul>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">&amp;<span class="selector-class">.weibo</span>&#123;</span><br><span class="line">	<span class="attribute">background</span>: image-url(<span class="string">'social/weibo.png'</span>) center no-repeat <span class="number">#e32529</span>;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#e32529</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="attribute">border</span>: <span class="number">1px</span> solid darken(<span class="number">#e32529</span>, <span class="number">10%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>In front of the following code:</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;.facebook&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/facebook.png') <span class="built_in">center</span> no-repeat #<span class="number">3B5998</span>;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #<span class="number">3B5998</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#<span class="number">3B5998</span>, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.google&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/google.png') <span class="built_in">center</span> no-repeat #C83D20;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #C83D20;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#C83D20, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.twitter&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/twitter.png') <span class="built_in">center</span> no-repeat #55CFF8;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #55CFF8;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#55CFF8, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">……			</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Fourthly, add the following code to “octopress/source/_includes/header.html” file.</li>
+</ul>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+<p>Behind of the following code:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">……</span><br><span class="line">&lt;nav <span class="attribute">id</span>=<span class="string">"sub-nav"</span>&gt;</span><br><span class="line">	&lt;div <span class="attribute">class</span>=<span class="string">"social"</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>Ok, have done.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/09/09/autolayout-in-interface-builder/" itemprop="url">
                   [译]在IB中实现自动布局
                 </a>
@@ -1809,163 +1942,6 @@ move the instace variables to implementation section as following:
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/30/use-command-line-to-pack-applications/" itemprop="url">
-                  Use Command Line to Pack Applications
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-30T17:02:00+08:00" content="Mar 30 2013">
-              Mar 30 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Utility/" itemprop="url" rel="index">
-                    <span itemprop="name">Utility</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>All right. It is time for me to write something. My wife has stayed in her hometown about half a month. I miss her very much. It is dark out of the window.  You know, in summer, the rain is rich in ShenZhen. Sometimes, I am very anxious about doing something which is matter with opportunity and ability. Anyway, let us do something about work.</p>
-<p>Sometimes we need to build apps for many channels, we needn’t change many codes but some configurations. As we all know, we use Xcode to build and run application. many channels many building. So boring! So let us see how to do it using command line.</p>
-<ul>
-<li><p>first shell, it is used for generating binary to upload AppStore.</p>
-<pre><code>#!/bin/sh
-target=&quot;Power7 MobileView&quot;
-distDir=&quot;/Users/tuchangwei/Documents/WorkSpace/Release/${factory}/${appName}_V${version}&quot;
-rm -rdf &quot;$distDir&quot;
-mkdir &quot;$distDir&quot;
-
-uploadDir=&quot;${distDir}/Upload AppStore&quot;
-rm -rdf &quot;$uploadDir&quot;
-mkdir &quot;$uploadDir&quot;
-/usr/bin/xcodebuild -target &quot;$target&quot; clean
-echo &quot;******************start build*********************&quot;
-/usr/bin/xcodebuild -target &quot;$target&quot; CODE_SIGN_IDENTITY=&quot;$distribution&quot;
-echo &quot;******************start pick .ipa*********************&quot;
-/usr/bin/xcrun -sdk iphoneos PackageApplication -v build/Release-iphoneos/*.app -o &quot;${uploadDir}/${appName}.ipa&quot; --sign &quot;$distribution&quot;
-echo &quot;******************start pick test .ipa*********************&quot;
-codesign -f --sign &quot;iPhone Developer: Nelson Chen (JPMGJWJFAQ)&quot; build/Release-iphoneos/*.app
-/usr/bin/xcrun -sdk iphoneos PackageApplication -v build/Release-iphoneos/*.app -o &quot;${distDir}/${appName}_V${version}.ipa&quot; --sign &quot;iPhone Developer: Nelson Chen (JPMGJWJFAQ)&quot; --embed &quot;/Users/tuchangwei/Library/MobileDevice/Provisioning Profiles/D788EEA0-848E-4F5E-AA30-87D38154DA9B.mobileprovision&quot;
-</code></pre></li>
-<li><p>second shell is used for generating test binary</p>
-<pre><code>#!/bin/sh
-target=&quot;Power7 MobileView&quot;
-distDir=&quot;/Users/tuchangwei/Desktop/Test&quot;
-rm -rdf &quot;$distDir&quot;
-mkdir &quot;$distDir&quot;
-/usr/bin/xcodebuild -target &quot;$target&quot; clean
-echo &quot;******************start build*********************&quot;
-/usr/bin/xcodebuild -target &quot;$target&quot; 
-echo &quot;******************start pick test .ipa*********************&quot;
-codesign -f --sign &quot;iPhone Developer: Nelson Chen (JPMGJWJFAQ)&quot; build/Release-iphoneos/*.app
-/usr/bin/xcrun -sdk iphoneos PackageApplication -v build/Release-iphoneos/*.app -o &quot;${distDir}/test.ipa&quot; --sign &quot;iPhone Developer: Nelson Chen (JPMGJWJFAQ)&quot; --embed &quot;/Users/tuchangwei/Library/MobileDevice/Provisioning Profiles/D788EEA0-848E-4F5E-AA30-87D38154DA9B.mobileprovision&quot;
-</code></pre></li>
-</ul>
-<ul>
-<li><p>third shell is used for deleting .svn files in project.</p>
-<pre><code>#!/bin/sh
-echo &quot;start delete .svn...&quot;
-find $PWD/ -name .svn -print0 | xargs -0 rm -rf
-echo &quot;finish delete .svn.&quot;
-</code></pre></li>
-</ul>
-<p>So, you know, i also use some shell to improve efficiency. See you,O(∩_∩)O~.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2009,7 +1985,7 @@ echo &quot;finish delete .svn.&quot;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">75</span>
+              <span class="site-state-item-count">76</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

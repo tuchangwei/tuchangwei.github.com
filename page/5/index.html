@@ -259,6 +259,105 @@
             
               
                 
+                <a class="post-title-link" href="/2014/11/02/Mantle-with-Core-Data/" itemprop="url">
+                  Mantle With Core Data
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-11-02T09:03:27+08:00" content="Nov 2 2014">
+              Nov 2 2014
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#Conform to the Protocol<br>First, on our model we conform to the <code>MTLManagedObjectSerializing</code> protocol. This has 2 required methods, but we’ll actually need to implement 3 methods.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - MTLManagedObjectSerializing</span><br><span class="line"></span><br><span class="line">+ (NSString *)managedObjectEntityName &#123;</span><br><span class="line">    return @&quot;Episode&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSDictionary *)managedObjectKeysByPropertyKey &#123;</span><br><span class="line">    return @&#123; &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSValueTransformer *)thumbnailImageUrlEntityAttributeTransformer &#123;</span><br><span class="line">    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^NSString *(NSURL *url) &#123;</span><br><span class="line">        return [url description];</span><br><span class="line">    &#125; reverseBlock:^NSURL *(NSString *urlString) &#123;</span><br><span class="line">        return [NSURL URLWithString:urlString];</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (NSSet *)propertyKeysForManagedObjectUniquing &#123;</span><br><span class="line">    return [NSSet setWithObject:@&quot;episodeNumber&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>This is all we need to enable the feature for our models, including updating the records if they exist already.</p>
+<p>#Serializing to Core Data<br>Given the we’ve converted from a JSON document to our model, we also want to convert that model into an <code>NSManagedObject</code> for saving. We can do this for each record by using the <code>MTLManagedObjectAdapter</code> class:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[self fetchEpisodesWithCompletion:^(NSArray *episodes) &#123;</span><br><span class="line">        NSManagedObjectContext *moc = [self.persistenceController newChildManagedObjectContext];</span><br><span class="line">        [episodes enumerateObjectsUsingBlock:^(Episode *episode, NSUInteger idx, BOOL *stop) &#123;</span><br><span class="line">            NSError *insertError;</span><br><span class="line">            NSManagedObject *mob = [MTLManagedObjectAdapter managedObjectFromModel:episode</span><br><span class="line">                                                              insertingIntoContext:moc</span><br><span class="line">                                                                             error:&amp;insertError];</span><br><span class="line">            </span><br><span class="line">            if (mob) &#123;</span><br><span class="line">                NSLog(@&quot;Mob: %@&quot;, mob);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                NSLog(@&quot;ERROR: %@&quot;, insertError);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;];</span><br><span class="line">        </span><br><span class="line">        NSError *saveError;</span><br><span class="line">        if ([moc save:&amp;saveError]) &#123;</span><br><span class="line">            [self.persistenceController saveContextAndWait:YES completion:^(NSError *error) &#123;</span><br><span class="line">                NSLog(@&quot;Save completed (%@)&quot;, error);</span><br><span class="line">            &#125;];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            NSLog(@&quot;Error saving: %@&quot;, saveError);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<p>Refer to <a href="http://nsscreencast.com/episodes/120-mantle-with-core-data" target="_blank" rel="noopener">http://nsscreencast.com/episodes/120-mantle-with-core-data</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/11/02/Don-t-hesitate/" itemprop="url">
                   Don't Hesitate
                 </a>
@@ -1289,139 +1388,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/10/add-sina-weibo-support-for-greyshade-theme-of-octopress/" itemprop="url">
-                  Add Sina Weibo Support for Greyshade Theme of Octopress
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-10T21:07:00+08:00" content="Sep 10 2013">
-              Sep 10 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Octopress/" itemprop="url" rel="index">
-                    <span itemprop="name">Octopress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>I am not familiar with CSS and ROR until now. It is not easy for me to add Sina Weibo support as the slidebar shows. So let me note it.</p>
-<ul>
-<li>Firstly, add the following code to “octopress/_config.yml” file. Note that the weibo_user should be your weibo id, not your nickname.</li>
-</ul>
-<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta"># Weibo link</span></span><br><span class="line"><span class="symbol">weibo_user:</span> thankforyou</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>Behind of the following code:</p>
-<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># ----------------------- #</span><br><span class="line">#   <span class="number">3</span>rd Party Settings    #</span><br><span class="line"># ----------------------- #</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Secondly, add the “weibo.png” to “octopress/source/images/social” dirctory.</li>
-<li>Thirdly, add the following code to “octopress/sass/parts/_header.scss” file.</li>
-</ul>
-<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line">&amp;<span class="selector-class">.weibo</span>&#123;</span><br><span class="line">	<span class="attribute">background</span>: image-url(<span class="string">'social/weibo.png'</span>) center no-repeat <span class="number">#e32529</span>;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#e32529</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="attribute">border</span>: <span class="number">1px</span> solid darken(<span class="number">#e32529</span>, <span class="number">10%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>In front of the following code:</p>
-<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&amp;.facebook&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/facebook.png') <span class="built_in">center</span> no-repeat #<span class="number">3B5998</span>;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #<span class="number">3B5998</span>;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#<span class="number">3B5998</span>, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.google&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/google.png') <span class="built_in">center</span> no-repeat #C83D20;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #C83D20;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#C83D20, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&amp;.twitter&#123;</span><br><span class="line">	<span class="built_in">background</span>: <span class="built_in">image</span>-url('social/twitter.png') <span class="built_in">center</span> no-repeat #55CFF8;</span><br><span class="line">	<span class="built_in">border</span>: 1px solid #55CFF8;</span><br><span class="line">	&amp;:hover&#123;</span><br><span class="line">		<span class="built_in">border</span>: 1px solid darken(#55CFF8, <span class="number">10</span><span class="symbol">%</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">……			</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Fourthly, add the following code to “octopress/source/_includes/header.html” file.</li>
-</ul>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br></pre></td></tr></table></figure>
-<p>Behind of the following code:</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">……</span><br><span class="line">&lt;nav <span class="attribute">id</span>=<span class="string">"sub-nav"</span>&gt;</span><br><span class="line">	&lt;div <span class="attribute">class</span>=<span class="string">"social"</span>&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>Ok, have done.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1465,7 +1431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">75</span>
+              <span class="site-state-item-count">76</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

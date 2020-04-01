@@ -259,6 +259,110 @@
             
               
                 
+                <a class="post-title-link" href="/2020/04/01/Vapor4-0发送Post及Leaf渲染/" itemprop="url">
+                  Vapor4.0发送Post及Leaf渲染
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-01T22:12:36+08:00" content="Apr 1 2020">
+              Apr 1 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天填了两个坑。</p>
+<p>1,  Post 创建文章。<code>Article</code> database Model结构为:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Article</span>: <span class="title">Model</span>, <span class="title">Content</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> schema: <span class="type">String</span> = <span class="string">"articles"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> idKey: <span class="type">FieldKey</span> = .id</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> nameKey: <span class="type">FieldKey</span> = <span class="string">"name"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> slugKey: <span class="type">FieldKey</span> = <span class="string">"slug"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> bodyKey: <span class="type">FieldKey</span> = <span class="string">"body"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> categoryIDKey: <span class="type">FieldKey</span> = <span class="string">"category_id"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> createdKey: <span class="type">FieldKey</span> = <span class="string">"created_at"</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> updatedKey: <span class="type">FieldKey</span> = <span class="string">"updated_at"</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">ID</span>(key: idKey)</span><br><span class="line">    <span class="keyword">var</span> id: <span class="type">UUID?</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">Field</span>(key: nameKey)</span><br><span class="line">    <span class="keyword">var</span> name: <span class="type">String</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">Field</span>(key: slugKey)</span><br><span class="line">    <span class="keyword">var</span> slug: <span class="type">String?</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">Field</span>(key: bodyKey)</span><br><span class="line">    <span class="keyword">var</span> body: <span class="type">String</span></span><br><span class="line">   </span><br><span class="line">    @<span class="type">OptionalParent</span>(key: categoryIDKey)</span><br><span class="line">    <span class="keyword">var</span> category: <span class="type">ArticleCategory?</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">Timestamp</span>(key: createdKey, on: .create)</span><br><span class="line">    <span class="keyword">var</span> createdAt: <span class="type">Date?</span></span><br><span class="line">    </span><br><span class="line">    @<span class="type">Timestamp</span>(key: updatedKey, on: .update)</span><br><span class="line">    <span class="keyword">var</span> updatedAt: <span class="type">Date?</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">init</span>() &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>, body:<span class="type">String</span>, categoryID: <span class="type">UUID?</span> = <span class="literal">nil</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">        <span class="keyword">self</span>.body = body</span><br><span class="line">        <span class="keyword">self</span>.$category.id = categoryID</span><br><span class="line">        <span class="keyword">self</span>.slug = <span class="string">"\(Date().formatedString())\(name.split(separator: "</span> <span class="string">").joined(separator: "</span>-<span class="string">"))"</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>Article</code> database model中， 我创建了一个父关系<code>category</code>, 但这个项目中，我并不打算让每篇文章都有一个类别，所以我把父关系设置为可选类型。但是post的时候并不能把<code>category</code>这个字段省略，请求的格式必须这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"body"</span>: <span class="string">"Hello, my first blog."</span>,</span><br><span class="line">  "category": &#123;&#125;,//或者 "category": &#123; "id": null &#125;,</span><br><span class="line">  "name": "my first blog"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>是不是很不合理？前端拿到这个API会比较迷惑，组建json的时候，这个字段没有值，不能不写这个key-value pair, 也不能写成<code>category:null</code> 。社区中大神给出的方案是用一个不含<code>category</code>字段的结构体先接收，然后再转成<code>database mode</code>的样子。具体解释请参考<a href="https://github.com/vapor/vapor/issues/2280" target="_blank" rel="noopener">这里</a></p>
+<p>2, Leaf渲染。Vapor4的文档还没有出，Leaf的定义也与Vapor3有很大的改变，这就难为死我了。这种情况下，只能去扒一扒Test里面写的测试用例了。坑如下：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">title</span>)</span></span>&lt;/p&gt;</span><br><span class="line"><span class="function"><span class="keyword">#</span><span class="title">if</span><span class="params">(!<span class="variable">articles</span>.<span class="variable">isEmpty</span>)</span></span>:</span><br><span class="line">    &lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">title</span>)</span></span>&lt;/p&gt;</span><br><span class="line">    <span class="function"><span class="keyword">#</span><span class="title">for</span><span class="params">(<span class="variable">article</span> <span class="variable">in</span> <span class="variable">articles</span>)</span></span>:</span><br><span class="line">        &lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">article</span>)</span></span>&lt;/p&gt;</span><br><span class="line">    #endfor</span><br><span class="line">#else:</span><br><span class="line">&lt;p&gt;no artcile&lt;/p&gt;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>遍历打印文章是打印不到的。必须是打印文章的属性，如下写法是正确的：</p>
+<figure class="highlight leaf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">title</span>)</span></span>&lt;/p&gt;</span><br><span class="line"><span class="function"><span class="keyword">#</span><span class="title">if</span><span class="params">(!<span class="variable">articles</span>.<span class="variable">isEmpty</span>)</span></span>:</span><br><span class="line">    &lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">title</span>)</span></span>&lt;/p&gt;</span><br><span class="line">    <span class="function"><span class="keyword">#</span><span class="title">for</span><span class="params">(<span class="variable">article</span> <span class="variable">in</span> <span class="variable">articles</span>)</span></span>:</span><br><span class="line">        &lt;p&gt;<span class="function"><span class="keyword">#</span><span class="params">(<span class="variable">article</span>.<span class="variable">name</span>)</span></span>&lt;/p&gt;//&lt;--注意这里</span><br><span class="line">    #endfor</span><br><span class="line">#else:</span><br><span class="line">&lt;p&gt;no artcile&lt;/p&gt;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>填坑完毕。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/03/31/Vapor4-0数据库增加字段/" itemprop="url">
                   Vapor4.0数据库增加字段
                 </a>
@@ -1383,127 +1487,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/02/RxSwift-application-architectures/" itemprop="url">
-                  RxSwift Application Architectures
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-11-02T10:34:13+08:00" content="Nov 2 2016">
-              Nov 2 2016
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/RxSwift/" itemprop="url" rel="index">
-                    <span itemprop="name">RxSwift</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>View Controllers</li>
-<li>View Models</li>
-<li>Models</li>
-<li>Backend services</li>
-<li>AppCoordinator (Singleton)</li>
-</ol>
-<p>More references:</p>
-<p><a href="https://slack-files.com/T051G5Y6D-F0HABHKDK-8e9141e191" target="_blank" rel="noopener">https://slack-files.com/T051G5Y6D-F0HABHKDK-8e9141e191</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1547,7 +1530,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">75</span>
+              <span class="site-state-item-count">76</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
