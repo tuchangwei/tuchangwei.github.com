@@ -86,13 +86,13 @@
 
 <meta name="description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Changwei&#39;s Blog">
+<meta property="og:title" content="Senior Mobile Developer - Vale">
 <meta property="og:url" content="http://tuchangwei.github.com/page/2/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Changwei&#39;s Blog">
+<meta name="twitter:title" content="Senior Mobile Developer - Vale">
 <meta name="twitter:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 
 
@@ -116,7 +116,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/page/2/">
 
-  <title> Changwei's Blog </title>
+  <title> Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -149,11 +149,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -259,6 +259,138 @@
             
               
                 
+                <a class="post-title-link" href="/2017/04/08/Two-Tips-When-You-Setup-Firebase-For-Remote-Notification/" itemprop="url">
+                  Two Tips When You Setup Firebase for Remote Notification
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-04-08T16:24:00+08:00" content="Apr 8 2017">
+              Apr 8 2017
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/04/08/Two-Tips-When-You-Setup-Firebase-For-Remote-Notification/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/04/08/Two-Tips-When-You-Setup-Firebase-For-Remote-Notification/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>I finished my first android app written by Kotlin language recently. Today I want to record what I learned when I setup Firebase for remote notification.</p>
+<p>There are two cases to disucuss.</p>
+<h2 id="1-When-the-app-is-in-foreground"><a href="#1-When-the-app-is-in-foreground" class="headerlink" title="1. When the app is in foreground."></a>1. When the app is in foreground.</h2><p>This case is easier, when the push is coming, the callback method <code>onMessageReceived</code> in the class which extends <code>FirebaseMessagingService</code> will be invoked. </p>
+<h2 id="2-When-the-app-is-in-the-background-or-is-killed"><a href="#2-When-the-app-is-in-the-background-or-is-killed" class="headerlink" title="2. When the app is in the background or is killed."></a>2. When the app is in the background or is killed.</h2><p>Under this case, the notification will show in the system tray first. when we click the notification, the app launcher will be open by default. We can get the push information from its <code>intent</code>.</p>
+<p>But if you don’t want the default action, for example, in my app, the launcher is a Splash activity, I don’t want to deal with push information in the activity, how we can do?</p>
+<p>Now, let us see how to send push to devices.</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Method - POST</span><br><span class="line"></span><br><span class="line">EndPoint - <span class="string">https:</span><span class="comment">//fcm.googleapis.com/fcm/send</span></span><br><span class="line"></span><br><span class="line">Header - </span><br><span class="line"></span><br><span class="line"><span class="string">Authorization:</span>key=appkey</span><br><span class="line"></span><br><span class="line">Content-<span class="string">Type:</span>application/json</span><br><span class="line"></span><br><span class="line">Body - </span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"notification"</span>: &#123;</span><br><span class="line">		<span class="string">"title"</span>: <span class="string">"Your Title"</span>,</span><br><span class="line">		 <span class="string">"text"</span>: <span class="string">"Your Text"</span>,</span><br><span class="line">		 <span class="string">"body"</span>: <span class="string">"Your body"</span>,</span><br><span class="line">		 <span class="string">"click_action"</span> : <span class="string">"PUSH"</span></span><br><span class="line">	&#125;,</span><br><span class="line"><span class="string">"data"</span>: &#123;</span><br><span class="line">    	<span class="string">"url"</span>: <span class="string">"xxx"</span></span><br><span class="line">    &#125;,</span><br><span class="line"><span class="string">"to"</span> : <span class="string">"pushToken"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The key-value <code>click_action</code> is the key point. I want MainActivity to initialize when the push is coming, so I config MainActivity in <code>AndroidManifest.xml</code> file</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity    android:name=<span class="string">".activities.MainActivity"</span>    android:configChanges=<span class="string">"keyboardHidden|orientation"</span>    </span><br><span class="line">android:launchMode=<span class="string">"singleInstance"</span>    </span><br><span class="line">android:screenOrientation=<span class="string">"portrait"</span>&gt;    </span><br><span class="line">	&lt;intent-filter&gt;        </span><br><span class="line">	&lt;action android:name=<span class="string">"PUSH"</span> /&gt;        </span><br><span class="line">	&lt;category android:name=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;   </span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
+<p>Note the action’s name in <code>intent-filter</code> is same with the value of the key <code>click_action</code>.</p>
+<p>Further more, if the MainActivity is in the background, I don’t want to initilize a new one, so I set <code>android:launchMode=&quot;singleInstance&quot;</code> . This way, when the push is coming out, we can get its <code>intent</code> from the following callback method:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override fun <span class="title">onNewIntent</span><span class="params">(intent: Intent?)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (intent != <span class="keyword">null</span> &amp;&amp; intent.action == <span class="string">"PUSH"</span> &amp;&amp; intent.getStringExtra(<span class="string">"url"</span>) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            requestPushContent(intent.getStringExtra(<span class="string">"url"</span>))</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Done!</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/11/02/RxSwift-application-architectures/" itemprop="url">
                   RxSwift Application Architectures
                 </a>
@@ -300,6 +432,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/02/RxSwift-application-architectures/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/11/02/RxSwift-application-architectures/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -421,6 +560,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/31/MVVM-Philosophy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/31/MVVM-Philosophy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -553,6 +699,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/21/译-两分钟介绍Rx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/21/译-两分钟介绍Rx/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -701,6 +854,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/08/15/Android-导出app中的数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/15/Android-导出app中的数据库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -819,6 +979,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/07/18/The-solution-that-the-menu-item-of-Navigation-View-can-t-change-its-background-When-it-is-selected-checked/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -944,6 +1111,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/03/06/增加Document-Provider-Extensions时遇到的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/03/06/增加Document-Provider-Extensions时遇到的问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1067,6 +1241,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/30/国外威客网站对比/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/01/30/国外威客网站对比/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1161,6 +1342,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/03/最近开心的事/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/12/03/最近开心的事/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1279,6 +1467,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/11/12/NSFetchedResultsController查询的对象不属于它的Section/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/12/NSFetchedResultsController查询的对象不属于它的Section/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1302,119 +1497,6 @@
           
             <p>当你使用NSFetchedResultsController来显示你数据库里的数据时，你一定被它的方便之处感动的飞起。但是如果你刚刚学会使用这个类，或者第一次用它来显示section，你可能遇到这个坑。</p>
 <p>推荐阅读<a href="https://richardwarrender.com/2010/10/core-data-objects-in-wrong-sections/" target="_blank" rel="noopener">这里</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/25/译-实现Twitter-iOS-客户端的UI/" itemprop="url">
-                  [译]实现Twitter iOS 客户端的UI
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-10-25T08:22:29+08:00" content="Oct 25 2015">
-              Oct 25 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>继续填坑，原文在<a href="https://medium.com/@bitwaker/implementing-the-twitter-ios-app-ui-b5fa32684e06#.lyx30ksr9" target="_blank" rel="noopener">这里</a></p>
 
           
         
@@ -1486,7 +1568,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1695,6 +1777,25 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = 'page/2/index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
   
 
 

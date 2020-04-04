@@ -1,0 +1,685 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="iOS Development, iPhone Development, Android Development, API Development">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1">
+
+
+
+
+
+
+<meta name="description" content="You want to write test cases for every route right? Yes, I want too. But today, I met a question - How to write test cases to test routes that render model to Leaf page? We all know testing html is co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/index.html">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
+<meta property="og:description" content="You want to write test cases for every route right? Yes, I want too. But today, I met a question - How to write test cases to test routes that render model to Leaf page? We all know testing html is co">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-04T15:24:36.880Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page">
+<meta name="twitter:description" content="You want to write test cases for every route right? Yes, I want too. But today, I met a question - How to write test cases to test routes that render model to Leaf page? We all know testing html is co">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/">
+
+  <title> [Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page | Senior Mobile Developer - Vale </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/aboutme" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-04T22:45:06+08:00" content="Apr 4 2020">
+              Apr 4 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>You want to write test cases for every route right? Yes, I want too. But today, I met a question - How to write test cases to test routes that render model to Leaf page?</p>
+<p>We all know testing html is complicated, I want to test the model which will be rendered to the html page, but how?</p>
+<p>Let’s see the answer.</p>
+<p>First, we need to write our <code>ViewRender</code>, we want to use the custom ViewRender to get the model before it is rendered to html page.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vapor</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CapturingViewRenderer</span>: <span class="title">ViewRenderer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> shouldCache = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> eventLoop: <span class="type">EventLoop</span></span><br><span class="line">    <span class="keyword">init</span>(eventLoop: <span class="type">EventLoop</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.eventLoop = eventLoop</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> `<span class="title">for</span>`<span class="params">(<span class="number">_</span> request: Request)</span></span> -&gt; <span class="type">ViewRenderer</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> capturedContext: <span class="type">Encodable?</span></span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> templatePath: <span class="type">String?</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">render</span>&lt;E&gt;<span class="params">(<span class="number">_</span> name: String, <span class="number">_</span> context: E)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; <span class="keyword">where</span> <span class="type">E</span> : <span class="type">Encodable</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.capturedContext = context</span><br><span class="line">        <span class="keyword">self</span>.templatePath = name</span><br><span class="line">        <span class="keyword">let</span> string = <span class="string">"I just want to get the context and the templatePath, I don't care what the view will look like"</span></span><br><span class="line">        <span class="keyword">var</span> byteBuffer = <span class="type">ByteBufferAllocator</span>().buffer(capacity: string.<span class="built_in">count</span>)</span><br><span class="line">        byteBuffer.writeString(string)</span><br><span class="line">        <span class="keyword">let</span> view = <span class="type">View</span>(data: byteBuffer)</span><br><span class="line">        <span class="keyword">return</span> eventLoop.future(view)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You see, we get the rendering destination <code>templatePath</code>, and the context <code>capturedContext</code>. Maybe you don’t know what context is, just see the route hander, you will undertand.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getArticlesHandler</span><span class="params">(req: Request)</span></span> <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Article</span>.query(on: req.db).all().flatMap &#123;</span><br><span class="line">            <span class="keyword">return</span> req.view.render(<span class="string">"Home"</span>,  <span class="type">HomeContext</span>(articles: $<span class="number">0</span>))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>The HomeContext is the Context the Leaf framework needs, it wraps our model.</p>
+<p>Second, we need to register the ViewRender to our app.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ArticleRoutesTests</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> app: <span class="type">Application!</span></span><br><span class="line">    <span class="keyword">let</span> url = <span class="string">"/articles"</span></span><br><span class="line">    <span class="keyword">let</span> articleName = <span class="string">"Swift"</span></span><br><span class="line">    <span class="keyword">let</span> articleBody = <span class="string">"This is my first post"</span></span><br><span class="line">    <span class="keyword">var</span> capturingViewRender: <span class="type">CapturingViewRenderer!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setUpWithError</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">        app = <span class="type">Application</span>(.testing)</span><br><span class="line">        <span class="keyword">try</span> configure(app)</span><br><span class="line">        capturingViewRender = <span class="type">CapturingViewRenderer</span>(eventLoop: app.eventLoopGroup.next())</span><br><span class="line">        app.views.use &#123;<span class="number">_</span> <span class="keyword">in</span> <span class="keyword">self</span>.capturingViewRender &#125;</span><br><span class="line">    &#125;</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Third, write the test case to compare the route path and model.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testGetArticles</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> <span class="type">Utils</span>.cleanDatabase(db: app.db)</span><br><span class="line">      <span class="keyword">let</span> article = <span class="type">Article</span>(name: articleName, body: articleBody)</span><br><span class="line">      <span class="keyword">try</span> article.save(on: app.db).wait()</span><br><span class="line">      <span class="keyword">try</span> app.test(.<span class="type">GET</span>, url) &#123; res <span class="keyword">in</span></span><br><span class="line">          <span class="keyword">let</span> context = <span class="keyword">try</span> <span class="type">XCTUnwrap</span>(capturingViewRender.capturedContext <span class="keyword">as</span>? <span class="type">ArticleController</span>.<span class="type">HomeContext</span>)</span><br><span class="line">          <span class="type">XCTAssert</span>(capturingViewRender.templatePath == <span class="string">"Home"</span>, <span class="string">"render to wrong page"</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.<span class="built_in">count</span> == <span class="number">1</span>, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.first?.name == articleName, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.first?.body == articleBody, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>Done! Enjoy testing.</p>
+<p>Thanks to <a href="https://twitter.com/0xTim" target="_blank" rel="noopener">@0xTim</a> for discussion about it.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/Vapor4-0发送Post及Leaf渲染/" rel="next" title="Vapor4.0发送Post及Leaf渲染">
+                <i class="fa fa-chevron-left"></i> Vapor4.0发送Post及Leaf渲染
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Changwei">
+          <p class="site-author-name" itemprop="name">Changwei</p>
+          <p class="site-description motion-element" itemprop="description">I develop iOS/Android apps with Swift/Kotlin language.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">77</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/cwtututu" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/thankforyou" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://cn.linkedin.com/pub/vale-tu/71/527/3a1/" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.upwork.com/o/profiles/users/_~01eeefc89751549361/" target="_blank" title="Upwork">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Upwork
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.peopleperhour.com/freelancer/changwei/tu/ios-android-developer-parse-layer/986083" target="_blank" title="peopleperhour">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  peopleperhour
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons">
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy;  2011 - 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Changwei</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = '2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/';
+      var disqus_title = "[Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page";
+      var disqus_url = 'http://tuchangwei.github.com/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

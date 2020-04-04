@@ -86,13 +86,13 @@
 
 <meta name="description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Changwei&#39;s Blog">
+<meta property="og:title" content="Senior Mobile Developer - Vale">
 <meta property="og:url" content="http://tuchangwei.github.com/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Changwei&#39;s Blog">
+<meta name="twitter:title" content="Senior Mobile Developer - Vale">
 <meta name="twitter:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 
 
@@ -116,7 +116,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/">
 
-  <title> Changwei's Blog </title>
+  <title> Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -149,11 +149,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -259,6 +259,120 @@
             
               
                 
+                <a class="post-title-link" href="/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/" itemprop="url">
+                  [Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-04T22:45:06+08:00" content="Apr 4 2020">
+              Apr 4 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>You want to write test cases for every route right? Yes, I want too. But today, I met a question - How to write test cases to test routes that render model to Leaf page?</p>
+<p>We all know testing html is complicated, I want to test the model which will be rendered to the html page, but how?</p>
+<p>Let’s see the answer.</p>
+<p>First, we need to write our <code>ViewRender</code>, we want to use the custom ViewRender to get the model before it is rendered to html page.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vapor</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CapturingViewRenderer</span>: <span class="title">ViewRenderer</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> shouldCache = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">var</span> eventLoop: <span class="type">EventLoop</span></span><br><span class="line">    <span class="keyword">init</span>(eventLoop: <span class="type">EventLoop</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.eventLoop = eventLoop</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> `<span class="title">for</span>`<span class="params">(<span class="number">_</span> request: Request)</span></span> -&gt; <span class="type">ViewRenderer</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> capturedContext: <span class="type">Encodable?</span></span><br><span class="line">    <span class="keyword">private</span>(<span class="keyword">set</span>) <span class="keyword">var</span> templatePath: <span class="type">String?</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">render</span>&lt;E&gt;<span class="params">(<span class="number">_</span> name: String, <span class="number">_</span> context: E)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; <span class="keyword">where</span> <span class="type">E</span> : <span class="type">Encodable</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.capturedContext = context</span><br><span class="line">        <span class="keyword">self</span>.templatePath = name</span><br><span class="line">        <span class="keyword">let</span> string = <span class="string">"I just want to get the context and the templatePath, I don't care what the view will look like"</span></span><br><span class="line">        <span class="keyword">var</span> byteBuffer = <span class="type">ByteBufferAllocator</span>().buffer(capacity: string.<span class="built_in">count</span>)</span><br><span class="line">        byteBuffer.writeString(string)</span><br><span class="line">        <span class="keyword">let</span> view = <span class="type">View</span>(data: byteBuffer)</span><br><span class="line">        <span class="keyword">return</span> eventLoop.future(view)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>You see, we get the rendering destination <code>templatePath</code>, and the context <code>capturedContext</code>. Maybe you don’t know what context is, just see the route hander, you will undertand.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getArticlesHandler</span><span class="params">(req: Request)</span></span> <span class="keyword">throws</span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">View</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">Article</span>.query(on: req.db).all().flatMap &#123;</span><br><span class="line">            <span class="keyword">return</span> req.view.render(<span class="string">"Home"</span>,  <span class="type">HomeContext</span>(articles: $<span class="number">0</span>))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>The HomeContext is the Context the Leaf framework needs, it wraps our model.</p>
+<p>Second, we need to register the ViewRender to our app.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">ArticleRoutesTests</span>: <span class="title">XCTestCase</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> app: <span class="type">Application!</span></span><br><span class="line">    <span class="keyword">let</span> url = <span class="string">"/articles"</span></span><br><span class="line">    <span class="keyword">let</span> articleName = <span class="string">"Swift"</span></span><br><span class="line">    <span class="keyword">let</span> articleBody = <span class="string">"This is my first post"</span></span><br><span class="line">    <span class="keyword">var</span> capturingViewRender: <span class="type">CapturingViewRenderer!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">setUpWithError</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">        app = <span class="type">Application</span>(.testing)</span><br><span class="line">        <span class="keyword">try</span> configure(app)</span><br><span class="line">        capturingViewRender = <span class="type">CapturingViewRenderer</span>(eventLoop: app.eventLoopGroup.next())</span><br><span class="line">        app.views.use &#123;<span class="number">_</span> <span class="keyword">in</span> <span class="keyword">self</span>.capturingViewRender &#125;</span><br><span class="line">    &#125;</span><br><span class="line">		...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Third, write the test case to compare the route path and model.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">testGetArticles</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">      <span class="keyword">try</span> <span class="type">Utils</span>.cleanDatabase(db: app.db)</span><br><span class="line">      <span class="keyword">let</span> article = <span class="type">Article</span>(name: articleName, body: articleBody)</span><br><span class="line">      <span class="keyword">try</span> article.save(on: app.db).wait()</span><br><span class="line">      <span class="keyword">try</span> app.test(.<span class="type">GET</span>, url) &#123; res <span class="keyword">in</span></span><br><span class="line">          <span class="keyword">let</span> context = <span class="keyword">try</span> <span class="type">XCTUnwrap</span>(capturingViewRender.capturedContext <span class="keyword">as</span>? <span class="type">ArticleController</span>.<span class="type">HomeContext</span>)</span><br><span class="line">          <span class="type">XCTAssert</span>(capturingViewRender.templatePath == <span class="string">"Home"</span>, <span class="string">"render to wrong page"</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.<span class="built_in">count</span> == <span class="number">1</span>, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.first?.name == articleName, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">          <span class="type">XCTAssertTrue</span>(context.articles?.first?.body == articleBody, <span class="string">"GET /articles api failed."</span>)</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>Done! Enjoy testing.</p>
+<p>Thanks to <a href="https://twitter.com/0xTim" target="_blank" rel="noopener">@0xTim</a> for discussion about it.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/04/01/Vapor4-0发送Post及Leaf渲染/" itemprop="url">
                   Vapor4.0发送Post及Leaf渲染
                 </a>
@@ -281,6 +395,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/01/Vapor4-0发送Post及Leaf渲染/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/01/Vapor4-0发送Post及Leaf渲染/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -385,6 +506,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/31/Vapor4-0数据库增加字段/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/31/Vapor4-0数据库增加字段/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -500,6 +628,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/24/Vapor4-0写一些测试/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/24/Vapor4-0写一些测试/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -617,6 +752,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/20/Vapor4-0加入数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/20/Vapor4-0加入数据库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -738,6 +880,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/18/Vapor4-0对docker-compose文件浅析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/18/Vapor4-0对docker-compose文件浅析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -858,6 +1007,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/15/Vapor4-0对Dockerfile文件浅析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/15/Vapor4-0对Dockerfile文件浅析/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1013,6 +1169,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/13/Vapor4-0Xcode传参/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/Vapor4-0Xcode传参/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1130,6 +1293,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/13/Vapor4-0概念/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/Vapor4-0概念/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1279,6 +1449,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/13/Android-三张图搞定Touch事件传递机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1362,131 +1539,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/04/08/Two-Tips-When-You-Setup-Firebase-For-Remote-Notification/" itemprop="url">
-                  Two Tips When You Setup Firebase for Remote Notification
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-04-08T16:24:00+08:00" content="Apr 8 2017">
-              Apr 8 2017
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>I finished my first android app written by Kotlin language recently. Today I want to record what I learned when I setup Firebase for remote notification.</p>
-<p>There are two cases to disucuss.</p>
-<h2 id="1-When-the-app-is-in-foreground"><a href="#1-When-the-app-is-in-foreground" class="headerlink" title="1. When the app is in foreground."></a>1. When the app is in foreground.</h2><p>This case is easier, when the push is coming, the callback method <code>onMessageReceived</code> in the class which extends <code>FirebaseMessagingService</code> will be invoked. </p>
-<h2 id="2-When-the-app-is-in-the-background-or-is-killed"><a href="#2-When-the-app-is-in-the-background-or-is-killed" class="headerlink" title="2. When the app is in the background or is killed."></a>2. When the app is in the background or is killed.</h2><p>Under this case, the notification will show in the system tray first. when we click the notification, the app launcher will be open by default. We can get the push information from its <code>intent</code>.</p>
-<p>But if you don’t want the default action, for example, in my app, the launcher is a Splash activity, I don’t want to deal with push information in the activity, how we can do?</p>
-<p>Now, let us see how to send push to devices.</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">Method - POST</span><br><span class="line"></span><br><span class="line">EndPoint - <span class="string">https:</span><span class="comment">//fcm.googleapis.com/fcm/send</span></span><br><span class="line"></span><br><span class="line">Header - </span><br><span class="line"></span><br><span class="line"><span class="string">Authorization:</span>key=appkey</span><br><span class="line"></span><br><span class="line">Content-<span class="string">Type:</span>application/json</span><br><span class="line"></span><br><span class="line">Body - </span><br><span class="line"></span><br><span class="line">&#123;<span class="string">"notification"</span>: &#123;</span><br><span class="line">		<span class="string">"title"</span>: <span class="string">"Your Title"</span>,</span><br><span class="line">		 <span class="string">"text"</span>: <span class="string">"Your Text"</span>,</span><br><span class="line">		 <span class="string">"body"</span>: <span class="string">"Your body"</span>,</span><br><span class="line">		 <span class="string">"click_action"</span> : <span class="string">"PUSH"</span></span><br><span class="line">	&#125;,</span><br><span class="line"><span class="string">"data"</span>: &#123;</span><br><span class="line">    	<span class="string">"url"</span>: <span class="string">"xxx"</span></span><br><span class="line">    &#125;,</span><br><span class="line"><span class="string">"to"</span> : <span class="string">"pushToken"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>The key-value <code>click_action</code> is the key point. I want MainActivity to initialize when the push is coming, so I config MainActivity in <code>AndroidManifest.xml</code> file</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;activity    android:name=<span class="string">".activities.MainActivity"</span>    android:configChanges=<span class="string">"keyboardHidden|orientation"</span>    </span><br><span class="line">android:launchMode=<span class="string">"singleInstance"</span>    </span><br><span class="line">android:screenOrientation=<span class="string">"portrait"</span>&gt;    </span><br><span class="line">	&lt;intent-filter&gt;        </span><br><span class="line">	&lt;action android:name=<span class="string">"PUSH"</span> /&gt;        </span><br><span class="line">	&lt;category android:name=<span class="string">"android.intent.category.DEFAULT"</span> /&gt;   </span><br><span class="line">	&lt;/intent-filter&gt;</span><br><span class="line">&lt;/activity&gt;</span><br></pre></td></tr></table></figure>
-<p>Note the action’s name in <code>intent-filter</code> is same with the value of the key <code>click_action</code>.</p>
-<p>Further more, if the MainActivity is in the background, I don’t want to initilize a new one, so I set <code>android:launchMode=&quot;singleInstance&quot;</code> . This way, when the push is coming out, we can get its <code>intent</code> from the following callback method:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">override fun <span class="title">onNewIntent</span><span class="params">(intent: Intent?)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (intent != <span class="keyword">null</span> &amp;&amp; intent.action == <span class="string">"PUSH"</span> &amp;&amp; intent.getStringExtra(<span class="string">"url"</span>) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            requestPushContent(intent.getStringExtra(<span class="string">"url"</span>))</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Done!</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1530,7 +1582,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1739,6 +1791,25 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = 'index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
   
 
 

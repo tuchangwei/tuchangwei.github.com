@@ -88,7 +88,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD和信号量">
 <meta property="og:url" content="http://tuchangwei.github.com/2013/03/05/gcdhe-xin-hao-liang/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="#GCD概念不多说，直接上代码。话说也不是什么高深的东东，不过极大简化了代码，一目了然。后面对信号量的记录也采用了相同的原理。 //抛出线程 dispatch_async(dispatch_get_global_queue(0, 0), ^{      NSURL * url = [NSURL URLWithString:@&amp;quot;http://www.google.com&amp;quot;];">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2019-06-14T20:33:03.164Z">
@@ -117,7 +117,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/2013/03/05/gcdhe-xin-hao-liang/">
 
-  <title> GCD和信号量 | Changwei's Blog </title>
+  <title> GCD和信号量 | Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -148,11 +148,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -296,6 +296,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/05/gcdhe-xin-hao-liang/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/05/gcdhe-xin-hao-liang/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -460,6 +467,13 @@ dispatch_async(dispatch_get_global_queue(0, 0), ^{
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -500,7 +514,7 @@ dispatch_async(dispatch_get_global_queue(0, 0), ^{
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -724,6 +738,27 @@ dispatch_async(dispatch_get_global_queue(0, 0), ^{
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = '2013/03/05/gcdhe-xin-hao-liang/';
+      var disqus_title = "GCD和信号量";
+      var disqus_url = 'http://tuchangwei.github.com/2013/03/05/gcdhe-xin-hao-liang/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

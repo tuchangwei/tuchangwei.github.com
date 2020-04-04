@@ -89,7 +89,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vapor4.0加入数据库">
 <meta property="og:url" content="http://tuchangwei.github.com/2020/03/20/Vapor4-0加入数据库/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="今天主要是操作postgres数据库，验证表关系，主要测试联机删除和外键为空的情况。 数据库中建了文章表(子表)和类别表(父表)，类别表的主键是文章表的外键，文章表的外键约束是联机删除，它的意思是当删除类别表的某项记录时，文章表里和此类别记录有关的记录都会被删除。逻辑好绕。 访问postgres数据库有两种方式，一种是先进入容器，然后访问。进入容器我用的是Code的Docker插件进入的。进去之后">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2020-03-25T09:35:17.554Z">
@@ -118,7 +118,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/2020/03/20/Vapor4-0加入数据库/">
 
-  <title> Vapor4.0加入数据库 | Changwei's Blog </title>
+  <title> Vapor4.0加入数据库 | Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -149,11 +149,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -298,6 +298,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/03/20/Vapor4-0加入数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/20/Vapor4-0加入数据库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -392,6 +399,13 @@
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -432,7 +446,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -656,6 +670,27 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = '2020/03/20/Vapor4-0加入数据库/';
+      var disqus_title = "Vapor4.0加入数据库";
+      var disqus_url = 'http://tuchangwei.github.com/2020/03/20/Vapor4-0加入数据库/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

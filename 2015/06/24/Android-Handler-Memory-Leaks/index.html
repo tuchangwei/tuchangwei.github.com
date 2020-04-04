@@ -89,7 +89,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="［译］Android Handler 中的内存泄漏">
 <meta property="og:url" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="Android使用Java作为其开发平台。这帮助我们解决许多低层次的问题，包括内存管理，平台类型依赖（platform type dependencies，怎么翻译？）等等。但是，我们有时候仍然会由于内存泄漏而导致程序崩溃。 那么，垃圾收集器哪里去了呢？ 这些大对象长时间不能被清理的案例，我将关注其中一种。这种案例最终不会产生内存泄漏——对象在某些时刻都能够被回收——所以我们有时会忽略它。但是这并">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/anonymous_runnable_code.png">
@@ -129,7 +129,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/">
 
-  <title> ［译］Android Handler 中的内存泄漏 | Changwei's Blog </title>
+  <title> ［译］Android Handler 中的内存泄漏 | Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -160,11 +160,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -309,6 +309,13 @@
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/06/24/Android-Handler-Memory-Leaks/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/06/24/Android-Handler-Memory-Leaks/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -445,6 +452,13 @@
           
   <div class="comments" id="comments">
     
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
   </div>
 
 
@@ -485,7 +499,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -709,6 +723,27 @@
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = '2015/06/24/Android-Handler-Memory-Leaks/';
+      var disqus_title = "［译］Android Handler 中的内存泄漏";
+      var disqus_url = 'http://tuchangwei.github.com/2015/06/24/Android-Handler-Memory-Leaks/';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+        run_disqus_script('embed.js');
+      
+    </script>
   
 
 

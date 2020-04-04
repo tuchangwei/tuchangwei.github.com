@@ -86,13 +86,13 @@
 
 <meta name="description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Changwei&#39;s Blog">
+<meta property="og:title" content="Senior Mobile Developer - Vale">
 <meta property="og:url" content="http://tuchangwei.github.com/page/7/index.html">
-<meta property="og:site_name" content="Changwei&#39;s Blog">
+<meta property="og:site_name" content="Senior Mobile Developer - Vale">
 <meta property="og:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Changwei&#39;s Blog">
+<meta name="twitter:title" content="Senior Mobile Developer - Vale">
 <meta name="twitter:description" content="I develop iOS/Android apps with Swift/Kotlin language.">
 
 
@@ -116,7 +116,7 @@
 
   <link rel="canonical" href="http://tuchangwei.github.com/page/7/">
 
-  <title> Changwei's Blog </title>
+  <title> Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -149,11 +149,11 @@
   <div class="custom-logo-site-title">
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Changwei's Blog</span>
+      <span class="site-title">Senior Mobile Developer - Vale</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">I develop iOS/Android apps with Swift/Kotlin language.</p>
+  <p class="site-subtitle">Contact me via changweitu@gmail.com | @cwtututu.</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -259,6 +259,180 @@
             
               
                 
+                <a class="post-title-link" href="/2013/03/31/some-advice-about-using-arc/" itemprop="url">
+                  Some Advice About Using ARC
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-03-31T21:46:00+08:00" content="Mar 31 2013">
+              Mar 31 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/ARC/" itemprop="url" rel="index">
+                    <span itemprop="name">ARC</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/31/some-advice-about-using-arc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/31/some-advice-about-using-arc/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <ol>
+<li>As long as there is a variable pointing to an object, that object stay in memory. When the pointer gets a new value or ceases to exist, the associated object is released.This is true for all variables:instance variables,synthesized properties, adn even local variables.</li>
+<li>“weak” pointer. Variables that are weak can still point to objects but they do not become owners.</li>
+<li>Please change the <code>Complier for C/C++/Object-c</code> option to <code>Apple LLVM compiler 3.0</code>.</li>
+<li>Please set <code>Other Waring Flags</code> option to <code>-Wall</code>.</li>
+<li>Please set <code>Run Static Analyzer</code> option to <code>Yes</code>.</li>
+<li>Please set <code>Objective-c Automatic Reference Counting</code> option to <code>Yes</code>.</li>
+<li>Some files needn’t to convert to ARC support, use the <code>-fno-objc-arc</code> flag.</li>
+<li><p>You will get this error when your code does the following:</p>
+<pre><code>switch (X)
+{    
+    case Y:
+        NSString *s = ...;
+        break;
+}
+</code></pre><p> you need do this:</p>
+<pre><code>switch (X)
+{    
+   case Y:
+   {
+       NSString *s = ...;
+       break;
+   }
+}
+</code></pre></li>
+<li><p>If instace variables are a part of the internals of your class and not something you want expose in its public interface. you can move the instace variables from interface section to implementation section. some codes from .h file as following:</p>
+</li>
+</ol>
+<pre><code>    #import &lt;UIKit/UIKit.h&gt;
+
+    @interface MainViewController : UIViewController 
+      &lt;UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, 
+      NSXMLParserDelegate&gt;
+
+    @property (nonatomic, retain) IBOutlet UITableView *tableView;
+    @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
+
+    @end
+
+move the instace variables to implementation section as following:
+
+
+    @implementation MainViewController
+    {
+        NSOperationQueue *queue;
+        NSMutableString *currentStringValue;
+    }
+</code></pre><ol start="10">
+<li>Generally, dealloc method isn’t need.The only reason for keeping a dealloc method around is when you need to free certain resources that do not fall under ARC’s umbrella. Examples of this are calling CFRelease() on Core Foundation objects, calling free() on memory that you allocated with malloc(), unregistering for notifications, invalidating a timer, and so on.</li>
+<li><p>Toll-Free Bridging</p>
+<p>Change ownership from Core Foundation to Objecttive-C, use CFBridgingRelease().</p>
+<p>Change ownership from Objective-C to Core Foundation, use CFBridgingRetain().</p>
+<p>Want to use one type temporarily as if it were another without owership change, use __bridge.</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/03/30/use-command-line-to-pack-applications/" itemprop="url">
                   Use Command Line to Pack Applications
                 </a>
@@ -300,6 +474,13 @@
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/30/use-command-line-to-pack-applications/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/30/use-command-line-to-pack-applications/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -458,6 +639,13 @@ echo &quot;finish delete .svn.&quot;
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/30/terminal-shortcuts/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/30/terminal-shortcuts/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -598,6 +786,13 @@ echo &quot;finish delete .svn.&quot;
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/26/how-should-we-use-nslog/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/26/how-should-we-use-nslog/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -728,6 +923,13 @@ fprintf(stderr,&quot;[--%s--]*[--%s--]*[--%s:%d--]\n&quot;,[str UTF8String],    
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/21/use-block-to-call-back-instead-of-delegate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/21/use-block-to-call-back-instead-of-delegate/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -879,6 +1081,13 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/19/cong-nibjia-zai-view-loading-view-from-nib/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/19/cong-nibjia-zai-view-loading-view-from-nib/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1010,6 +1219,13 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/19/dui-xiang-chuan-zhi-de-ji-chong-fang-shi-some-methods-to-make-talk-to-each-other-between-objects-a-and-b/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1129,6 +1345,13 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1258,6 +1481,13 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
           
 
           
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/" itemprop="commentsCount"></span>
+                </a>
+              </span>
             
           
 
@@ -1422,6 +1652,13 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
 
           
             
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/03/10/shuo-shuo-fan-qiang-ruan-jian-goagentx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/10/shuo-shuo-fan-qiang-ruan-jian-goagentx/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
           
 
           
@@ -1451,123 +1688,6 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
 <li>chrome安装<a href="https://chrome.google.com/webstore/detail/proxy-switchysharp/dpplabbmogkhghncfbfdeeokoefdjegm" target="_blank" rel="noopener">SwitchySharp插件</a>,并在插件中导入<a href="http://goagent.googlecode.com/files/SwitchyOptions.bak" target="_blank" rel="noopener">http://goagent.googlecode.com/files/SwitchyOptions.bak</a></li>
 </ol>
 <p>那么，希望各位能在一个开放自由的互联网环境中学习，成长。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/09/crashlytics-diao-shi-li-qi/" itemprop="url">
-                  Crashlytics 调试利器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-09T17:23:00+08:00" content="Mar 9 2013">
-              Mar 9 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Debug/" itemprop="url" rel="index">
-                    <span itemprop="name">Debug</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天收到Crashlytics员工发来的邮件，说他收到很多我发的重复请求，如果已收到邀请，请及时回复。话说他这个注册还挺麻烦，先发一个邮件地址过去，要等一天的样子，然后会收到一个邮件说你是否通过验证，通过验证才能注册。不知道要等那么久，以为是邮箱的关系，就不断的请求请求。哈。不管怎样，总算可以注册了。</p>
-<p>说一下Crashlytics吧。</p>
-<p>了解的不多，大概是将它的sdk加入到工程中可以随时监控iOS的崩溃情况，甚至可以定位到代码行级别。这个比iOS的崩溃日志强多了。</p>
-<p>更多优点使用之后再和大家分享。</p>
-<p><a href="http://www.flickr.com/photos/tuchangwei/8540600027/" title="Flickr 上 涂 涂 的 DEE758DA-B46C-477A-B790-13C9B14DE43F" target="_blank" rel="noopener"><img src="http://static.flickr.com/8106/8540600027_a9a942a4ba.jpg" width="500" height="325" alt="DEE758DA-B46C-477A-B790-13C9B14DE43F"></a></p>
 
           
         
@@ -1639,7 +1759,7 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">76</span>
+              <span class="site-state-item-count">77</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1848,6 +1968,25 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
 
 
 
+  
+
+    <script type="text/javascript">
+      var disqus_shortname = 'tuchangwei';
+      var disqus_identifier = 'page/7/index.html';
+      var disqus_title = "";
+      var disqus_url = '';
+
+      function run_disqus_script(disqus_script){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      }
+
+      run_disqus_script('count.js');
+      
+    </script>
   
 
 
