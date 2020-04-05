@@ -93,7 +93,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160058@2x.png">
 <meta property="og:image" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160133@2x.png">
-<meta property="og:updated_time" content="2020-04-05T08:11:58.837Z">
+<meta property="og:updated_time" content="2020-04-05T10:00:33.132Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Vapor 4.0]Set Environment Variables for Swift Test and Github Action">
 <meta name="twitter:description" content="When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the Run tab, we don’t set the database information,">
@@ -278,6 +278,25 @@
           </span>
 
           
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Vapor4-0/" itemprop="url" rel="index">
+                    <span itemprop="name">Vapor4.0</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
 
           
             
@@ -313,8 +332,8 @@
 <p>But do you know how to set these variables via command line? Here it is:</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export <span class="type">DATABASE_PORT</span>=<span class="string">"5433"</span>; export <span class="type">DATABASE_USERNAME</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_PASSWORD</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_NAME</span>=<span class="string">"test"</span>; swift test</span><br></pre></td></tr></table></figure>
 <p>Now, CI(continutal Integration) is popular, today I also try to run test when I push my code to Github reposity. After some failture, here is the right <code>yml</code> file.</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">name: test</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">jobs:</span><br><span class="line">  test:</span><br><span class="line">    container:</span><br><span class="line">      image: vapor/swift:<span class="number">5.2</span></span><br><span class="line">    services:</span><br><span class="line">      psql:</span><br><span class="line">        image: postgres</span><br><span class="line">        ports:</span><br><span class="line">          - <span class="number">5432</span>:<span class="number">5432</span></span><br><span class="line">        env:</span><br><span class="line">          <span class="type">POSTGRES_USER</span>: test</span><br><span class="line">          <span class="type">POSTGRES_DB</span>: test</span><br><span class="line">          <span class="type">POSTGRES_PASSWORD</span>: test</span><br><span class="line">    runs-on: ubuntu-latest </span><br><span class="line">    </span><br><span class="line">    steps:</span><br><span class="line">      - name: '<span class="type">Checking</span> out repo'	       </span><br><span class="line">        uses: actions/checkout@v2	</span><br><span class="line">      - name: '<span class="type">Running</span> <span class="type">Integration</span> <span class="type">Tests'</span>	</span><br><span class="line">        env:</span><br><span class="line">         <span class="type">DATABASE_PORT</span>: <span class="number">5432</span></span><br><span class="line">         <span class="type">DATABASE_USERNAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_PASSWORD</span>: test</span><br><span class="line">         <span class="type">DATABASE_NAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_HOST</span>: psql</span><br><span class="line">        run: swift test --enable-test-discovery --sanitize=thread</span><br></pre></td></tr></table></figure>
-<p>I had thought to change the database port to <code>5433</code>, but it seems it is a bug of Github Action. After I changed it back to <code>5432</code>, it works.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">name: test</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">jobs:</span><br><span class="line">  test:</span><br><span class="line">    container:</span><br><span class="line">      image: vapor/swift:<span class="number">5.2</span></span><br><span class="line">    services:</span><br><span class="line">      psql:</span><br><span class="line">        image: postgres</span><br><span class="line">        ports:</span><br><span class="line">          - <span class="number">5432</span>:<span class="number">5432</span></span><br><span class="line">        env:</span><br><span class="line">          <span class="type">POSTGRES_USER</span>: test</span><br><span class="line">          <span class="type">POSTGRES_DB</span>: test</span><br><span class="line">          <span class="type">POSTGRES_PASSWORD</span>: test</span><br><span class="line">    runs-on: ubuntu-latest </span><br><span class="line">    </span><br><span class="line">    steps:</span><br><span class="line">      - name: '<span class="type">Checking</span> out repo'	       </span><br><span class="line">        uses: actions/checkout@v2	</span><br><span class="line">      - name: '<span class="type">Running</span> <span class="type">Integration</span> <span class="type">Tests'</span>	</span><br><span class="line">				run: swift test --enable-test-discovery --sanitize=thread</span><br><span class="line">        env:</span><br><span class="line">         <span class="type">DATABASE_PORT</span>: <span class="number">5432</span></span><br><span class="line">         <span class="type">DATABASE_USERNAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_PASSWORD</span>: test</span><br><span class="line">         <span class="type">DATABASE_NAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_HOST</span>: psql</span><br></pre></td></tr></table></figure>
+<p>I had thought to change the database port to <code>5433</code>, but it seems a bug of Github Action. After I changed it back to <code>5432</code>, it works.</p>
 <p>Thanks to <a href="https://twitter.com/0xTim" target="_blank" rel="noopener">@0xTim</a> for discussion about it.</p>
 
       
