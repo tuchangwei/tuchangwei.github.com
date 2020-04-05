@@ -259,6 +259,159 @@
             
               
                 
+                <a class="post-title-link" href="/2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="url">
+                  Android-三张图搞定Touch事件传递机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-11-13T10:56:59+08:00" content="Nov 13 2017">
+              Nov 13 2017
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/13/Android-三张图搞定Touch事件传递机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>转自: <a href="http://hanhailong.com/2015/09/24/Android-三张图搞定Touch事件传递机制/" target="_blank" rel="noopener">Android-三张图搞定Touch事件传递机制</a></p>
+<p>之前看了很多关于Android事件Touch传递机制的文章，感觉还是老外讲的最清楚。原版PDF地址：<a href="http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf" target="_blank" rel="noopener">Mastering the Android Touch System</a>，github的demo地址：<a href="https://github.com/devunwired/custom-touch-examples" target="_blank" rel="noopener">demo</a></p>
+<p>上图之前先讲下Android事件的基础知识：</p>
+<ol>
+<li>所有的Touch事件都封装到MotionEvent里面</li>
+<li>事件处理包括三种情况，分别为：传递—-dispatchTouchEvent()函数、拦截——onInterceptTouchEvent()函数、消费—-onTouchEvent()函数和OnTouchListener </li>
+<li>事件类型分为ACTION_DOWN, ACTION_UP, ACTION_MOVE, ACTION_POINTER_DOWN, ACTION_POINTER_UP, ACTION_CANCEL等，每个事件都是以ACTION_DOWN开始ACTION_UP结束</li>
+</ol>
+<p>Android事件传递流程：</p>
+<ol>
+<li><p>事件都是从Activity.dispatchTouchEvent()开始传递</p>
+</li>
+<li><p>事件由父View传递给子View，ViewGroup可以通过onInterceptTouchEvent()方法对事件拦截，停止其向子view传递</p>
+</li>
+<li><p>如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，这时父View(ViewGroup)可以进行消费，如果还是没有被消费的话，最后会到Activity的onTouchEvent()函数。</p>
+</li>
+<li><p>如果View没有对ACTION_DOWN进行消费，之后的其他事件不会传递过来，也就是说ACTION_DOWN必须返回true，之后的事件才会传递进来</p>
+</li>
+<li><p>OnTouchListener优先于onTouchEvent()对事件进行消费</p>
+<hr>
+<p>效果图如下：</p>
+<ol>
+<li><p>View不处理事件流程图（View没有消费事件）</p>
+<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_ignorant.png.jpeg">
+</li>
+<li><p>View处理事件</p>
+<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_interested.png.jpeg">
+</li>
+<li><p>事件拦截</p>
+<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_intercept.png.jpeg">
+</li>
+</ol>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/04/08/Two-Tips-When-You-Setup-Firebase-For-Remote-Notification/" itemprop="url">
                   Two Tips When You Setup Firebase for Remote Notification
                 </a>
@@ -1404,127 +1557,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/12/NSFetchedResultsController查询的对象不属于它的Section/" itemprop="url">
-                  NSFetchedResultsController查询的对象不属于它的Section
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-11-12T17:52:20+08:00" content="Nov 12 2015">
-              Nov 12 2015
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/11/12/NSFetchedResultsController查询的对象不属于它的Section/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/11/12/NSFetchedResultsController查询的对象不属于它的Section/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>当你使用NSFetchedResultsController来显示你数据库里的数据时，你一定被它的方便之处感动的飞起。但是如果你刚刚学会使用这个类，或者第一次用它来显示section，你可能遇到这个坑。</p>
-<p>推荐阅读<a href="https://richardwarrender.com/2010/10/core-data-objects-in-wrong-sections/" target="_blank" rel="noopener">这里</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1568,7 +1600,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">77</span>
+              <span class="site-state-item-count">78</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

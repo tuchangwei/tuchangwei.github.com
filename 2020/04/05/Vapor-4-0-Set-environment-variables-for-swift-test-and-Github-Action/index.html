@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Rx,">
+  <meta name="keywords" content="iOS Development, iPhone Development, Android Development, API Development">
 
 
 
@@ -84,22 +84,20 @@
 
 
 
-<meta name="description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
-<meta name="keywords" content="Rx">
+<meta name="description" content="When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the Run tab, we don’t set the database information,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[译]两分钟介绍Rx">
-<meta property="og:url" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/index.html">
+<meta property="og:title" content="[Vapor 4.0]Set Environment Variables for Swift Test and Github Action">
+<meta property="og:url" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/index.html">
 <meta property="og:site_name" content="Senior Mobile Developer - Vale">
-<meta property="og:description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
+<meta property="og:description" content="When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the Run tab, we don’t set the database information,">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
-<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/2-FjTqms95LbK_ztsZXiNpoQ.png">
-<meta property="og:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-DvH5Iqul7Nxor7r7AencgA.png">
-<meta property="og:updated_time" content="2019-06-14T20:33:03.319Z">
+<meta property="og:image" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160058@2x.png">
+<meta property="og:image" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160133@2x.png">
+<meta property="og:updated_time" content="2020-04-05T08:11:58.837Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[译]两分钟介绍Rx">
-<meta name="twitter:description" content="原文在这里, 本文用Typora编辑 你可能已经看了我写的这篇文章。太长了？好吧。 Rx并不是那么难，你自己也可以创造它。继续阅读吧。 你知道数组吗？你当然知道。这里有一个： [14, 9, 5, 2, 10, 13, 4]   如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式： [14, 9, 5, 2, 10, 13, 4]filter( (x) -&amp;gt">
-<meta name="twitter:image" content="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
+<meta name="twitter:title" content="[Vapor 4.0]Set Environment Variables for Swift Test and Github Action">
+<meta name="twitter:description" content="When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the Run tab, we don’t set the database information,">
+<meta name="twitter:image" content="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160058@2x.png">
 
 
 
@@ -120,9 +118,9 @@
 
 
 
-  <link rel="canonical" href="http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/">
+  <link rel="canonical" href="http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/">
 
-  <title> [译]两分钟介绍Rx | Senior Mobile Developer - Vale </title>
+  <title> [Vapor 4.0]Set Environment Variables for Swift Test and Github Action | Senior Mobile Developer - Vale </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -262,7 +260,7 @@
             
             
               
-                [译]两分钟介绍Rx
+                [Vapor 4.0]Set Environment Variables for Swift Test and Github Action
               
             
           </h1>
@@ -274,38 +272,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-10-21T17:28:49+08:00" content="Oct 21 2016">
-              Oct 21 2016
+            <time itemprop="dateCreated" datetime="2020-04-05T15:52:58+08:00" content="Apr 5 2020">
+              Apr 5 2020
             </time>
           </span>
 
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Rx/" itemprop="url" rel="index">
-                    <span itemprop="name">Rx</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/10/21/译-两分钟介绍Rx/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/10/21/译-两分钟介绍Rx/" itemprop="commentsCount"></span>
+                <a href="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -328,41 +307,15 @@
       
 
       
-        <p><strong>原文在<a href="https://medium.com/@andrestaltz/2-minute-introduction-to-rx-24c8ca793877#.ww2g1z3oo" target="_blank" rel="noopener">这里</a>, 本文用<a href="http://www.typora.io/" target="_blank" rel="noopener">Typora</a>编辑</strong></p>
-<p>你可能已经看了我写的<a href="https://gist.github.com/staltz/868e7e9bc2a7b8c1f754" target="_blank" rel="noopener">这篇文章</a>。太长了？好吧。</p>
-<p>Rx并不是那么难，你自己也可以创造它。继续阅读吧。</p>
-<p>你知道数组吗？你当然知道。这里有一个：</p>
-<font style="font-size:30px;"><em>[14, 9, 5, 2, 10, 13, 4]</em></font>
-
-<p></p><p></p>
-<p>如果我告诉你这是个不可变的数组，你需要拿走所有的奇数，你会怎么做呢？这是一个流行的方式：</p>
-<font style="font-size:30px;"><em>[14, 9, 5, 2, 10, 13, 4]</em><br><br><em>filter( (x) -&gt; x % 2 == 0 )</em><br><br><em>[ 14, 2, 10, 4 ]</em></font>
-
-<p>到现在为止，没什么新东西。这很普遍，它来自于函数式编程的范例。</p>
-<p>…</p>
-<p>现在想象一下鼠标位置的点击事件。如果你把它们画在一个时间线上，它们看起来是这样的：</p>
-<img src="/2016/10/21/译-两分钟介绍Rx/1-FjTqms95LbK_ztsZXiNpoQ.png">
-<p>朋友，这是一个事件流，我们亲切的叫它 <code>Observable</code>。</p>
-<p>这个点击事件来自于鼠标，因此整个的事件流是不可变的，在这种场景下，当它被定义之后，你不能增加或移除它。</p>
-<p>但是如果我只对x &lt; 250 的点击事件感兴趣呢？那我们能不能也创建一个新的事件流就像我们过滤数组那样呢？</p>
-<img src="/2016/10/21/译-两分钟介绍Rx/2-FjTqms95LbK_ztsZXiNpoQ.png">
-<p></p><p></p>
-<font style="font-size:30px;"><center><em>filter( (event) -&gt; event.x &lt; 250 )</em></center></font>
-
-<p></p><p></p>
-<img src="/2016/10/21/译-两分钟介绍Rx/1-DvH5Iqul7Nxor7r7AencgA.png">
-<p>那么不变的数组和<code>Observables</code> 有什么不同吗？并不多。你可以对两者使用<code>map</code>, <code>filter</code>, <code>reduct</code>。对于<code>Observables</code> 你还可以使用<code>merge</code>, <code>delay</code>, <code>concat</code>, <code>buffer</code>, <code>distinct</code> , <code>first</code>, <code>last</code>, <code>zip</code>, <code>startWith</code>, <code>widnow</code>, <code>takeUntil</code>, <code>skip</code>, <code>scan</code>, <code>sample</code>, <code>amb</code>, <code>join</code>, <code>flatMap</code>.</p>
-<p><strong>把它想象成一个异步的不可变的数组。</strong></p>
-<p>Rx在underscore.js中是为事件服务的。但是等一等，什么是事件？难道你app中的大部分东西不都是事件吗？</p>
-<p>事件“程序开始”，事件“API响应接收”，事件“键盘按键被点击”，事件“设备休眠”，等等。</p>
-<p>虚拟的任何东西都能看作是事件流。它只是和它的构成与合适的组合有关。</p>
-<p>嗯，这就是两分钟Rx。</p>
-<blockquote>
-<p>What’s the difference between an array and events?</p>
-</blockquote>
-<blockquote>
-<p>— <a href="https://www.youtube.com/watch?v=FAZJsxcykPs&amp;list=PLfXiENmg6yyU5kEHyo1kYkq7HEzBOoiTT#t=365" target="_blank" rel="noopener">Erik Meijer</a></p>
-</blockquote>
+        <p>When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the <code>Run</code> tab, we don’t set the database information, but Under the <code>Test</code> tab, we set the database information.</p>
+<img src="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160058@2x.png">
+<img src="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160133@2x.png">
+<p>But do you know how to set these variables via command line? Here it is:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export <span class="type">DATABASE_PORT</span>=<span class="string">"5433"</span>; export <span class="type">DATABASE_USERNAME</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_PASSWORD</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_NAME</span>=<span class="string">"test"</span>; swift test</span><br></pre></td></tr></table></figure>
+<p>Now, CI(continutal Integration) is popular, today I also try to run test when I push my code to Github reposity. After some failture, here is the right <code>yml</code> file.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">name: test</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">jobs:</span><br><span class="line">  test:</span><br><span class="line">    container:</span><br><span class="line">      image: vapor/swift:<span class="number">5.2</span></span><br><span class="line">    services:</span><br><span class="line">      psql:</span><br><span class="line">        image: postgres</span><br><span class="line">        ports:</span><br><span class="line">          - <span class="number">5432</span>:<span class="number">5432</span></span><br><span class="line">        env:</span><br><span class="line">          <span class="type">POSTGRES_USER</span>: test</span><br><span class="line">          <span class="type">POSTGRES_DB</span>: test</span><br><span class="line">          <span class="type">POSTGRES_PASSWORD</span>: test</span><br><span class="line">    runs-on: ubuntu-latest </span><br><span class="line">    </span><br><span class="line">    steps:</span><br><span class="line">      - name: '<span class="type">Checking</span> out repo'	       </span><br><span class="line">        uses: actions/checkout@v2	</span><br><span class="line">      - name: '<span class="type">Running</span> <span class="type">Integration</span> <span class="type">Tests'</span>	</span><br><span class="line">        env:</span><br><span class="line">         <span class="type">DATABASE_PORT</span>: <span class="number">5432</span></span><br><span class="line">         <span class="type">DATABASE_USERNAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_PASSWORD</span>: test</span><br><span class="line">         <span class="type">DATABASE_NAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_HOST</span>: psql</span><br><span class="line">        run: swift test --enable-test-discovery --sanitize=thread</span><br></pre></td></tr></table></figure>
+<p>I had thought to change the database port to <code>5433</code>, but it seems it is a bug of Github Action. After I changed it back to <code>5432</code>, it works.</p>
+<p>Thanks to <a href="https://twitter.com/0xTim" target="_blank" rel="noopener">@0xTim</a> for discussion about it.</p>
 
       
     </div>
@@ -383,28 +336,18 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Rx/" rel="tag">#Rx</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/08/15/Android-导出app中的数据库/" rel="next" title="[Android]导出app中的数据库">
-                <i class="fa fa-chevron-left"></i> [Android]导出app中的数据库
+              <a href="/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/" rel="next" title="[Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page">
+                <i class="fa fa-chevron-left"></i> [Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/31/MVVM-Philosophy/" rel="prev" title="MVVM Philosophy">
-                MVVM Philosophy <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -705,9 +648,9 @@
 
     <script type="text/javascript">
       var disqus_shortname = 'tuchangwei';
-      var disqus_identifier = '2016/10/21/译-两分钟介绍Rx/';
-      var disqus_title = "[译]两分钟介绍Rx";
-      var disqus_url = 'http://tuchangwei.github.com/2016/10/21/译-两分钟介绍Rx/';
+      var disqus_identifier = '2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/';
+      var disqus_title = "[Vapor 4.0]Set Environment Variables for Swift Test and Github Action";
+      var disqus_url = 'http://tuchangwei.github.com/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');

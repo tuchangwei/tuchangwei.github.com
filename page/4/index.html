@@ -259,6 +259,171 @@
             
               
                 
+                <a class="post-title-link" href="/2015/07/25/Dropbox-API-使用时遇到的问题/" itemprop="url">
+                  Dropbox API 使用时遇到的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-07-25T19:37:19+08:00" content="Jul 25 2015">
+              Jul 25 2015
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/25/Dropbox-API-使用时遇到的问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2015/07/25/Dropbox-API-使用时遇到的问题/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近的项目需要整合Dropbox。需求是，拿到token和userids传到服务器。</p>
+<p>记得上一次做OAuth2.0是2011年，那时候刚刚到第一个公司，新浪微博那时貌似还是OAuth1.0授权，而且文档不全，要靠试错来确定参数。那时没有集成好的类库可调用，自己也是第一次接触，用了一个星期时间把新浪微博，腾讯微博，开心网，人人网，qq空间都集成了项目内，慢慢的对OAuth2.0有些了解。</p>
+<p>这里面主要用到两块知识，一块就是OAuth2.0的流程，另一个就是授权后如何跳转到自己的app内。</p>
+<p>今天重做时，这两块各遇到一个问题，下面说说这两个问题。</p>
+<p>###OAuth2.0<br>这个发送授权请求时，有一个参数是response_type，它的值可取<code>token</code>和<code>code</code>,我看例子请求用的是<code>code</code>，我也用<code>code</code>，结果在Safira内授权后死活都不忘自己app内跳转。后来在停留的网页上的一行小字发现了秘密。</p>
+<img src="/2015/07/25/Dropbox-API-使用时遇到的问题/QQ20150725-1@2x.png">
+<p>于是改成<code>token</code>试一下就可以了。然后仔细看文档才发现，原来它这个流程分为成两个:</p>
+<blockquote>
+<p>####Code flow</p>
+</blockquote>
+<blockquote>
+<p>These parameters are passed in the query string (after the ? in the URL):</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><strong>code</strong> The authorization code, which can be used to attain a bearer token by calling /oauth2/token.</p>
+<p><strong>state</strong> The state content, if any, originally passed to /oauth2/authorize.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><strong>Sample response</strong></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+<figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[REDIRECT_URI]?code=ABCDEFG&amp;<span class="keyword">state</span>=[STATE]</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>####Token flow</p>
+</blockquote>
+<blockquote>
+<p>These parameters are passed in the URL fragment (after the # in the URL):</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><strong>access_token</strong> A token which can be used to make calls to the Dropbox API.</p>
+<p><strong>token_type</strong> The type of token, which will always be bearer.</p>
+<p><strong>uid</strong> The Dropbox user ID of the authorized user.</p>
+<p><strong>state</strong> The state content, if any, originally passed to /oauth2/authorize.</p>
+<p><strong>Sample response</strong></p>
+</blockquote>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[REDIRECT_URI]</span>#access_token=ABCDEFG&amp;token_type=bearer&amp;uid=<span class="number">12345</span>&amp;state=<span class="string">[STATE]</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="Custome-URL-Schemes"><a href="#Custome-URL-Schemes" class="headerlink" title="Custome URL Schemes"></a>Custome URL Schemes</h3><p>我在<code>URL Schemes</code>框框内填了一个xxx://xxx的格式，其实只要填xxx就可以了。</p>
+<img src="/2015/07/25/Dropbox-API-使用时遇到的问题/scheme.png">
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/07/19/在我写我的第一个Android-app时，我希望我能知道的6件事/" itemprop="url">
                   在我写我的第一个Android App时，我希望我能知道的6件事
                 </a>
@@ -1412,113 +1577,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/12/19/How-to-understand-the-in-the-end-of-IBOutlet-Properties/" itemprop="url">
-                  How to Understand the '!' in the End of IBOutlet Properties in Swift
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-12-19T10:46:29+08:00" content="Dec 19 2014">
-              Dec 19 2014
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/12/19/How-to-understand-the-in-the-end-of-IBOutlet-Properties/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2014/12/19/How-to-understand-the-in-the-end-of-IBOutlet-Properties/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Let us see the follow code:</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBOutlet</span> <span class="keyword">var</span> mapView: <span class="type">MKMapView!</span></span><br></pre></td></tr></table></figure>
-<p>As we all know, the <code>mapView</code> is a variable from Interface Builder, but why there is a <code>!</code> behind the property, let’s analyze it.</p>
-<p><strong><em> Firstly, Let’s ask what is the meaning of <code>!</code> behind of variable? </em></strong></p>
-<p>It means the variable is an optional type, further, it is an implicityly unwrapped optional which  we don’t need unwrap and use directly.</p>
-<p><strong><em> Then, why we need an optional type here? </em></strong></p>
-<p>Because of a rule. We know the initializer function in Swift must initialize all of properties which are not optional type and Swift doesn’t “know” that Interface Builder is supplying the views at run time.</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1562,7 +1620,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">77</span>
+              <span class="site-state-item-count">78</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>

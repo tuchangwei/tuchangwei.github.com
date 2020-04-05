@@ -259,6 +259,115 @@
             
               
                 
+                <a class="post-title-link" href="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/" itemprop="url">
+                  [Vapor 4.0]Set Environment Variables for Swift Test and Github Action
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-05T15:52:58+08:00" content="Apr 5 2020">
+              Apr 5 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>When we run test casts, we don’t want to use our development database, we want to use a new database for testing. In Xcode, it is easy to set. Under the <code>Run</code> tab, we don’t set the database information, but Under the <code>Test</code> tab, we set the database information.</p>
+<img src="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160058@2x.png">
+<img src="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/WX20200405-160133@2x.png">
+<p>But do you know how to set these variables via command line? Here it is:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export <span class="type">DATABASE_PORT</span>=<span class="string">"5433"</span>; export <span class="type">DATABASE_USERNAME</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_PASSWORD</span>=<span class="string">"test"</span>; export <span class="type">DATABASE_NAME</span>=<span class="string">"test"</span>; swift test</span><br></pre></td></tr></table></figure>
+<p>Now, CI(continutal Integration) is popular, today I also try to run test when I push my code to Github reposity. After some failture, here is the right <code>yml</code> file.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">name: test</span><br><span class="line">on:</span><br><span class="line">  push:</span><br><span class="line">jobs:</span><br><span class="line">  test:</span><br><span class="line">    container:</span><br><span class="line">      image: vapor/swift:<span class="number">5.2</span></span><br><span class="line">    services:</span><br><span class="line">      psql:</span><br><span class="line">        image: postgres</span><br><span class="line">        ports:</span><br><span class="line">          - <span class="number">5432</span>:<span class="number">5432</span></span><br><span class="line">        env:</span><br><span class="line">          <span class="type">POSTGRES_USER</span>: test</span><br><span class="line">          <span class="type">POSTGRES_DB</span>: test</span><br><span class="line">          <span class="type">POSTGRES_PASSWORD</span>: test</span><br><span class="line">    runs-on: ubuntu-latest </span><br><span class="line">    </span><br><span class="line">    steps:</span><br><span class="line">      - name: '<span class="type">Checking</span> out repo'	       </span><br><span class="line">        uses: actions/checkout@v2	</span><br><span class="line">      - name: '<span class="type">Running</span> <span class="type">Integration</span> <span class="type">Tests'</span>	</span><br><span class="line">        env:</span><br><span class="line">         <span class="type">DATABASE_PORT</span>: <span class="number">5432</span></span><br><span class="line">         <span class="type">DATABASE_USERNAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_PASSWORD</span>: test</span><br><span class="line">         <span class="type">DATABASE_NAME</span>: test</span><br><span class="line">         <span class="type">DATABASE_HOST</span>: psql</span><br><span class="line">        run: swift test --enable-test-discovery --sanitize=thread</span><br></pre></td></tr></table></figure>
+<p>I had thought to change the database port to <code>5433</code>, but it seems it is a bug of Github Action. After I changed it back to <code>5432</code>, it works.</p>
+<p>Thanks to <a href="https://twitter.com/0xTim" target="_blank" rel="noopener">@0xTim</a> for discussion about it.</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/04/04/Vapor-4-0-How-to-write-test-cases-to-test-routes-that-render-model-to-Leaf-page/" itemprop="url">
                   [Vapor 4.0]How to Write Test Cases to Test Routes That Render Model to Leaf Page
                 </a>
@@ -1386,159 +1495,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="url">
-                  Android-三张图搞定Touch事件传递机制
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2017-11-13T10:56:59+08:00" content="Nov 13 2017">
-              Nov 13 2017
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2017/11/13/Android-三张图搞定Touch事件传递机制/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2017/11/13/Android-三张图搞定Touch事件传递机制/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>转自: <a href="http://hanhailong.com/2015/09/24/Android-三张图搞定Touch事件传递机制/" target="_blank" rel="noopener">Android-三张图搞定Touch事件传递机制</a></p>
-<p>之前看了很多关于Android事件Touch传递机制的文章，感觉还是老外讲的最清楚。原版PDF地址：<a href="http://wugengxin.cn/download/pdf/android/PRE_andevcon_mastering-the-android-touch-system.pdf" target="_blank" rel="noopener">Mastering the Android Touch System</a>，github的demo地址：<a href="https://github.com/devunwired/custom-touch-examples" target="_blank" rel="noopener">demo</a></p>
-<p>上图之前先讲下Android事件的基础知识：</p>
-<ol>
-<li>所有的Touch事件都封装到MotionEvent里面</li>
-<li>事件处理包括三种情况，分别为：传递—-dispatchTouchEvent()函数、拦截——onInterceptTouchEvent()函数、消费—-onTouchEvent()函数和OnTouchListener </li>
-<li>事件类型分为ACTION_DOWN, ACTION_UP, ACTION_MOVE, ACTION_POINTER_DOWN, ACTION_POINTER_UP, ACTION_CANCEL等，每个事件都是以ACTION_DOWN开始ACTION_UP结束</li>
-</ol>
-<p>Android事件传递流程：</p>
-<ol>
-<li><p>事件都是从Activity.dispatchTouchEvent()开始传递</p>
-</li>
-<li><p>事件由父View传递给子View，ViewGroup可以通过onInterceptTouchEvent()方法对事件拦截，停止其向子view传递</p>
-</li>
-<li><p>如果事件从上往下传递过程中一直没有被停止，且最底层子View没有消费事件，事件会反向往上传递，这时父View(ViewGroup)可以进行消费，如果还是没有被消费的话，最后会到Activity的onTouchEvent()函数。</p>
-</li>
-<li><p>如果View没有对ACTION_DOWN进行消费，之后的其他事件不会传递过来，也就是说ACTION_DOWN必须返回true，之后的事件才会传递进来</p>
-</li>
-<li><p>OnTouchListener优先于onTouchEvent()对事件进行消费</p>
-<hr>
-<p>效果图如下：</p>
-<ol>
-<li><p>View不处理事件流程图（View没有消费事件）</p>
-<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_ignorant.png.jpeg">
-</li>
-<li><p>View处理事件</p>
-<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_interested.png.jpeg">
-</li>
-<li><p>事件拦截</p>
-<img src="/2017/11/13/Android-三张图搞定Touch事件传递机制/view_touch_intercept.png.jpeg">
-</li>
-</ol>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1582,7 +1538,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">77</span>
+              <span class="site-state-item-count">78</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
