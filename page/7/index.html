@@ -259,6 +259,298 @@
             
               
                 
+                <a class="post-title-link" href="/2013/04/10/avoid-retain-cycle-in-block/" itemprop="url">
+                  Avoid Retain Cycle in Block
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-10T23:08:00+08:00" content="Apr 10 2013">
+              Apr 10 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/GCD/" itemprop="url" rel="index">
+                    <span itemprop="name">GCD</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/04/10/avoid-retain-cycle-in-block/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/04/10/avoid-retain-cycle-in-block/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Let us make long story short. Please see the codes as following:</p>
+<pre><code>- (IBAction)didTapUploadButton:(id)sender
+{
+  NSString *clientID = @&quot;YOUR_CLIENT_ID_HERE&quot;;
+
+  NSString *title = [[self titleTextField] text];
+  NSString *description = [[self descriptionTextField] text];
+
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+
+  __weak MLViewController *weakSelf = self;
+dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    UIImage *image = [UIImage imageNamed:@&quot;balloons.jpg&quot;];
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+
+[MLIMGURUploader uploadPhoto:imageData 
+                       title:title 
+                 description:description 
+               imgurClientID:clientID completionBlock:^(NSString *result) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [[weakSelf linkTextView] setText:result];
+  });
+} failureBlock:^(NSURLResponse *response, NSError *error, NSInteger status) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+  [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+  [[[UIAlertView alloc] initWithTitle:@&quot;Upload Failed&quot;
+                              message:[NSString stringWithFormat:@&quot;%@ (Status code %d)&quot;, 
+                                               [error localizedDescription], status]
+                             delegate:nil
+                    cancelButtonTitle:nil
+                    otherButtonTitles:@&quot;OK&quot;, nil] show];
+  });
+}];
+
+  });
+}
+</code></pre><p>This is a method for uploading images to <a href="http://imgur.com/" target="_blank" rel="noopener">imgur</a>. In the section we can find the codes <code>__weak MLViewController *weakSelf = self;</code> and use it like <code>[[weakSelf linkTextView] setText:result];</code>. So, we have a question: Why we don‘t call self directly,but rather give a weak pointer to point it and use the weak pointer in the block section?</p>
+<p>It is what i will say. As we all know, the property of blocks is copy, and the property of self is retain. So, if we use self in the block section, we will get a retain circle. We will never release them. For this reason, we need do it as above.</p>
+<p><a href="http://blog.random-ideas.net/?p=160" target="_blank" rel="noopener">Here</a> is one reference </p>
+<p>Ok, Good night. See you. </p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/" itemprop="url">
+                  How to Customize the UI of MPMoviePlayerViewController
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-04-06T17:18:00+08:00" content="Apr 6 2013">
+              Apr 6 2013
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/MPMoviePlayerViewController/" itemprop="url" rel="index">
+                    <span itemprop="name">MPMoviePlayerViewController</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/04/06/how-to-customize-the-ui-of-mpmovieplayerviewcontroller/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>As we all know, the user interface of MPMoviePlayerViewController is ugly. Sometimes, our customer needs a better UI, so let’s do it.</p>
+<p>Some codes like this:</p>
+<pre><code>MPMoviePlayerViewController *player = [[MPMoviePlayerViewController alloc] init];
+    player.moviePlayer.contentURL = self.url;
+    //here, i set the controlStyle equal to MPMovieControlStyleNone, as a result, we only see the movie view, yet volume button, progress slider, play button as so on.
+    player.moviePlayer.controlStyle = MPMovieControlStyleNone;
+    player.moviePlayer.view.frame = self.playerViewController.view.frame;
+    //next, i create a UIViewController named playerViewController, and insert the moverPlay view to the view of playerViewController.
+    [self.playerViewController.view insertSubview:player.moviePlayer.view atIndex:0];
+    [player.moviePlayer play];
+    [self presentModalViewController:self.playerViewController animated:YES];
+</code></pre><p>after do that, we need add a view to playerViewController, and set the view is transparent    , we can add custom button on the view to control the move playing. The effect as below:</p>
+<p><a href="http://www.flickr.com/photos/tuchangwei/8624399482/" title="Flickr 上 涂 涂 的 Screenshot 2013.04.03 09.32.26" target="_blank" rel="noopener"><img src="http://static.flickr.com/8111/8624399482_3801facaf7.jpg" width="500" height="375" alt="Screenshot 2013.04.03 09.32.26"></a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/04/06/how-to-learn-to-cattle-men/" itemprop="url">
                   How to Learn to Cattle Men
                 </a>
@@ -1408,312 +1700,6 @@ promptViewController.dismissPromptViewBlock = ^(SWDPromptViewController     *pro
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/" itemprop="url">
-                  管理iOS代码的一些规范
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-19T20:08:00+08:00" content="Mar 19 2013">
-              Mar 19 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Code-Standard/" itemprop="url" rel="index">
-                    <span itemprop="name">Code-Standard</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/19/guan-li-iosdai-ma-de-yi-xie-gui-fan/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <ol>
-<li>做任何事前先<code>git init</code>。</li>
-<li>使用<a href="http://cocoapods.org/" target="_blank" rel="noopener">CocoaPods</a>管理第三方库。</li>
-<li>使用ARC。如果第三方库没有使用ARC，可以在他们的.m文件中加上<code>-fno-objc-arc</code>关键字。</li>
-<li>清除<code>@synthesize</code>。当你为成员变量增加<code>@property</code>时，Xcode会在编译时候默认为你增加<code>@synthesize</code>关键字。</li>
-<li>移除注释掉的代码或工程中未使用的文件。</li>
-<li>不要在AppDelete中写代码。</li>
-<li>增加<code>#pragram mark –</code>在你需要注释的地方</li>
-<li>管理好Xcode工程中的文件夹结构。一般使用<code>Model</code>,<code>View</code>,<code>Controller</code>,<code>Helper/Manager</code>和<code>Images</code>文件夹。如果有第三方库，则用<code>External</code>文件夹。</li>
-<li>代码格式，空格。</li>
-<li>将<code>__mycompany</code>改成有意义的。</li>
-<li>时常NSLog，形成日志系统。</li>
-</ol>
-<p>—————–神奇的分割线——————-</p>
-<p>又找到了一些规范：</p>
-<p>Under the Warnings header, also set the Other Linker Flags option to -Wall. The compiler will now check for all possible situations that can cause problems. By default many of these warnings are turned off but I find it useful to always have all warnings on and to treat them as fatal errors. In other words, if the compiler gives a warning I will first fix it before continuing. Whether that is something you may want to do on your own projects is up to you, but during the conversion to ARC I recommend that you take a good look at any issues the compiler may complain about.<br>For the exact same reason, also enable the Run Static Analyzer option under the Build Options header, Xcode will now run the analyzer every time we build the app. That makes the builds a bit slower but for an app of this size that’s barely noticeable.</p>
-<p>如果大家有什么好的代码规范，欢迎补充。O(∩_∩)O~。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/" itemprop="url">
-                  Blocks的申明调用与Queue当做锁的用法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-03-10T11:40:00+08:00" content="Mar 10 2013">
-              Mar 10 2013
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/GCD/" itemprop="url" rel="index">
-                    <span itemprop="name">GCD</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2013/03/10/blocksde-shen-ming-diao-yong-yu-queuedang-zuo-suo-de-yong-fa/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>###Blocks的申明与调用<br>话说Blocks在方法内使用还是挺方便的，之前都是把相同的代码封装成外部函数，然后在一个方法里需要的时候调用，这样挺麻烦的。使用Blocks之后，我们可以把相同代码在这个方法里封装起来，然后再在这个方法中需要的地方直接调用，逻辑清晰，操作也不会那么繁琐。</p>
-<p>上代码：</p>
-<pre><code>//在方法体内
-//block申明与初始化
- void(^removePicViewBlock)(int,int) = ^(int start,int stop){
-
-    while (start &lt;= stop)
-    {
-        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        SWDPictureView *view = (SWDPictureView *)[self.scroller viewWithTag:start + 1];
-        view.imageView.image = nil;
-        view.imageView = nil;
-        view.delegate2 = nil;
-        [view removeFromSuperview];
-        start ++;
-        [pool drain];
-    }
-
-
-};
-if (page &lt; self.currentPage)
-{
-    //block的调用
-    removePicViewBlock(0,page);
-}
-else if(page &gt; self.currentPage)
-{
-    //block的调用
-    removePicViewBlock(page,[self.picList count]-1);
-}
-</code></pre><p>###Queue作为锁的用法</p>
-<p>说到多线程就必须要提到锁了，话说用锁也蛮麻烦，需要在初始化的时候申明一个锁，然后每个方法的开头加一把锁，结尾再把锁去掉。如果用queue就不必那么麻烦了。根据task在queue中FIFO的特性就可以防止多线程中资源被同时访问。</p>
-<p>上代码。</p>
-<pre><code>//初始化时初始化一个queue
-UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil);
-
-//多线程调用时，将任务放在queue中执行。此时queue充当锁的角色。
-//存储图片缓冲到硬盘
--(void)storeImage:(UIImage *)image key:(NSString *)key
-{
-    dispatch_async(UserQueue, ^{
-
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        BOOL succ = [fileManager createFileAtPath:[self cachePathForKey:key] contents:UIImageJPEGRepresentation(image, (CGFloat)0.6) attributes:nil];
-        NSLog(@&quot;store successfully!!! %d&quot;,succ);
-        [fileManager release];
-        fileManager = nil;
-    });
-
-}
-</code></pre><p>好了，就这些。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1757,7 +1743,7 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">78</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1765,7 +1751,7 @@ UserQueue = dispatch_queue_create(&quot;use for storing image to disk&quot;, nil
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>

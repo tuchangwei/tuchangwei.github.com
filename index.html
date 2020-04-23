@@ -259,6 +259,246 @@
             
               
                 
+                <a class="post-title-link" href="/2020/04/23/Vapor4-0-deploy-app-on-server/" itemprop="url">
+                  [Vapor4.0]deploy App on Server
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-23T17:04:49+08:00" content="Apr 23 2020">
+              Apr 23 2020
+            </time>
+          </span>
+
+          
+            <span class="post-category">
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Vapor-4-0/" itemprop="url" rel="index">
+                    <span itemprop="name">Vapor 4.0</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/23/Vapor4-0-deploy-app-on-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/23/Vapor4-0-deploy-app-on-server/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Just record the steps how I deploy my vapor project on the server.</p>
+<p>Step 1: Install Docker</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL <span class="keyword">get</span>.docker.com -o <span class="keyword">get</span>-docker.sh</span><br><span class="line">sh <span class="keyword">get</span>-docker.sh</span><br></pre></td></tr></table></figure>
+<p>Step2: Start Docker</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable docker</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo groupadd docker</span><br><span class="line">sudo usermod -aG docker $<span class="type">USER</span></span><br></pre></td></tr></table></figure>
+<p>Step3: Install docker compose</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -<span class="type">L</span> https:<span class="comment">//github.com/docker/compose/releases/download/1.25.5/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line">docker-compose --version</span><br></pre></td></tr></table></figure>
+<p>Step4: copy the source code into the server.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp <span class="type">Dreamoji</span>-server root@<span class="number">144.202</span>.<span class="number">101.94</span>:~</span><br></pre></td></tr></table></figure>
+<p>Step5: unzip the source code.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt install unzip</span><br><span class="line">unzip <span class="type">Dreamoji</span>-server.<span class="built_in">zip</span></span><br></pre></td></tr></table></figure>
+<p>Step6: build &amp; run</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd <span class="type">Dreamoji</span>-server</span><br><span class="line">docker-compose build</span><br><span class="line">docker-compose up app</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2020/04/06/Vapor-4-0-Updating-field-by-adding-unquie-constraint-doesn-t-work/" itemprop="url">
+                  [Vapor 4.0]Updating Field by Adding Unquie Constraint Doesn't Work
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2020-04-06T23:06:34+08:00" content="Apr 6 2020">
+              Apr 6 2020
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2020/04/06/Vapor-4-0-Updating-field-by-adding-unquie-constraint-doesn-t-work/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/04/06/Vapor-4-0-Updating-field-by-adding-unquie-constraint-doesn-t-work/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>So today I wanted to add an <code>unique</code> constraint to my <code>ArticleCategory</code> table, but it doesn’t work, my code: </p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ModifyNameToCategory</span>: <span class="title">Migration</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(on database: Database)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">return</span> database.schema(<span class="type">ArticleCategory</span>.schema)</span><br><span class="line">            .unique(on: <span class="type">ArticleCategory</span>.nameKey)</span><br><span class="line">            .update()</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">revert</span><span class="params">(on database: Database)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; &#123;</span><br><span class="line">       ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The error:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="type">INFO</span> ] query read _fluent_migrations</span><br><span class="line">[ <span class="type">INFO</span> ] query read _fluent_migrations limits=[<span class="built_in">count</span>(<span class="number">1</span>)]</span><br><span class="line">[ <span class="type">ERROR</span> ] syntax error at end of input (scanner_yyerror)</span><br><span class="line">[ <span class="type">ERROR</span> ] server: syntax error at end of input (scanner_yyerror)</span><br><span class="line"><span class="type">Fatal</span> error: <span class="type">Error</span> raised at top level: server: syntax error at end of input (scanner_yyerror): file /<span class="type">AppleInternal</span>/<span class="type">BuildRoot</span>/<span class="type">Library</span>/<span class="type">Caches</span>/com.apple.xbs/<span class="type">Sources</span>/swiftlang/swiftlang-<span class="number">1103.8</span>.<span class="number">25.8</span>/swift/stdlib/<span class="keyword">public</span>/core/<span class="type">ErrorType</span>.swift, line <span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>By reading the source code, I found this because the <code>fluent-kit</code> didn’t add handling for the <code>update</code> action to add constraint. But it does have handing for <code>create</code> action to add constraint. Please see <a href="https://github.com/vapor/fluent-kit/issues/235" target="_blank" rel="noopener">the issue detail</a> I submitted.</p>
+<p>So what we can do now? Luckly, we can use the old way:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">import</span> Fluent</span><br><span class="line"><span class="keyword">import</span> FluentSQL</span><br><span class="line"><span class="keyword">import</span> FluentPostgresDriver</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ModifyNameToCategory</span>: <span class="title">Migration</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(on database: Database)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; &#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">        //Because the Fluent kit didn't implement this feature, so we need to run the sql raw.</span></span><br><span class="line"><span class="comment">        return database.schema(ArticleCategory.schema)</span></span><br><span class="line"><span class="comment">            .unique(on: ArticleCategory.nameKey)</span></span><br><span class="line"><span class="comment">            .update()</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="keyword">let</span> psgl = database <span class="keyword">as</span>! <span class="type">PostgresDatabase</span></span><br><span class="line">        <span class="keyword">let</span> sql = <span class="string">"ALTER TABLE \(ArticleCategory.schema) ADD CONSTRAINT name_unique UNIQUE (\(ArticleCategory.nameKey))"</span></span><br><span class="line">        <span class="built_in">print</span>(sql)</span><br><span class="line">        <span class="keyword">return</span> psgl.query(sql)</span><br><span class="line">            .transform(to: ())</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">revert</span><span class="params">(on database: Database)</span></span> -&gt; <span class="type">EventLoopFuture</span>&lt;<span class="type">Void</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> psgl = database <span class="keyword">as</span>! <span class="type">PostgresDatabase</span></span><br><span class="line">        <span class="keyword">let</span> sql = <span class="string">"ALTER TABLE \(ArticleCategory.schema) DROP CONSTRAINT name_unique"</span></span><br><span class="line">        <span class="built_in">print</span>(sql)</span><br><span class="line">        <span class="keyword">return</span> psgl.query(sql)</span><br><span class="line">            .transform(to: ())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Don’t forget to import <code>FluentSQL</code> and <code>FluentPostgresDriver</code></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2020/04/05/Vapor-4-0-Set-environment-variables-for-swift-test-and-Github-Action/" itemprop="url">
                   [Vapor 4.0]Set Environment Variables for Swift Test and Github Action
                 </a>
@@ -1235,286 +1475,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/03/13/Vapor4-0Xcode传参/" itemprop="url">
-                  Vapor4.0Xcode传参
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2020-03-13T20:50:10+08:00" content="Mar 13 2020">
-              Mar 13 2020
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vapor4-0/" itemprop="url" rel="index">
-                    <span itemprop="name">Vapor4.0</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2020/03/13/Vapor4-0Xcode传参/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/Vapor4-0Xcode传参/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>太难了。</p>
-<p>每一个项目都要重新下载Swift Package Dependencies，并不会把相同的库像Nodejs那样全局地装在本地。</p>
-<p>命令行运行和Xcode运行，他们需要下载的Swift Package Dependencies在不同的位置。我本来在Xcode配置环境变量，想用命令行验证一下，结果，命令行也要重新下载一遍这些包。黑脸…</p>
-<p>记录一下Xcode中环境配置的位置吧。上边可以配置环境。下边可以配置数据库的信息。</p>
-<img src="/2020/03/13/Vapor4-0Xcode传参/QQ20200313-210331.png">
-<p>大神说命令行配置应该这样 <code>EXPORT DATABASE_HOST=vapor; vapor-beta run</code>, 因为命令行下包还没下下来，没有验证。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2020/03/13/Vapor4-0概念/" itemprop="url">
-                  Vapor4.0概念
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2020-03-13T10:34:02+08:00" content="Mar 13 2020">
-              Mar 13 2020
-            </time>
-          </span>
-
-          
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Vapor4-0/" itemprop="url" rel="index">
-                    <span itemprop="name">Vapor4.0</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2020/03/13/Vapor4-0概念/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/03/13/Vapor4-0概念/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近打算学习一下后端的知识，心想怎样Javascript是绕不开的，就学Nodejs吧。学习了一个星期的Javascript和Nodejs，最后读了《深入浅出Node.js》有关Nodejs的历史，转身就跑去学Vapor了。</p>
-<p>平台的发展都需要一定的时间，也有人坚定的从一开始走过来。Swift用起来那么顺，又经过几年的沉淀。现在是时候认真搞一搞了。</p>
-<p>现在的想法是先建个博客练练手，后端用Vapor4.0，前端用Vue.js。两个技术一起学。将来可能把这个博客迁移过去。</p>
-<p>Vapor4.0的文档还不够完善，大佬们建议从<a href="https://github.com/vapor/api-template" target="_blank" rel="noopener">vapor / api-template</a>这里搞起，记得分支选<code>4</code>。</p>
-<p>对Vapor4要有大概的了解才能继续下去。看到Nodejs主要是通过<code>EventLoop</code>来接收请求的。就问问大佬们Vapor是怎么个机制。热心的大佬回复说Vapor底层用的SwiftNIO,其底层的逻辑和Nodejs差不多，SwiftNIO的这个机制叫做<code>EventLoopFuture</code>。网上查了些<a href="https://www.raywenderlich.com/1124580-swiftnio-a-simple-guide-to-async-on-the-server" target="_blank" rel="noopener">资料</a>, 摘录如下:</p>
-<blockquote>
-<p><strong>The Event Loop</strong></p>
-</blockquote>
-<blockquote>
-<p>Efficiency is an important goal when writing server-side code. The more efficient your code, the more users it can help concurrently. Where an unoptimized app can only help ten to a hundred users at a time, highly optimized apps are able to help a hundred-thousand concurrent users on the same hardware.</p>
-</blockquote>
-<blockquote>
-<p>The main reason for this difference is architectural. A poorly optimized app will be idle most of the time, whereas a highly optimized app will try to spend its time cleverly and actively. The brains behind this architecture in server-side Swift is provided by SwiftNIO, Apple’s cross-platform event-driven networking framework, by a type called EventLoop.</p>
-</blockquote>
-<blockquote>
-<p>EventLoop is, in its essence, a while loop that keeps looking to do work when an external factor, such as a user uploading a file, has made progress.</p>
-</blockquote>
-<blockquote>
-<p>If one thread writes to a variable, and another thread tries to read it or write to it at the same time, a race condition occurs, which will crash your app. One method you can use to prevent race conditions from occurring is using locks for each of these variables. You’ll lock this lock before accessing a variable and unlock is after accessing it is completed, so any future accesses to the resource are prevented until you’ll unlock the lock. The main downside of this approach is its complexity and impact on performance.</p>
-</blockquote>
-<blockquote>
-<p>Using a single thread to access this information is another way to tackle the issue of race conditions. Doing this means all read and write operations are done by this thread. One example of this is the database you’ll find in the sample project. Using this method requires you to give the read/write thread a way to return the result to the event loop that requested it.</p>
-</blockquote>
-<blockquote>
-<p>If you respond to a request from a different EventLoop, SwiftNIO will crash the app to prevent undefined behaviour from causing trouble.</p>
-</blockquote>
-<blockquote>
-<p><strong>Futures and Promises</strong></p>
-</blockquote>
-<blockquote>
-<p>Future is a type used to describe information that does not exist yet, but will exist in the future. Writing asynchronous code with futures means directing the futures to respond to the successful results or to the failures. You can create a future with a predefined result: either success or failure. However, if the result is not known yet, you need to create a Promise.</p>
-</blockquote>
-<blockquote>
-<p>These promises and futures need to be created from the EventLoop since the future type will always return to the event loop it originated from. A future can only hold one result at a time, at which point it is considered completed. Completion can be either successful or unsuccessful, thus failed futures are also considered completed. Finally, if a promise is creates, it must be completed.</p>
-</blockquote>
-<p>现在就开始建立自己的新项目吧。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1558,7 +1518,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">78</span>
+              <span class="site-state-item-count">80</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1566,7 +1526,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
